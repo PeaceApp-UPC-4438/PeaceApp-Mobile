@@ -36,6 +36,13 @@ android {
 }
 
 dependencies {
+    // RETROFIT [Para consumir la api]
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // gson
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // PICASSO [Para mostrar imágenes]
+    implementation("com.squareup.picasso:picasso:2.8")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
