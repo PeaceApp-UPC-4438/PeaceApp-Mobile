@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="peaceapp_blue">#1C597C</color>
+    <color name="danger">#EC221F</color>
+    <color name="positive">#14AE5C</color>
+
 </resources>
