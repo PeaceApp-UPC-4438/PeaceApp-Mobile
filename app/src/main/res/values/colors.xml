@@ -5,5 +5,6 @@
     <color name="peaceapp_blue">#1C597C</color>
     <color name="danger">#EC221F</color>
     <color name="positive">#14AE5C</color>
+    <color name="colorAccent">#FF4081</color>
 
 </resources>
