@@ -46,7 +46,14 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_log_register, container, false)
+        val view = inflater.inflate(R.layout.user_log_register, container, false)
+
+        val loginAccountText: TextView = view.findViewById(R.id.loginAccountText)
+        loginAccountText.setOnClickListener {
+            dismiss()
+        }
+
+        return view
     }
 }
 
