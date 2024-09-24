@@ -1,6 +1,7 @@
 package com.innovatech.peaceapp
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +16,16 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Encuentra el botón
+        val btnPruebaProfile: Button = findViewById(R.id.btnPruebaProfile)
+
+        // Establece el OnClickListener para el botón
+        btnPruebaProfile.setOnClickListener {
+            // Muestra el ProfileDialogFragment
+            val profileDialog = ProfileMainDialogFragment()
+            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
         }
     }
 }
