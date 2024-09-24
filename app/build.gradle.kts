@@ -37,6 +37,9 @@ android {
 }
 
 dependencies {
+    // MAPBOX [Para mostrar mapas]
+    implementation("com.mapbox.maps:android:11.6.1")
+
     // RETROFIT [Para consumir la api]
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     // gson
