@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Reporte"
         android:textSize="32sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/contentNewReport"
         android:textColor="@color/white"
@@ -32,37 +32,37 @@
     <LinearLayout
         app:layout_constraintTop_toTopOf="@id/contentNewReport"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:id="@+id/containerDetailReport"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:paddingEnd="30dp"
+        android:background="#FAFAFA"
+        android:paddingStart="30dp">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:width="150dp"
+                android:fontFamily="@font/poppins_bold"
+                android:padding="5dp"
                 android:text="Tipo de reporte"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinTypeReport"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtTypeReport"
-                android:padding="5dp"
-                android:text="ula"
-                android:layout_weight="1"
-                android:textColor="@color/black"/>
+                android:background="@drawable/new_report_input"
+                />
 
         </LinearLayout>
 
@@ -70,26 +70,24 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginTop="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Titulo"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_bold"
                 android:padding="5dp"
-                android:layout_weight="1"
                 android:textColor="@color/black"/>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtTitle"
-                android:padding="5dp"
-                android:layout_weight="1"
+                android:hint="Título del reporte"
+                android:textSize="13sp"
+                android:background="@drawable/new_report_input"
                 android:textColor="@color/black"/>
 
         </LinearLayout>
@@ -98,26 +96,24 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginTop="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Detalle"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_bold"
                 android:padding="5dp"
-                android:layout_weight="1"
                 android:textColor="@color/black"/>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtDetail"
-                android:padding="5dp"
-                android:layout_weight="1"
+                android:hint="Detalle del reporte"
+                android:textSize="13sp"
+                android:background="@drawable/new_report_input"
                 android:textColor="@color/black"/>
 
         </LinearLayout>
@@ -126,26 +122,24 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginTop="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Latitud"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_bold"
                 android:padding="5dp"
-                android:layout_weight="1"
                 android:textColor="@color/black"/>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtLatitude"
-                android:padding="5dp"
-                android:layout_weight="1"
+                android:hint="Latitud de ubicación"
+                android:textSize="13sp"
+                android:background="@drawable/new_report_input"
                 android:textColor="@color/black"/>
 
         </LinearLayout>
@@ -154,38 +148,63 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginTop="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="Longitud"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_bold"
                 android:padding="5dp"
-                android:layout_weight="1"
                 android:textColor="@color/black"/>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtLongitude"
-                android:padding="5dp"
-                android:layout_weight="1"
+                android:hint="Longitud de ubicación"
+                android:textSize="13sp"
+                android:background="@drawable/new_report_input"
                 android:textColor="@color/black"/>
 
         </LinearLayout>
 
-        <Button
+        <LinearLayout
+            android:layout_marginTop="46dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/btnSave"
-            android:text="Guardar"
-            android:backgroundTint="@color/peaceapp_blue_light"
-            android:textColor="@color/white"
-            android:layout_margin="60dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#D6D6D6"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="35dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="35dp"
+                android:text="Cancelar"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="#83878A" />
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/peaceapp_blue"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="35dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="35dp"
+                android:text="Enviar"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
     </LinearLayout>
 
