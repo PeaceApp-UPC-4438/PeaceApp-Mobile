@@ -1,12 +1,16 @@
-package com.innovatech.peaceapp
+package com.innovatech.peaceapp.StartingPoint
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.innovatech.peaceapp.StartingPoint.ARG_PARAM1
+import com.innovatech.peaceapp.StartingPoint.ARG_PARAM2
+import com.innovatech.peaceapp.R
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -15,10 +19,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SignUpFragment.newInstance] factory method to
+ * Use the [SignInFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignUpFragment : Fragment() {
+class SignInFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -36,17 +40,29 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+
+        val btnCreateAccount = view?.findViewById<TextView>(R.id.tv_create_account)
+        btnCreateAccount?.setOnClickListener {
+            val signUpFragment = SignUpFragment()
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frame_signin, signUpFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnLogIn = view.findViewById<TextView>(R.id.tv_log_in)
+        val btnSignUp = view.findViewById<TextView>(R.id.tv_create_account)
 
         val navController = Navigation.findNavController(view)
 
-        btnLogIn.setOnClickListener {
-            navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+        btnSignUp.setOnClickListener {
+            navController.navigate(R.id.action_signInFragment_to_signUpFragment)
         }
     }
 
@@ -57,12 +73,12 @@ class SignUpFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpFragment.
+         * @return A new instance of fragment SignInFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SignUpFragment().apply {
+            SignInFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
