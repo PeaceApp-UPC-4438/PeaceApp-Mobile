@@ -1,9 +1,10 @@
-package com.innovatech.peaceapp
+package com.innovatech.peaceapp.Alert
 
-import Beans.Alert
+import com.innovatech.peaceapp.Alert.Beans.Alert
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.innovatech.peaceapp.R
 
 class AlertViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

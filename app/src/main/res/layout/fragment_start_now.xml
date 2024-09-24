@@ -45,5 +45,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+    <Button
+        android:id="@+id/btn_new_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to New Activity"
+        android:textSize="13sp"
+        android:fontFamily="@font/poppins_medium"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginStart="42dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start_now"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

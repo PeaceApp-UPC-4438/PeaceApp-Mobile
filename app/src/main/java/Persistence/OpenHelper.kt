@@ -1,6 +1,6 @@
 package Persistence
 
-import Beans.Alert
+import com.innovatech.peaceapp.Alert.Beans.Alert
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

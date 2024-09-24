@@ -1,4 +1,4 @@
-package Beans
+package com.innovatech.peaceapp.Alert.Beans
 
 class Alert {
     var id:Int = 0  // Default value for id

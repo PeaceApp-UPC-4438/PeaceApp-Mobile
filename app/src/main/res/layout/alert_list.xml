@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    tools:context=".AlertActivity">
+    tools:context=".Alert.AlertActivity">
 
     <!-- Header Section -->
     <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/view_background"
@@ -27,6 +28,7 @@
             android:src="@drawable/ic_menu"
             android:contentDescription="Menu button"
             android:layout_gravity="start" />
+
         <!-- Title -->
         <TextView
             android:id="@+id/tvAlertTitle"
@@ -52,18 +54,14 @@
     </LinearLayout>
 
     <!-- RecyclerView for the alert list -->
-
-    <!-- Bottom Navigation -->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAlert"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

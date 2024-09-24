@@ -1,5 +1,6 @@
 package com.innovatech.peaceapp.StartingPoint
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.innovatech.peaceapp.StartingPoint.ARG_PARAM1
-import com.innovatech.peaceapp.StartingPoint.ARG_PARAM2
+import com.innovatech.peaceapp.Alert.AlertActivity
 import com.innovatech.peaceapp.R
 
 
@@ -49,6 +49,7 @@ class StartNowFragment : Fragment() {
 
         val btnLogIn = view.findViewById<TextView>(R.id.tv_login)
         val btnSignUp = view.findViewById<Button>(R.id.btn_start_now)
+        val btnNewActivity = view.findViewById<Button>(R.id.btn_new_activity)
 
         val navController = Navigation.findNavController(view)
 
@@ -57,6 +58,11 @@ class StartNowFragment : Fragment() {
         }
         btnSignUp.setOnClickListener {
             navController.navigate(R.id.action_startNowFragment_to_signUpFragment2)
+        }
+        btnNewActivity.setOnClickListener {
+            // Starting a new activity
+            val intent = Intent(activity, AlertActivity::class.java)
+            startActivity(intent)
         }
     }
 

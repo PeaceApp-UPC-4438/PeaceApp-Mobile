@@ -1,11 +1,12 @@
-package com.innovatech.peaceapp
+package com.innovatech.peaceapp.Alert
 
-import Beans.Alert
+import com.innovatech.peaceapp.Alert.Beans.Alert
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.innovatech.peaceapp.R
 
 class AlertAdapter(private val alertList: List<Alert>) : RecyclerView.Adapter<AlertAdapter.AlertViewHolder>() {
 

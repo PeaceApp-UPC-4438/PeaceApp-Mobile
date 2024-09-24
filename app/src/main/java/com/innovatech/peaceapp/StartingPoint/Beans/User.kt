@@ -1,4 +1,4 @@
 package Beans
 
-class User2 {
+class User {
 }
