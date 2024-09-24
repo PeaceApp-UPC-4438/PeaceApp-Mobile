@@ -25,7 +25,7 @@
         android:id="@+id/frame_signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="../layout/card_sign_in.xml"
+        android:background="@drawable/rounded_top_corners"
         android:elevation="8dp"
         android:paddingStart="42dp"
         android:paddingTop="42dp"
