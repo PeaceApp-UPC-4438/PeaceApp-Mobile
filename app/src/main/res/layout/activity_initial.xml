@@ -5,43 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="0dp"
-    android:layout_margin="0dp"
     tools:context=".InitialActivity"
-    android:background="@drawable/main_background"
     >
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_height="198dp"
-        android:layout_width="160dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_big_logo"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Comienza ahora"
-        android:textSize="13sp"
-        android:fontFamily="@font/poppins_medium"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginStart="42dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_login"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_graph"
         />
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Iniciar sesión"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
 
 </androidx.constraintlayout.widget.ConstraintLayout>
