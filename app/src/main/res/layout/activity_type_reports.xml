@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/btnRobo"
                     android:layout_gravity="center"
                     android:clickable="true"
@@ -71,7 +71,7 @@
 
                 <ImageView
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/btnAccidente"
                     android:layout_gravity="center"
                     android:clickable="true"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/btnFaltaIluminacion"
                     android:layout_gravity="center"
                     android:clickable="true"
@@ -133,7 +133,7 @@
 
                 <ImageView
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/btnAcoso"
                     android:layout_gravity="center"
                     android:clickable="true"
@@ -168,7 +168,7 @@
 
                 <ImageView
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/btnOtro"
                     android:layout_gravity="center"
                     android:clickable="true"

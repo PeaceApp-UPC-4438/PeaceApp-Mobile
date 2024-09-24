@@ -9,36 +9,31 @@
 
     tools:context=".Map.NewReportActivity">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reporte"
-        android:textSize="32sp"
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/contentNewReport"
+        android:text="Reporte"
         android:textColor="@color/white"
-        android:layout_marginBottom="50dp"/>
-
-    <View
-        android:id="@+id/contentNewReport"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/containerDetailReport"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
-        app:layout_constraintTop_toTopOf="@id/contentNewReport"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:id="@+id/containerDetailReport"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
         android:paddingEnd="30dp"
-        android:background="#FAFAFA"
+        android:background="#FFF"
         android:paddingStart="30dp">
 
         <LinearLayout
@@ -57,10 +52,13 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <Spinner
-                android:id="@+id/spinTypeReport"
+            <TextView
+                android:id="@+id/txtTypeReport"
+                android:text="ula"
+                android:textSize="13sp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+
                 android:background="@drawable/new_report_input"
                 />
 

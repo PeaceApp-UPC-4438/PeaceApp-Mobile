@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -25,7 +26,11 @@ class NewReportActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_new_report)
 
-        val typeReport = intent.getStringExtra("typeReport")
+        val typeReport = intent.getStringExtra("type")
+        // to show it in the console
+        Log.d("TypeReport", typeReport.toString())
+        val txtTypeReport = findViewById<TextView>(R.id.txtTypeReport)
+        txtTypeReport.text = typeReport.toString()
 
         val btnSave = findViewById<Button>(R.id.btnSave)
         btnSave.setOnClickListener {
