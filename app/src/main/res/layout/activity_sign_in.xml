@@ -69,6 +69,7 @@
             app:layout_constraintTop_toBottomOf="@+id/et_email"
             app:layout_constraintEnd_toEndOf="@+id/frame_signin"
             app:layout_constraintStart_toStartOf="@+id/frame_signin"
+            android:inputType="textPassword"
             android:drawableEnd="@drawable/ic_eye_open"
             android:drawableTint="#B6B6B6"/>
         <TextView

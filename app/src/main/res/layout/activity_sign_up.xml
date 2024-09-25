@@ -107,6 +107,7 @@
             app:layout_constraintEnd_toEndOf="@+id/frame_signup"
             app:layout_constraintStart_toStartOf="@+id/frame_signup"
             android:drawableEnd="@drawable/ic_eye_open"
+            android:inputType="textPassword"
             android:drawableTint="#B6B6B6"/>
         <Button
             android:id="@+id/btn_signup"
