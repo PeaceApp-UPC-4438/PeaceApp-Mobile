@@ -8,12 +8,12 @@ import android.widget.ImageView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.DialogFragment
 
-class ProfileMainDialogFragment : DialogFragment() {
+class ProfileEditDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.profile_main, container, false)
+        val view = inflater.inflate(R.layout.profile_edit, container, false)
 
         // Encuentra el ImageView
         val imageView: ImageView = view.findViewById(R.id.mainTxt)
@@ -29,11 +29,10 @@ class ProfileMainDialogFragment : DialogFragment() {
         imageView.setImageDrawable(roundedDrawable)
 
         // Encuentra el botón y establece el OnClickListener
-        val btnEditar: Button = view.findViewById(R.id.btnEditar)
-        btnEditar.setOnClickListener {
-            // Muestra el ProfileEditDialogFragment
-            val profileEditDialog = ProfileEditDialogFragment()
-            profileEditDialog.show(parentFragmentManager, "ProfileEditDialogFragment")
+        val btnBack: Button = view.findViewById(R.id.btnBack)
+        btnBack.setOnClickListener {
+            // Cierra el diálogo
+            dismiss()
         }
 
         return view
