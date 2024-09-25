@@ -16,12 +16,12 @@
 
         <ImageView
             android:id="@+id/mainTxt"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_profilepic_background"
+            android:background="@drawable/user_photo"
             android:scaleType="centerCrop"
-            android:src="@drawable/view_background"
+            android:src="@drawable/user_photo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -34,6 +34,7 @@
             android:layout_width="380dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
+            android:elevation="10dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.483"
@@ -74,6 +75,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_email"
+            android:elevation="10dp"
+
             android:layout_width="380dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
@@ -116,6 +119,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_phone"
+            android:elevation="10dp"
+
             android:layout_width="380dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
@@ -158,6 +163,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_password"
+            android:elevation="10dp"
+
             android:layout_width="380dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
@@ -187,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="196dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="xddddddd"
+                android:text="********"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -200,15 +207,14 @@
 
         <Button
             android:id="@+id/btnEditar"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:layout_marginTop="76dp"
             android:text="Editar perfil"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Layout_password" />
 
         <TextView

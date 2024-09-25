@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
+import com.innovatech.peaceapp.Profile.ProfileMainDialogFragment
 import com.innovatech.peaceapp.R
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
@@ -40,6 +42,11 @@ class MapActivity : AppCompatActivity() {
         setContentView(R.layout.activity_map)
 
         mapView = findViewById(R.id.mapView)
+        val userProfile = findViewById<ImageView>(R.id.userPhoto)
+        userProfile.setOnClickListener {
+            val profileDialog = ProfileMainDialogFragment()
+            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
+        }
 
         obtainAllLocations()
 
