@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:background="@drawable/main_background"
+    android:padding="0dp"
+    tools:context=".StartingPoint.InitialActivity">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="150dp"
+        android:layout_height="188dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_big_logo"
+        app:layout_constraintBottom_toTopOf="@+id/frame_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_top_corners"
+        android:elevation="8dp"
+        android:paddingStart="42dp"
+        android:paddingTop="42dp"
+        android:paddingEnd="42dp"
+        android:paddingBottom="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/tv_bienvenido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Bienvenido"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/frame_signin"
+            app:layout_constraintStart_toStartOf="@+id/frame_signin"
+            app:layout_constraintTop_toTopOf="@+id/frame_signin" />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:hint="Ingresa tu correo"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bienvenido"
+            app:layout_constraintEnd_toEndOf="@+id/frame_signin"
+            app:layout_constraintStart_toStartOf="@+id/frame_signin"
+            android:background="@drawable/auth_input" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/auth_input"
+            android:hint="Ingresa tu contraseña"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/et_email"
+            app:layout_constraintEnd_toEndOf="@+id/frame_signin"
+            app:layout_constraintStart_toStartOf="@+id/frame_signin"
+            android:inputType="textPassword"
+            android:drawableEnd="@drawable/ic_eye_open"
+            android:drawableTint="#B6B6B6"/>
+        <TextView
+            android:id="@+id/tv_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Olvidé mi contraseña"
+            android:textSize="12sp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="6dp"
+            android:textColor="#B6B6B6"
+            app:layout_constraintEnd_toEndOf="@+id/frame_signin"
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+        <Button
+            android:id="@+id/btn_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingresar"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/frame_signin"
+            app:layout_constraintStart_toStartOf="@id/frame_signin"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_no_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿No tienes cuenta?"
+            android:textSize="12sp"
+            android:textColor="#A2A2A2"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@+id/frame_signin"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signin"/>
+        <TextView
+            android:id="@+id/tv_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear cuenta"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="12sp"
+            android:textColor="#A2A2A2"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_no_account"
+            app:layout_constraintTop_toBottomOf="@+id/btn_signin"/>
+        <LinearLayout
+            android:id="@+id/ll_or"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/tv_create_account"
+            app:layout_constraintEnd_toEndOf="@id/frame_signin"
+            app:layout_constraintStart_toStartOf="@id/frame_signin"
+            >
+            <View
+                android:layout_width="119dp"
+                android:layout_height="0.6dp"
+                android:background="#A2A2A2"/>
+            <TextView
+                android:id="@+id/tv_or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O ingresa con"
+                android:fontFamily="@font/poppins_light"
+                android:textSize="12dp"
+                android:textColor="#A2A2A2"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"/>
+            <View
+                android:layout_width="119dp"
+                android:layout_height="0.6dp"
+                android:background="#A2A2A2"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_social_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/ll_or"
+            app:layout_constraintEnd_toEndOf="@id/frame_signin"
+            app:layout_constraintStart_toStartOf="@id/frame_signin">
+
+            <ImageView
+                android:id="@+id/iv_google"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_google"
+                android:drawableTint="#A0A0A0"
+                android:layout_marginEnd="8dp"
+                />
+            <ImageView
+                android:id="@+id/iv_linkedin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_linkedin"
+                android:drawableTint="#A0A0A0"
+                />
+            <ImageView
+                android:id="@+id/iv_facebook"
+                android:layout_marginStart="8dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_facebook"
+                android:drawableTint="#A0A0A0"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
