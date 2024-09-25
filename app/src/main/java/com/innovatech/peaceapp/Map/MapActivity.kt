@@ -117,7 +117,7 @@ class MapActivity : AppCompatActivity() {
         val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
             .withPoint(point)
             .withIconImage(bitmap)
-            .withIconSize(0.5)
+            .withIconSize(1.2)
         pointAnnotationManager.create(pointAnnotationOptions)
     }
 
