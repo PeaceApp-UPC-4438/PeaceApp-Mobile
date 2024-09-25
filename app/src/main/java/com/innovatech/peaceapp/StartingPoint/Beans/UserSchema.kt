@@ -1,7 +1,7 @@
 package com.innovatech.peaceapp.StartingPoint.Beans
 
-data class User(
-    var id:Int,
+data class UserSchema(
     var username:String,
+    var password:String,
     var roles:List<String>
 )
