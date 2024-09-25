@@ -10,5 +10,7 @@
     <color name="peaceapp_blue_dark_disable">#5B8399</color>
     <color name="peaceapp_blue_light">#84A2B3</color>
     <color name="peaceapp_bg_new_report">#E9ECF1</color>
+    <color name="nav_item_unselected">#83878A</color>
+    <color name="nav_item_selected">#1C597C</color>
 
 </resources>

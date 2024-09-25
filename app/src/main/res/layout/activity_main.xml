@@ -40,5 +40,4 @@
         android:hint="Este es un hint"
         />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

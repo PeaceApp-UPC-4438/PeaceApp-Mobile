@@ -12,6 +12,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Beans.ReportSchema
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
@@ -21,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class NewReportActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,13 +34,20 @@ class NewReportActivity : AppCompatActivity() {
         Log.d("TypeReport", typeReport.toString())
         val txtTypeReport = findViewById<TextView>(R.id.txtTypeReport)
         txtTypeReport.text = typeReport.toString()
+        val edtLatitude = findViewById<EditText>(R.id.edtLatitude)
+        val edtLongitude = findViewById<EditText>(R.id.edtLongitude)
 
+
+        val btnCancel = findViewById<Button>(R.id.btnCancel)
+        btnCancel.setOnClickListener {
+            val intent = Intent(this, ListReportsActivity::class.java)
+            startActivity(intent)
+        }
         val btnSave = findViewById<Button>(R.id.btnSave)
         btnSave.setOnClickListener {
             val edtTitle = findViewById<EditText>(R.id.edtTitle)
             val edtDetail = findViewById<EditText>(R.id.edtDetail)
-            val edtLatitude = findViewById<EditText>(R.id.edtLatitude)
-            val edtLongitude = findViewById<EditText>(R.id.edtLongitude)
+
 
             val title = edtTitle.text.toString()
             val detail = edtDetail.text.toString()
@@ -53,7 +63,43 @@ class NewReportActivity : AppCompatActivity() {
 
         }
 
+        navigationMenu()
     }
+
+    private fun navigationMenu() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            bottomNavigationView.menu.findItem(R.id.nav_map).setIcon(R.drawable.location_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_report).setIcon(R.drawable.reports_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_shared_location).setIcon(R.drawable.share_location_icon)
+
+            if(item.isChecked) {
+                return@setOnNavigationItemSelectedListener false
+            }
+
+            when (item.itemId) {
+                R.id.nav_map -> {
+                    val intent = Intent(this, MapActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_report -> {
+                    val intent = Intent(this, ListReportsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_shared_location -> {
+                    true
+                }
+                else -> false
+            }
+
+        }
+
+        bottomNavigationView.menu.findItem(R.id.nav_report).setChecked(true)
+    }
+
 
     private fun saveReport(title: String, detail: String, latitude: String, longitude: String, typeReport: String) {
         val service = RetrofitClient.placeHolder

@@ -47,6 +47,7 @@ dependencies {
 
     // PICASSO [Para mostrar imágenes]
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation(libs.play.services.location)
 
     // room
     val room_version = "2.5.0"

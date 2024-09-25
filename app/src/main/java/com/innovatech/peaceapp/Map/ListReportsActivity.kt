@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Map.Adapters.AdapterReport
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
@@ -58,7 +59,44 @@ class ListReportsActivity : AppCompatActivity() {
         }
 
         obtainAllReports()
+        navigationMenu()
     }
+
+    private fun navigationMenu() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
+            bottomNavigationView.menu.findItem(R.id.nav_map).setIcon(R.drawable.location_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_report).setIcon(R.drawable.reports_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_shared_location).setIcon(R.drawable.share_location_icon)
+
+            if(item.isChecked) {
+                return@setOnNavigationItemSelectedListener false
+            }
+
+            when (item.itemId) {
+                R.id.nav_map -> {
+                    val intent = Intent(this, MapActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_report -> {
+                    val intent = Intent(this, ListReportsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_shared_location -> {
+                    true
+                }
+                else -> false
+            }
+
+        }
+
+        bottomNavigationView.menu.findItem(R.id.nav_report).setChecked(true)
+    }
+
 
     private fun obtainAllReports() {
         val service = RetrofitClient.placeHolder
