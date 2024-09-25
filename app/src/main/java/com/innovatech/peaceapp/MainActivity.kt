@@ -24,5 +24,15 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
+
+        // Encuentra el botón
+        val btnPruebaProfile: Button = findViewById(R.id.btnPruebaProfile)
+
+        // Establece el OnClickListener para el botón
+        btnPruebaProfile.setOnClickListener {
+            // Muestra el ProfileDialogFragment
+            val profileDialog = ProfileMainDialogFragment()
+            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
+        }
     }
 }
