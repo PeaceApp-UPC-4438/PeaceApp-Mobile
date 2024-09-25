@@ -1,10 +1,11 @@
-package com.innovatech.peaceapp
+package com.innovatech.peaceapp.Profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.innovatech.peaceapp.R
 
 class ProfileDeleteDialogFragment : DialogFragment() {
     override fun onCreateView(

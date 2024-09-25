@@ -1,4 +1,4 @@
-package com.innovatech.peaceapp
+package com.innovatech.peaceapp.Profile
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.DialogFragment
+import com.innovatech.peaceapp.R
 
 class ProfileEditDialogFragment : DialogFragment() {
     override fun onCreateView(

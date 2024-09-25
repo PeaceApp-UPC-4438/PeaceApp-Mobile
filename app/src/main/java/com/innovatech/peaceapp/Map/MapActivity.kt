@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.R
-import com.innovatech.peaceapp.ReportsActivity
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView

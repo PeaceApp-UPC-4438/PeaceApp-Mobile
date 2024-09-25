@@ -5,34 +5,27 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.innovatech.peaceapp.Map.ListReportsActivity
 import com.innovatech.peaceapp.Map.MapActivity
+import com.innovatech.peaceapp.Profile.ProfileMainDialogFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val btn = findViewById<Button>(R.id.btnPrueba)
 
+        val btnPruebaProfile: Button = findViewById(R.id.btnPrueba)
+        val btnMap: Button = findViewById(R.id.btnMap)
 
+        btnPruebaProfile.setOnClickListener {
+            val profileDialog = ProfileMainDialogFragment()
+            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
+        }
 
-        btn.setOnClickListener {
+        btnMap.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
 
-        // Encuentra el botón
-        val btnPruebaProfile: Button = findViewById(R.id.btnPruebaProfile)
-
-        // Establece el OnClickListener para el botón
-        btnPruebaProfile.setOnClickListener {
-            // Muestra el ProfileDialogFragment
-            val profileDialog = ProfileMainDialogFragment()
-            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
-        }
     }
 }
