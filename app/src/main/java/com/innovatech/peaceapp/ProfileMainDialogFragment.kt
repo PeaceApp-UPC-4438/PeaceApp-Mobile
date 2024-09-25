@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.DialogFragment
 
@@ -34,6 +35,14 @@ class ProfileMainDialogFragment : DialogFragment() {
             // Muestra el ProfileEditDialogFragment
             val profileEditDialog = ProfileEditDialogFragment()
             profileEditDialog.show(parentFragmentManager, "ProfileEditDialogFragment")
+        }
+
+        // Encuentra el botón Eliminar y establece el OnClickListener
+        val btnEliminar: TextView = view.findViewById(R.id.btnEliminar)
+        btnEliminar.setOnClickListener {
+            // Muestra el ProfileDeleteDialogFragment
+            val profileDeleteDialog = ProfileDeleteDialogFragment()
+            profileDeleteDialog.show(parentFragmentManager, "ProfileDeleteDialogFragment")
         }
 
         return view
