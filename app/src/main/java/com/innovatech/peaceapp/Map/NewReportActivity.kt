@@ -23,11 +23,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class NewReportActivity : AppCompatActivity() {
+    lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_new_report)
+        token = intent.getStringExtra("token")!!
 
         val typeReport = intent.getStringExtra("type")
         // to show it in the console
@@ -41,6 +43,7 @@ class NewReportActivity : AppCompatActivity() {
         val btnCancel = findViewById<Button>(R.id.btnCancel)
         btnCancel.setOnClickListener {
             val intent = Intent(this, ListReportsActivity::class.java)
+            intent.putExtra("token", token)
             startActivity(intent)
         }
         val btnSave = findViewById<Button>(R.id.btnSave)
@@ -81,11 +84,13 @@ class NewReportActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_map -> {
                     val intent = Intent(this, MapActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_report -> {
                     val intent = Intent(this, ListReportsActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
@@ -102,7 +107,7 @@ class NewReportActivity : AppCompatActivity() {
 
 
     private fun saveReport(title: String, detail: String, latitude: String, longitude: String, typeReport: String) {
-        val service = RetrofitClient.placeHolder
+        val service = RetrofitClient.getClient(token)
 
         val report = ReportSchema(title, detail, typeReport, 2, null)
         // obtain the id of the report created
@@ -125,7 +130,7 @@ class NewReportActivity : AppCompatActivity() {
     }
 
     private fun saveLocation(latitude: String, longitude: String, idReport: Int) {
-        val service = RetrofitClient.placeHolder
+        val service = RetrofitClient.getClient(token)
 
         val location = LocationSchema(latitude, longitude, idReport)
 
@@ -138,6 +143,7 @@ class NewReportActivity : AppCompatActivity() {
                     }
 
                     val intent = Intent(this@NewReportActivity, MapActivity::class.java)
+                    intent.putExtra("token", token)
 
                     startActivity(intent)
                 }

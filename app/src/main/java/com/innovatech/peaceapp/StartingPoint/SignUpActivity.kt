@@ -60,7 +60,7 @@ class SignUpActivity : AppCompatActivity() {
             override fun onResponse(p0: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
                     val user = response.body()
-                    if (user != null) {
+                    if (user?.username != null) {
                         val intent = Intent(this@SignUpActivity, SignInActivity::class.java)
                         startActivity(intent)
                     }

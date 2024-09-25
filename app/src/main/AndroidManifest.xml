@@ -28,14 +28,8 @@
             android:name=".Map.ListReportsActivity"
             android:exported="false" />
         <activity
-            android:name=".ReportsActivity"
-            android:exported="false" />
-        <activity
             android:name=".Map.MapActivity"
-        tools:targetApi="31">
-        <activity
-            android:name=".StartingPoint.StartNowActivity"
-            android:exported="false" />
+            tools:targetApi="31"/>
         <activity
             android:name=".StartingPoint.SignUpActivity"
             android:exported="false" />

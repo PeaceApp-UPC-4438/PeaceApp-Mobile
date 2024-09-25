@@ -23,11 +23,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ListReportsActivity : AppCompatActivity() {
+    lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_list_reports)
+        token = intent.getStringExtra("token")!!
 
         val allReports: LinearLayout = findViewById(R.id.allReports)
         val myReports: LinearLayout = findViewById(R.id.myReports)
@@ -55,6 +57,7 @@ class ListReportsActivity : AppCompatActivity() {
 
         btnNewReport.setOnClickListener {
             val intent = Intent(this, TypeReportsActivity::class.java)
+            intent.putExtra("token", token)
             startActivity(intent)
         }
 
@@ -78,11 +81,13 @@ class ListReportsActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_map -> {
                     val intent = Intent(this, MapActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_report -> {
                     val intent = Intent(this, ListReportsActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
@@ -99,7 +104,8 @@ class ListReportsActivity : AppCompatActivity() {
 
 
     private fun obtainAllReports() {
-        val service = RetrofitClient.placeHolder
+        val service = RetrofitClient.getClient(token)
+
         service.getAllReports().enqueue(object: Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 val reports = response.body()
@@ -137,8 +143,9 @@ class ListReportsActivity : AppCompatActivity() {
     }
 
     private fun obtainMyReports() {
-        val service = RetrofitClient.placeHolder
+        val service = RetrofitClient.getClient(token)
         val userId = 2; // here will go the user id ANDIRUUUUUUUSHINI
+
         service.getMyReports(userId).enqueue(object: Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 val reports = response.body()

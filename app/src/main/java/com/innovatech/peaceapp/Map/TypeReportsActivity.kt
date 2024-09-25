@@ -11,10 +11,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.innovatech.peaceapp.R
 
 class TypeReportsActivity : AppCompatActivity() {
+    lateinit var token : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_type_reports)
+        token = intent.getStringExtra("token")!!
+
         val btnRobo = findViewById<ImageView>(R.id.btnRobo)
         val btnAccidente = findViewById<ImageView>(R.id.btnAccidente)
         val btnFaltaIluminacion = findViewById<ImageView>(R.id.btnFaltaIluminacion)
@@ -23,30 +26,35 @@ class TypeReportsActivity : AppCompatActivity() {
 
         btnRobo.setOnClickListener {
             val intent = Intent(this, NewReportActivity::class.java)
+            intent.putExtra("token", token)
             intent.putExtra("type", "Robo")
             startActivity(intent)
         }
 
         btnAccidente.setOnClickListener {
             val intent = Intent(this, NewReportActivity::class.java)
+            intent.putExtra("token", token)
             intent.putExtra("type", "Accidente")
             startActivity(intent)
         }
 
         btnFaltaIluminacion.setOnClickListener {
             val intent = Intent(this, NewReportActivity::class.java)
+            intent.putExtra("token", token)
             intent.putExtra("type", "Falta de iluminación")
             startActivity(intent)
         }
 
         btnAcoso.setOnClickListener {
             val intent = Intent(this, NewReportActivity::class.java)
+            intent.putExtra("token", token)
             intent.putExtra("type", "Acoso")
             startActivity(intent)
         }
 
         btnOtro.setOnClickListener {
             val intent = Intent(this, NewReportActivity::class.java)
+            intent.putExtra("token", token)
             intent.putExtra("type", "Otro")
             startActivity(intent)
         }

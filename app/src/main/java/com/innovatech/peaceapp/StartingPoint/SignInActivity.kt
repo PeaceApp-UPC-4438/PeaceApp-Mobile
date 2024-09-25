@@ -10,9 +10,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.StartingPoint.Beans.User
 import com.innovatech.peaceapp.StartingPoint.Beans.UserAuth
+import com.innovatech.peaceapp.StartingPoint.Beans.UserAuthenticated
 import com.innovatech.peaceapp.StartingPoint.Models.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,8 +39,6 @@ class SignInActivity : AppCompatActivity() {
             val edtPassword = findViewById<TextView>(R.id.et_password)
 
             signIn(edtEmail.text.toString(), edtPassword.text.toString())
-            //val intent = Intent(this, ACTIVIDAD-DEL-MAP::class.java)
-            //startActivity(intent)
         }
 
         btnSignUp.setOnClickListener{
@@ -50,17 +50,22 @@ class SignInActivity : AppCompatActivity() {
         val service = RetrofitClient.placeHolder
 
         val user = UserAuth(email, password)
-        service.signIn(user).enqueue(object : Callback<User> {
-            override fun onResponse(p0: Call<User>, response: Response<User>) {
+        service.signIn(user).enqueue(object : Callback<UserAuthenticated> {
+            override fun onResponse(p0: Call<UserAuthenticated>, response: Response<UserAuthenticated>) {
                 if(response.isSuccessful){
                     val user = response.body()
-                    if(user != null){
-                        //val intent = Intent(this, ACTIVIDAD-DEL-MAP::class.java)
-                        //startActivity(intent)
+                    if(user?.username != null){
+                        val intent = Intent(this@SignInActivity, MapActivity::class.java)
+                        val token = user.token
+                        intent.putExtra("token", token)
+                        startActivity(intent)
+                    }else {
+                        Toast.makeText(this@SignInActivity, "${user!!.message}", Toast.LENGTH_LONG).show()
+                        Log.e("Mensaje", user!!.message)
                     }
                 }
             }
-            override fun onFailure(p0: Call<User>, p1: Throwable) {
+            override fun onFailure(p0: Call<UserAuthenticated>, p1: Throwable) {
                 Toast.makeText(this@SignInActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
                 Log.e("ERROR", p1.message.toString())
             }

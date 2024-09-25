@@ -31,6 +31,7 @@
                 android:text="Reporte"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
                 android:id="@+id/txtLocation"
                 android:text="Ubicación"
                 android:textSize="14sp"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -45,6 +47,7 @@
                 android:id="@+id/txtDate"
                 android:text="Fecha"
                 android:textSize="14sp"
+                android:textColor="@color/black"
                 />
         </LinearLayout>
 

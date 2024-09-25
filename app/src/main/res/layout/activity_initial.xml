@@ -34,6 +34,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tv_login"
         android:backgroundTint="#638090"
+        android:textColor="@color/white"
+
         />
     <TextView
         android:id="@+id/tv_login"

@@ -34,12 +34,15 @@ import retrofit2.Response
 
 class MapActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
+    private lateinit var token: String
     private var c = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_map)
+
+        token = intent.getStringExtra("token")!!
 
         mapView = findViewById(R.id.mapView)
         val userProfile = findViewById<ImageView>(R.id.userPhoto)
@@ -74,11 +77,13 @@ class MapActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_map -> {
                     val intent = Intent(this, MapActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
                 R.id.nav_report -> {
                     val intent = Intent(this, ListReportsActivity::class.java)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
@@ -94,7 +99,9 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun obtainAllLocations() {
-        val service = RetrofitClient.placeHolder
+        val service = RetrofitClient.getClient(token)
+
+        // Haz la llamada al endpoint
         service.getLocations().enqueue(object: Callback<List<Beans.Location>> {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
