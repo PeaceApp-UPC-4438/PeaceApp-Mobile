@@ -5,53 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/white"
     tools:context=".Profile.ProfileMainDialogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_main"
-        android:paddingTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/profile_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/mainTxt"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/user_photo"
-            android:scaleType="centerCrop"
-            android:src="@drawable/user_photo"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imageBorder"
+            android:layout_width="139dp"
+            android:layout_height="139dp"
+            app:strokeColor="#E9ECF1"
+            app:strokeWidth="17.5dp"
+            app:cardCornerRadius="100dp"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0">
+            <ImageView
+                android:id="@+id/mainTxt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_user_default" />
+        </com.google.android.material.card.MaterialCardView>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_name"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
-            android:elevation="10dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainTxt">
+            app:layout_constraintTop_toBottomOf="@+id/imageBorder">
 
             <TextView
                 android:id="@+id/txt_placeholder_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="25dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
                 android:text="Nombre"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_user_name"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -60,24 +69,25 @@
                 android:id="@+id/txt_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="196dp"
+                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="Jhon Doe"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.714" />
+
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_email"
-            android:elevation="10dp"
-
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
@@ -90,12 +100,12 @@
                 android:id="@+id/txt_placeholder_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="25dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
-                android:text="Correo electrónico"
+                android:text="Correo"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_user_email"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,11 +114,11 @@
                 android:id="@+id/txt_user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="196dp"
+                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="jd123@gmail.com"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -119,9 +129,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_phone"
-            android:elevation="10dp"
-
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
@@ -134,12 +144,12 @@
                 android:id="@+id/txt_placeholder_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="25dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
                 android:text="Teléfono"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_user_phone"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -148,24 +158,23 @@
                 android:id="@+id/txt_user_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="196dp"
+                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="999 306 123"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.714" />
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_password"
-            android:elevation="10dp"
-
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
@@ -178,12 +187,12 @@
                 android:id="@+id/txt_placeholder_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="25dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
                 android:text="Contraseña"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/txt_user_password"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -192,44 +201,60 @@
                 android:id="@+id/txt_user_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="196dp"
+                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="********"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.714" />
+                app:layout_constraintTop_toTopOf="parent"/>
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_eye_open"
+                app:layout_constraintEnd_toEndOf="@id/Layout_password"
+                app:layout_constraintTop_toTopOf="@id/Layout_password"
+                app:layout_constraintBottom_toBottomOf="@id/Layout_password"
+                app:tint="#B6B6B6" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditar"
+            android:textAllCaps="false"
             android:layout_width="match_parent"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_marginTop="76dp"
+            android:fontFamily="@font/poppins_medium"
+            android:backgroundTint="#5B8399"
+            android:elegantTextHeight="true"
+            android:textColor="@color/white"
             android:text="Editar perfil"
-            android:textSize="20sp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Layout_password" />
+            app:layout_constraintTop_toBottomOf="@+id/Layout_password"
+            />
 
         <TextView
             android:id="@+id/btnEliminar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="@font/poppins_regular"
             android:textColorHighlight="@color/danger"
             android:text="Eliminar mi cuenta"
-            android:textColor="#758E9D"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#A2A2A2"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnEditar" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="8dp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -26,12 +26,10 @@
 
         <ImageView
             android:id="@+id/mainTxt"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/user_photo"
-            android:scaleType="centerCrop"
-            android:src="@drawable/user_photo"
+            android:background="@layout/profile_photo_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -66,18 +64,7 @@
                     android:textSize="15sp"
                     android:layout_centerInParent="true" />
 
-                <TextView
-                    android:id="@+id/tag_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/edit_placeholder_name"
-                    android:layout_alignStart="@id/edit_placeholder_name"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="-12dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Nombre"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+
 
             </RelativeLayout>
         </FrameLayout>
@@ -108,18 +95,7 @@
                     android:textColor="#AFADAD"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tag_user_lastname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/edit_placeholder_lastname"
-                    android:layout_alignStart="@id/edit_placeholder_lastname"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="-12dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Apellido"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+
 
             </RelativeLayout>
         </FrameLayout>
@@ -150,18 +126,6 @@
                     android:textColor="#AFADAD"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tag_user_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/edit_placeholder_email"
-                    android:layout_alignStart="@id/edit_placeholder_email"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="-12dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Correo electrónico"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
 
             </RelativeLayout>
         </FrameLayout>
@@ -192,19 +156,6 @@
                     android:textColor="#AFADAD"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tag_user_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/edit_placeholder_phone"
-                    android:layout_alignStart="@id/edit_placeholder_phone"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="-12dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Teléfono"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
             </RelativeLayout>
         </FrameLayout>
 
@@ -234,23 +185,11 @@
                     android:textColor="#AFADAD"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tag_user_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/edit_placeholder_password"
-                    android:layout_alignStart="@id/edit_placeholder_password"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="-12dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Teléfono"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
 
             </RelativeLayout>
         </FrameLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditarEnd"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
