@@ -16,61 +16,45 @@
         >
 
         <ImageView
-            android:id="@+id/ivTrashcan"
+            android:id="@+id/ivCheck"
             android:layout_width="83dp"
             android:layout_height="83dp"
-            android:src="@drawable/ic_trashcan"
-            app:tint="@color/danger"
+            android:src="@drawable/ic_check"
+            app:tint="@color/positive"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tvDeleteProfile"
+            android:id="@+id/tvCorrectUpdate"
             android:layout_marginVertical="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estás a punto de eliminar tu cuenta. ¿Estás seguro?"
-            android:textSize="20sp"
+            android:text="¡Tu perfil ha sido actualizado correctamente!"
+            android:textSize="18sp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/black"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivTrashcan"
-            app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+            app:layout_constraintTop_toBottomOf="@id/ivCheck"
+            app:layout_constraintBottom_toTopOf="@+id/btnContinue"
             />
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnContinue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
+            android:text="Continuar"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins_medium"
             android:textSize="13sp"
             android:elegantTextHeight="true"
             android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeleteProfile"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/disabled"
-            />
-
-        <Button
-            android:id="@+id/btnEliminar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Eliminar"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium"
-            android:elegantTextHeight="true"
-            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnCancel"
-            app:layout_constraintTop_toTopOf="@+id/btnCancel"
-            android:backgroundTint="@color/danger"
+            app:layout_constraintTop_toBottomOf="@+id/tvCorrectUpdate"
+            android:backgroundTint="@color/disabled"
             />
 
 
