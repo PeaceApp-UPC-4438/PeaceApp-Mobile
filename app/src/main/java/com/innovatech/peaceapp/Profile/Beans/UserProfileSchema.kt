@@ -5,5 +5,6 @@ data class UserProfileSchema(
     var lastname: String,
     var phonenumber: String,
     var email: String,
-    var password: String
+    var password: String,
+    var user_id: String
 )
