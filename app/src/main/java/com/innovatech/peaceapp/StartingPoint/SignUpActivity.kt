@@ -1,5 +1,6 @@
 package com.innovatech.peaceapp.StartingPoint
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -132,9 +133,8 @@ class SignUpActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val userProfile = response.body()
                     if (userProfile?.name != null) {
-                        val intent = Intent(this@SignUpActivity, MapActivity::class.java)
-                        intent.putExtra("token", token)
-                        startActivity(intent)
+
+                        showCorrectSignUpDialog(token)
                     }
                 }
             }
@@ -144,5 +144,27 @@ class SignUpActivity : AppCompatActivity() {
                 Log.e("Error", p1.message.toString())
             }
         })
+    }
+
+    private fun navigateToMapActivity(token: String){
+        val intent = Intent(this, MapActivity::class.java)
+        intent.putExtra("token", token)
+        startActivity(intent)
+    }
+
+    private fun showCorrectSignUpDialog(token: String){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_correct_signup)
+        // to set a transparent background
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+
+        btnContinue.setOnClickListener {
+            dialog.hide()
+            navigateToMapActivity(token)
+        }
+
+        dialog.show()
     }
 }
