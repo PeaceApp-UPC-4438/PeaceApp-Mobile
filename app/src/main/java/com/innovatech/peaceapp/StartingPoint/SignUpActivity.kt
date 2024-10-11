@@ -189,19 +189,47 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun validateSignUpFields(): Boolean{
         if(etName.text.isEmpty() || etLastName.text.isEmpty() || etPhone.text.isEmpty() || edtEmail.text.isEmpty() || edtPassword.text.isEmpty()){
-            showIncorrectSignUpDialog()
+            showIncorrectSignUpDialog("Asegúrate de llenar todos los campos")
+            return false
+        }
+        // validate email
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(edtEmail.text).matches()){
+            // show toast message
+            showIncorrectSignUpDialog("Email no válido")
+            return false
+        }
+        // validate only numbers in phone
+        if(!android.util.Patterns.PHONE.matcher(etPhone.text).matches()){
+            // show toast message
+            showIncorrectSignUpDialog("Teléfono no válido")
+            return false
+        }
+        // validate password
+        if(edtPassword.text.length < 6){
+            // show toast message
+            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+            return false
+        }
+        // validate phone
+        if(etPhone.text.length < 9){
+            // show toast message
+            showIncorrectSignUpDialog("El teléfono debe tener al menos 9 caracteres")
             return false
         }
         return true
     }
 
-    private fun showIncorrectSignUpDialog(){
+    private fun showIncorrectSignUpDialog(texto: String){
         val dialog = Dialog(this)
+
         dialog.setContentView(R.layout.dialog_incorrect_signup)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+        val tvMensaje = dialog.findViewById<TextView>(R.id.tvIncorrectSignup)
+
+        tvMensaje.text = texto
 
         btnContinue.setOnClickListener {
             dialog.hide()

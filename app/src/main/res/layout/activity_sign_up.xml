@@ -12,8 +12,8 @@
     >
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_height="188dp"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
+        android:layout_height="196dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_big_logo"
         app:layout_constraintBottom_toTopOf="@+id/frame_signup"
@@ -51,7 +51,7 @@
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="36dp"
             android:hint="Ingresa tu nombre"
             android:textSize="14sp"
@@ -64,7 +64,7 @@
         <EditText
             android:id="@+id/et_surname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:hint="Ingresa tu apellido"
             android:textColor="@color/black"
@@ -79,9 +79,10 @@
         <EditText
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="@drawable/auth_input"
             android:hint="Ingresa tu teléfono"
+            android:inputType="phone"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
             android:textColorHint="@android:color/secondary_text_dark"
@@ -93,11 +94,12 @@
         <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="@drawable/auth_input"
             android:hint="Ingresa tu correo"
             android:layout_marginTop="16dp"
             android:textSize="14sp"
+            android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:textColorHint="@android:color/secondary_text_dark"
             app:layout_constraintTop_toBottomOf="@+id/et_phone"
@@ -107,7 +109,7 @@
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="@drawable/auth_input"
             android:hint="Ingresa tu contraseña"
             android:layout_marginTop="16dp"
@@ -150,7 +152,7 @@
             android:text="Iniciar sesión"
             android:fontFamily="@font/poppins_bold"
             android:textSize="12sp"
-            android:textColor="#A2A2A2"
+            android:textColor="@color/peaceapp_blue_light"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/tv_no_account"
@@ -201,24 +203,24 @@
 
             <ImageView
                 android:id="@+id/iv_google"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_google"
                 android:drawableTint="#A0A0A0"
                 android:layout_marginEnd="8dp"
                 />
             <ImageView
                 android:id="@+id/iv_linkedin"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_linkedin"
                 android:drawableTint="#A0A0A0"
                 />
             <ImageView
                 android:id="@+id/iv_facebook"
                 android:layout_marginStart="8dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_facebook"
                 android:drawableTint="#A0A0A0"
                 />
