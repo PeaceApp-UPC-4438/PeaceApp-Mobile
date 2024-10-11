@@ -94,7 +94,7 @@ class SignUpActivity : AppCompatActivity() {
 
             override fun onFailure(p0: Call<User>, p1: Throwable) {
                 Toast.makeText(this@SignUpActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
-                Log.e("Error", p1.message.toString())
+                Log.i("SIGNUPERROR1", p1.message.toString())
             }
         })
     }
@@ -120,15 +120,13 @@ class SignUpActivity : AppCompatActivity() {
 
             override fun onFailure(p0: Call<UserAuthenticated>, p1: Throwable) {
                 Toast.makeText(this@SignUpActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
-                Log.e("Error", p1.message.toString())
+                Log.i("SIGNUPERROR3", p1.message.toString())
             }
         })
     }
 
     private fun saveUser(user_id: Int, token: String){
         val serviceUserProfile = com.innovatech.peaceapp.Profile.Models.RetrofitClient.getClient(token)
-
-        Log.i("PHONE_ACAAA", etPhone.text.toString())
 
         val userProfile = UserProfileSchema(
             etName.text.toString(),
@@ -160,7 +158,7 @@ class SignUpActivity : AppCompatActivity() {
 
             override fun onFailure(p0: Call<UserProfile>, p1: Throwable) {
                 Toast.makeText(this@SignUpActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
-                Log.e("Error", p1.message.toString())
+                Log.i("ErrorSIGNUPPPPPPP2", p1.message.toString())
             }
         })
     }
@@ -211,9 +209,9 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
         // validate phone
-        if(etPhone.text.length < 9){
+        if(etPhone.text.length != 9){
             // show toast message
-            showIncorrectSignUpDialog("El teléfono debe tener al menos 9 caracteres")
+            showIncorrectSignUpDialog("El teléfono debe tener 9 dígitos")
             return false
         }
         return true

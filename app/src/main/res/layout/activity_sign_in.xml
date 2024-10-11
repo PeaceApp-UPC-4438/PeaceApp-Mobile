@@ -54,6 +54,7 @@
 
         <EditText
             android:id="@+id/et_email"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="36dp"
@@ -81,7 +82,8 @@
             app:layout_constraintStart_toStartOf="@+id/frame_signin"
             android:inputType="textPassword"
             android:drawableEnd="@drawable/ic_eye_open"
-            android:drawableTint="#B6B6B6"/>
+            android:drawableTint="#B6B6B6"
+            />
         <TextView
             android:id="@+id/tv_forgot_password"
             android:layout_width="wrap_content"

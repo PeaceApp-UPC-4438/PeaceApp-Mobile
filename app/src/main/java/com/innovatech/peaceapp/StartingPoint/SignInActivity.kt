@@ -1,5 +1,6 @@
 package com.innovatech.peaceapp.StartingPoint
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -66,8 +67,16 @@ class SignInActivity : AppCompatActivity() {
                         intent.putExtra("token", token)
                         startActivity(intent)
                     }else {
-                        Toast.makeText(this@SignInActivity, "${user!!.message}", Toast.LENGTH_LONG).show()
                         Log.e("Mensaje", user!!.message)
+                        // mostrar el dialog de error
+                        when(user.message){
+                            "User not found" -> showIncorrectSignInDialog("No existe un usuario " +
+                                    "con este correo")
+                            "Invalid password" -> showIncorrectSignInDialog("La contraseña es " +
+                                    "incorrecta")
+                            else -> showIncorrectSignInDialog("Error desconocido")
+                        }
+
                     }
                 }
             }
@@ -76,6 +85,24 @@ class SignInActivity : AppCompatActivity() {
                 Log.e("ERROR", p1.message.toString())
             }
         })
-
     }
+    private fun showIncorrectSignInDialog(mensaje: String){
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_incorrect_signup)
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+        val tvMensaje = dialog.findViewById<TextView>(R.id.tvIncorrectSignup)
+
+        tvMensaje.text = mensaje
+
+        btnContinue.setOnClickListener {
+            dialog.hide()
+        }
+
+        dialog.show()
+    }
+
 }
