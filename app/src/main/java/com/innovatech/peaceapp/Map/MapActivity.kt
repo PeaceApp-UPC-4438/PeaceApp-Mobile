@@ -3,6 +3,7 @@ package com.innovatech.peaceapp.Map
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.Settings.Global
 import android.util.Log
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -12,8 +13,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
-import com.innovatech.peaceapp.Profile.ProfileMainDialogFragment
+import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.R
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
@@ -42,13 +44,21 @@ class MapActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_map)
 
+        var tk = GlobalToken
+        Log.i("Token", tk.token.toString())
+
         token = intent.getStringExtra("token")!!
 
         mapView = findViewById(R.id.mapView)
         val userProfile = findViewById<ImageView>(R.id.userPhoto)
         userProfile.setOnClickListener {
-            val profileDialog = ProfileMainDialogFragment()
-            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
+
+            val intent = Intent(this, MainProfileActivity::class.java)
+            startActivity(intent)
+
+
+//            val profileDialog = ProfileMainDialogFragment()
+//            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
         }
 
         obtainAllLocations()

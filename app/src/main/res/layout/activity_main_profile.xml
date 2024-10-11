@@ -1,4 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView
+    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +9,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:context=".Profile.ProfileMainDialogFragment">
+    tools:context=".Profile.MainProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_main"
@@ -28,7 +31,9 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            app:cardElevation="0dp"
+            >
             <ImageView
                 android:id="@+id/mainTxt"
                 android:layout_width="match_parent"
@@ -40,177 +45,182 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_name"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageBorder">
+            app:layout_constraintTop_toBottomOf="@+id/imageBorder"
+            >
 
             <TextView
                 android:id="@+id/txt_placeholder_name"
+                android:text="Nombre"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="-150dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
-                android:text="Nombre"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txt_user_name"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/txt_user_name"
+                tools:text="Jhon Doe"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="Jhon Doe"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_name"
                 app:layout_constraintTop_toTopOf="parent"
-
+                app:layout_constraintBottom_toBottomOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_email"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Layout_name">
 
             <TextView
                 android:id="@+id/txt_placeholder_email"
+                android:text="Correo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="-150dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
-                android:text="Correo"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txt_user_email"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/txt_user_email"
+                tools:text="jd123@gmail.com"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="jd123@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_email"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.571" />
+                app:layout_constraintBottom_toBottomOf="parent"
+
+
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_phone"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Layout_email">
 
             <TextView
                 android:id="@+id/txt_placeholder_phone"
+                android:text="Teléfono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="-150dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
-                android:text="Teléfono"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txt_user_phone"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/txt_user_phone"
+                tools:text="999306123"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="999 306 123"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_phone"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/Layout_password"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Layout_phone">
 
             <TextView
                 android:id="@+id/txt_placeholder_password"
+                android:text="Contraseña"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="-150dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
-                android:text="Contraseña"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txt_user_password"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/txt_user_password"
+                tools:text="********"
+                android:inputType="textPassword"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="185dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="********"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_password"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+
+
+                />
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="wrap_content"
@@ -238,23 +248,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Layout_password"
+            app:layout_constraintStart_toStartOf="parent"
             />
 
-        <TextView
-            android:id="@+id/btnEliminar"
+        <LinearLayout
+            android:id="@+id/ll_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/poppins_regular"
-            android:textColorHighlight="@color/danger"
-            android:text="Eliminar mi cuenta"
-            android:textColor="#A2A2A2"
-            android:textSize="11sp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="12dp"
-            android:layout_marginBottom="8dp"
-            />
+            android:layout_marginBottom="8dp">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_logout"
+                app:tint="#A2A2A2"/>
+            <TextView
+                android:id="@+id/tvEliminar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:elegantTextHeight="true"
+                android:textColorHighlight="@color/danger"
+                android:text="Cerrar sesión"
+                android:textColor="#A2A2A2"
+                android:textSize="11sp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

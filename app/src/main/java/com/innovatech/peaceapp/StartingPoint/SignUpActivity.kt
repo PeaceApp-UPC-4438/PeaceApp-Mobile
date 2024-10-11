@@ -12,6 +12,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.innovatech.peaceapp.GlobalToken
+import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Beans.UserProfileSchema
@@ -104,6 +106,12 @@ class SignUpActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user?.username != null) {
+                        GlobalToken.setToken(user.token)
+
+                        Log.i("Token", user.token.toString())
+
+                        GlobalUserEmail.setEmail(user.username)
+
                         saveUser(user.id, user.token)
                     }
                 }
@@ -119,13 +127,17 @@ class SignUpActivity : AppCompatActivity() {
     private fun saveUser(user_id: Int, token: String){
         val serviceUserProfile = com.innovatech.peaceapp.Profile.Models.RetrofitClient.getClient(token)
 
+        Log.i("PHONE_ACAAA", etPhone.text.toString())
+
         val userProfile = UserProfileSchema(
             etName.text.toString(),
             etLastName.text.toString(),
             etPhone.text.toString(),
             edtEmail.text.toString(),
             edtPassword.text.toString(),
-            user_id.toString()
+            user_id.toString(),
+            "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default" +
+                    "-avatar-icon-of-social-media-user-vector.jpg", // default user image
             )
 
         serviceUserProfile.createUser(userProfile).enqueue(object : Callback<UserProfile> {
@@ -133,6 +145,12 @@ class SignUpActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val userProfile = response.body()
                     if (userProfile?.name != null) {
+
+
+                        Log.i("UserInSignUp", userProfile.id.toString()+ " "+userProfile.name + " "
+                                + userProfile.lastname + " " + userProfile.email + " " + userProfile.phonenumber + " " +
+                                userProfile.password + " " + userProfile.user_id + " " + userProfile.profile_image)
+
 
                         showCorrectSignUpDialog(token)
                     }

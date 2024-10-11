@@ -4,6 +4,7 @@ import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Beans.UserProfileSchema
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -24,4 +25,9 @@ interface PlaceHolder {
     ///api/v1/users/{email}
     @GET("api/v1/users/{email}")
     fun getUserByEmail(@Path("email") email: String): Call<UserProfile>
+
+    //DELETE
+    ///api/v1/users/{id}
+    @DELETE("api/v1/users/{id}")
+    fun deleteUser(@Path("id") id: Long): Void
 }

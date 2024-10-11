@@ -10,6 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.innovatech.peaceapp.GlobalToken
+import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.StartingPoint.Beans.User
@@ -57,6 +59,10 @@ class SignInActivity : AppCompatActivity() {
                     if(user?.username != null){
                         val intent = Intent(this@SignInActivity, MapActivity::class.java)
                         val token = user.token
+
+                        GlobalToken.setToken(token)
+                        GlobalUserEmail.setEmail(email)
+
                         intent.putExtra("token", token)
                         startActivity(intent)
                     }else {

@@ -6,5 +6,6 @@ data class UserProfileSchema(
     var phonenumber: String,
     var email: String,
     var password: String,
-    var user_id: String
+    var user_id: String,
+    var profile_image: String
 )

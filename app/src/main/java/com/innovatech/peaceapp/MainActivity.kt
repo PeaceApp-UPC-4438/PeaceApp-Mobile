@@ -6,7 +6,6 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.innovatech.peaceapp.Map.MapActivity
-import com.innovatech.peaceapp.Profile.ProfileMainDialogFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,10 +16,10 @@ class MainActivity : AppCompatActivity() {
         val btnPruebaProfile: Button = findViewById(R.id.btnPrueba)
         val btnMap: Button = findViewById(R.id.btnMap)
 
-        btnPruebaProfile.setOnClickListener {
-            val profileDialog = ProfileMainDialogFragment()
-            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
-        }
+//        btnPruebaProfile.setOnClickListener {
+//            val profileDialog = ProfileMainDialogFragment()
+//            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
+//        }
 
         btnMap.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
