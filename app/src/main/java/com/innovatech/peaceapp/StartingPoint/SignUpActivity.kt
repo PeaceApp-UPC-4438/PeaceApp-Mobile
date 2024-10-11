@@ -51,7 +51,8 @@ class SignUpActivity : AppCompatActivity() {
 
 
         btnSignUp.setOnClickListener {
-            saveUserCredentials()
+            if(validateSignUpFields())
+                saveUserCredentials()
         }
 
         btnSignIn.setOnClickListener{
@@ -185,4 +186,29 @@ class SignUpActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
+    private fun validateSignUpFields(): Boolean{
+        if(etName.text.isEmpty() || etLastName.text.isEmpty() || etPhone.text.isEmpty() || edtEmail.text.isEmpty() || edtPassword.text.isEmpty()){
+            showIncorrectSignUpDialog()
+            return false
+        }
+        return true
+    }
+
+    private fun showIncorrectSignUpDialog(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_incorrect_signup)
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+
+        btnContinue.setOnClickListener {
+            dialog.hide()
+        }
+
+        dialog.show()
+    }
+
+
 }
