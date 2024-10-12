@@ -39,6 +39,8 @@ android {
 dependencies {
     // MAPBOX [Para mostrar mapas]
     implementation("com.mapbox.maps:android:11.6.1")
+    // Search Mapbox
+    implementation("com.mapbox.search:mapbox-search-android-ui:2.5.0")
 
     // RETROFIT [Para consumir la api]
     implementation("com.squareup.retrofit2:retrofit:2.11.0")

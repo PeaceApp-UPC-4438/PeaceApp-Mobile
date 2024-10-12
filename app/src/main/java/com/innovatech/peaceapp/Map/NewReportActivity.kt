@@ -18,6 +18,7 @@ import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Beans.ReportSchema
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.mapbox.geojson.Point
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,15 +30,23 @@ class NewReportActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_new_report)
-        token = intent.getStringExtra("token")!!
 
+        // recovering the current location coordinates
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        val latitude = sharedPref.getString("latitude", "0.0")!!.toDouble()
+        val longitude = sharedPref.getString("longitude", "0.0")!!.toDouble()
+
+        token = intent.getStringExtra("token")!!
         val typeReport = intent.getStringExtra("type")
         // to show it in the console
-        Log.d("TypeReport", typeReport.toString())
         val txtTypeReport = findViewById<TextView>(R.id.txtTypeReport)
         txtTypeReport.text = typeReport.toString()
         val edtLatitude = findViewById<EditText>(R.id.edtLatitude)
         val edtLongitude = findViewById<EditText>(R.id.edtLongitude)
+
+        // setting the current location coordinates in the EditText
+        edtLatitude.setText(latitude.toString())
+        edtLongitude.setText(longitude.toString())
 
 
         val btnCancel = findViewById<Button>(R.id.btnCancel)
