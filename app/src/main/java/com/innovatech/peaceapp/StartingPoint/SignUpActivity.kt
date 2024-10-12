@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -37,6 +38,8 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var edtEmail:TextView
     private lateinit var edtPassword:TextView
 
+    private lateinit var ivEye:ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -60,6 +63,10 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        ivEye.setOnClickListener{
+            changePasswordVisibility()
+        }
+
     }
 
     private fun initComponents() {
@@ -70,6 +77,7 @@ class SignUpActivity : AppCompatActivity() {
         btnSignIn = findViewById(R.id.tv_log_in)
         edtEmail = findViewById(R.id.et_email)
         edtPassword = findViewById(R.id.et_password)
+        ivEye = findViewById(R.id.iv_eye)
     }
 
     private fun saveUserCredentials(){
@@ -235,6 +243,15 @@ class SignUpActivity : AppCompatActivity() {
 
         dialog.show()
     }
-
+    private fun changePasswordVisibility(){
+        if(edtPassword.inputType == 129){
+            edtPassword.inputType = 1
+            // change the icon
+            ivEye.setImageResource(R.drawable.ic_closed_eye)
+        }else{
+            edtPassword.inputType = 129
+            ivEye.setImageResource(R.drawable.ic_open_eye)
+        }
+    }
 
 }

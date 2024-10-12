@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +34,7 @@ class MainProfileActivity : AppCompatActivity() {
     private lateinit var btnEditProfile: MaterialButton
     private lateinit var btnDeleteAccount: TextView
     private lateinit var llLogout: LinearLayout
+    private lateinit var ivEye: ImageView
 
     private lateinit var token: String
     private lateinit var email: String
@@ -58,7 +60,6 @@ class MainProfileActivity : AppCompatActivity() {
 
     private fun initComponents() {
 
-
         tvName = findViewById(R.id.txt_user_name)
         tvEmail = findViewById(R.id.txt_user_email)
         tvPhone = findViewById(R.id.txt_user_phone)
@@ -67,6 +68,7 @@ class MainProfileActivity : AppCompatActivity() {
         btnEditProfile = findViewById(R.id.btnEditar)
         btnDeleteAccount = findViewById(R.id.tvEliminar)
         llLogout = findViewById(R.id.ll_logout)
+        ivEye = findViewById(R.id.iv_eye)
     }
 
     private fun loadUserData() {
@@ -83,7 +85,7 @@ class MainProfileActivity : AppCompatActivity() {
                             Log.i("andriush", userProfile.name+" "+userProfile.email+" " +
                                     ""+userProfile.phonenumber+" "+userProfile.password)
 
-                            tvName.text = userProfile.name
+                            tvName.text = userProfile.name + " " + userProfile.lastname
                             tvEmail.text = userProfile.email
                             tvPhone.text = userProfile.phonenumber
                             tvPassword.text = userProfile.password
@@ -111,7 +113,8 @@ class MainProfileActivity : AppCompatActivity() {
 
     private fun initListeners() {
         btnEditProfile.setOnClickListener {
-
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
         }
 
         llLogout.setOnClickListener {
@@ -122,6 +125,10 @@ class MainProfileActivity : AppCompatActivity() {
 //            Log.i("MUYBUENAS", "delete account clicked")
 //            showDeleteUserDialog()
 //        }
+
+        ivEye.setOnClickListener {
+            changePasswordVisibility()
+        }
     }
 
     private fun showDeleteUserDialog() {
@@ -167,4 +174,14 @@ class MainProfileActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun changePasswordVisibility(){
+        if(tvPassword.inputType == 129){
+            tvPassword.inputType = 1
+            // change the icon
+            ivEye.setImageResource(R.drawable.ic_closed_eye)
+        }else{
+            tvPassword.inputType = 129
+            ivEye.setImageResource(R.drawable.ic_open_eye)
+        }
+    }
 }

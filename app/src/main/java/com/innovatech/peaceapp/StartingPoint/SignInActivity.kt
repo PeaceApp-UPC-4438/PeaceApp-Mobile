@@ -3,8 +3,10 @@ package com.innovatech.peaceapp.StartingPoint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +26,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SignInActivity : AppCompatActivity() {
+
+    private lateinit var btnSignIn: Button
+    private lateinit var btnSignUp: TextView
+
+    private lateinit var edtEmail: TextView
+    private lateinit var edtPassword: TextView
+
+    private lateinit var ivEye: ImageView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,22 +46,35 @@ class SignInActivity : AppCompatActivity() {
             insets
         }
 
-        val btnSignIn = findViewById<Button>(R.id.btn_signin)
-        val btnSignUp = findViewById<TextView>(R.id.tv_create_account)
+        initComponents()
+        initListeners()
+    }
 
+    private fun initComponents() {
+        btnSignIn = findViewById<Button>(R.id.btn_signin)
+        btnSignUp = findViewById<TextView>(R.id.tv_create_account)
+        edtEmail = findViewById<TextView>(R.id.et_email)
+        edtPassword = findViewById<TextView>(R.id.et_password)
+        ivEye = findViewById<ImageView>(R.id.iv_eye)
+    }
+
+    private fun initListeners() {
         btnSignIn.setOnClickListener {
-            val edtEmail = findViewById<TextView>(R.id.et_email)
-            val edtPassword = findViewById<TextView>(R.id.et_password)
 
-            signIn(edtEmail.text.toString(), edtPassword.text.toString())
+            if(validateSignUpFields())
+                signIn(edtEmail.text.toString(), edtPassword.text.toString())
         }
 
         btnSignUp.setOnClickListener{
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
+        ivEye.setOnClickListener {
+            changePasswordVisibility()
+        }
     }
-    fun signIn(email:String, password:String){
+    private fun signIn(email:String, password:String){
         val service = RetrofitClient.placeHolder
 
         val user = UserAuth(email, password)
@@ -103,6 +128,25 @@ class SignInActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    private fun validateSignUpFields():Boolean{
+        if(edtEmail.text.isEmpty() || edtPassword.text.isEmpty()){
+            showIncorrectSignInDialog("Asegúrate de llenar todos los campos")
+            return false
+        }
+        return true
+    }
+
+    private fun changePasswordVisibility(){
+        if(edtPassword.inputType == 129){
+            edtPassword.inputType = 1
+            // change the icon
+            ivEye.setImageResource(R.drawable.ic_closed_eye)
+        }else{
+            edtPassword.inputType = 129
+            ivEye.setImageResource(R.drawable.ic_open_eye)
+        }
     }
 
 }
