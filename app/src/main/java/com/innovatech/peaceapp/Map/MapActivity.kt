@@ -73,7 +73,6 @@ class MapActivity : AppCompatActivity() {
     private lateinit var addressAutofillUiAdapter: AddressAutofillUiAdapter
     private var ignoreNextQueryTextUpdate: Boolean = false
     private lateinit var mapPin: View
-    private var contCallAutoFill: Int = 0
     private var coordinatesCurrentLocation: Point = Point.fromLngLat(0.0, 0.0)
     private var currentLocation: String = ""
     private var ignoreNextMapIdleEvent: Boolean = false
@@ -110,7 +109,10 @@ class MapActivity : AppCompatActivity() {
             AddressAutofillUiAdapter.SearchListener {
             override fun onSuggestionSelected(suggestion: AddressAutofillSuggestion) {
                 /* when is selected a suggestion, the address is shown in the search bar */
-                selectSuggestion(suggestion)
+
+                // ALERTA: Buscador con el autocompletado
+                // no descomentar, costo adicional
+                //selectSuggestion(suggestion)
             }
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {}
             override fun onError(e: Exception) {}
@@ -128,8 +130,8 @@ class MapActivity : AppCompatActivity() {
                 if (query != null) {
                     lifecycleScope.launchWhenStarted {
                         // ALERTA: AddressAutoFill
-                        Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
-                        addressAutofillUiAdapter.search(query) // this function is used to search the address
+                        //Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
+                        //addressAutofillUiAdapter.search(query) // this function is used to search the address
                     }
                 }
                 searchResultsView.isVisible = query != null
@@ -161,7 +163,8 @@ class MapActivity : AppCompatActivity() {
             // ALERTA: solo comentar para pruebas seguras y especificas, ya que consume mucho
             // cada vez que se mueve el mapa, se obtiene la dirección del centro
             // es un costo adicional
-            obtainNamePlace(center.longitude(), center.latitude())
+
+            //obtainNamePlace(center.longitude(), center.latitude())
 
             isUserInteracting = false
         }
@@ -180,35 +183,6 @@ class MapActivity : AppCompatActivity() {
             putString("latitude", coordinatesCurrentLocation.latitude().toString())
             putString("longitude", coordinatesCurrentLocation.longitude().toString())
             apply()
-        }
-    }
-
-    private fun findAddress(point: Point) {
-        lifecycleScope.launchWhenStarted {
-            if(contCallAutoFill % 100 != 0) return@launchWhenStarted // this for not to consume request innecesary
-
-            val response = addressAutofill.reverse(point, AddressAutofillOptions())
-            response.onValue { suggestions ->
-                Log.i("AddressAutofill FINDADDRESS", suggestions[0].toString())
-                if (suggestions.isNotEmpty()) {
-                    txtCurrentLocation.text = suggestions[0].suggestion.name
-                    coordinatesCurrentLocation = suggestions[0].suggestion.coordinate!!
-
-                    val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
-                    with(sharedPref.edit()) {
-                        putString("currentLocation", txtCurrentLocation.text.toString())
-                        putString("latitude", coordinatesCurrentLocation.latitude().toString())
-                        putString("longitude", coordinatesCurrentLocation.longitude().toString())
-                        apply()
-                    }
-
-                    Log.i("Suggestions", suggestions.toString())
-                }
-            }.onError {
-                //showToast(R.string.address_autofill_error_pin_correction)
-            }
-
-            contCallAutoFill++;
         }
     }
 
