@@ -1,7 +1,10 @@
 package com.innovatech.peaceapp.Map
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +16,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
@@ -157,7 +161,7 @@ class MapActivity : AppCompatActivity() {
             // ALERTA: solo comentar para pruebas seguras y especificas, ya que consume mucho
             // cada vez que se mueve el mapa, se obtiene la dirección del centro
             // es un costo adicional
-            //obtainNamePlace(center.longitude(), center.latitude())
+            obtainNamePlace(center.longitude(), center.latitude())
 
             isUserInteracting = false
         }
@@ -291,16 +295,13 @@ class MapActivity : AppCompatActivity() {
 
     private fun obtainAllLocations() {
         val service = RetrofitClient.getClient(token)
-        /*
-        var reports_locations = HashMap<Int, String>()
+        val reportsLocations = HashMap<Int, String>()
         service.getAllReports().enqueue(object: Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
                 val reports = response.body()
-                Log.i("ANDRIUSHINI", reports.toString())
-
                 if (reports != null) {
                     for(report in reports) {
-                        reports_locations[report.id] = report.type
+                        reportsLocations[report.id] = report.type
                     }
                 }
             }
@@ -309,21 +310,24 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error MAP", t.message.toString())
             }
         })
-           */
+
         service.getLocations().enqueue(object: Callback<List<Beans.Location>> {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
-                Log.i("ANDRIUSHINI", locations.toString())
-
                 if (locations != null) {
                     for (location in locations) {
+                        if(location.alatitude == 0.0 && location.alongitude == 0.0) continue
 
-                        Log.i("ANDRIUSHINI", "Location null" + location.alatitude.toString()+ " " + location.alongitude.toString()+ " " + location.idReport.toString())
-                        if(location.alatitude == 0.0 && location.alongitude == 0.0) {
-                            continue
+                        var typeReport = R.drawable.alert_marker
+                        when (reportsLocations[location.idReport]) {
+                            "Robo" -> typeReport = R.drawable.alert_marker
+                            "Accidente" -> typeReport = R.drawable.accident_marker
+                            "Falta de iluminación" -> typeReport = R.drawable.illumination_marker
+                            "Acoso" -> typeReport = R.drawable.acoso_marker
+                            "Otro" -> typeReport = R.drawable.other_marker
                         }
-                        Log.i("ANDRIUSHINI", location.toString())
-                        addMarker(location.alatitude, location.alongitude)
+
+                        addMarker(location.alatitude, location.alongitude, typeReport)
                     }
                 }
             }
@@ -335,17 +339,29 @@ class MapActivity : AppCompatActivity() {
 
     }
 
-    private fun addMarker(latitude: Double, longitude: Double) {
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.red_marker)
+    private fun addMarker(latitude: Double, longitude: Double, svgResId: Int) {
+        val drawable = AppCompatResources.getDrawable(this, svgResId)
+        val bitmap = drawableToBitmap(drawable!!)
+
         val point = Point.fromLngLat(longitude, latitude)
         val annotationApi = mapView.annotations
-
         val pointAnnotationManager = annotationApi.createPointAnnotationManager()
         val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
             .withPoint(point)
             .withIconImage(bitmap)
-            .withIconSize(1.2)
+            .withIconSize(0.5)
         pointAnnotationManager.create(pointAnnotationOptions)
+    }
+    private fun drawableToBitmap(drawable: Drawable): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     private fun locateCurrentPosition() {
