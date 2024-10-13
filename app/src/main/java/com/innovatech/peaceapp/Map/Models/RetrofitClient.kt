@@ -1,12 +1,13 @@
 package com.innovatech.peaceapp.Map.Models
 import com.innovatech.peaceapp.Map.Interfaces.PlaceHolder
+import com.innovatech.peaceapp.Map.Interfaces.PlaceHolderMapbox
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    const val BASE_URL = "http://192.168.1.54:8080/"
+    const val BASE_URL = "http://192.168.18.14:8080/"
 
     fun getClient(token: String): PlaceHolder {
         val client = OkHttpClient.Builder()
@@ -19,5 +20,21 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PlaceHolder::class.java)
+    }
+}
+
+object RetrofitClientMapbox {
+    const val BASE_URL = "https://api.mapbox.com/search/geocode/v6/"
+
+    fun getClient(): PlaceHolderMapbox {
+        val client = OkHttpClient.Builder()
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PlaceHolderMapbox::class.java)
     }
 }
