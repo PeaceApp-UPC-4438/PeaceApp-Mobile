@@ -32,9 +32,7 @@ import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
-import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.Map.Models.RetrofitClientMapbox
-import com.innovatech.peaceapp.Profile.ProfileMainDialogFragment
 import com.innovatech.peaceapp.R
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraChangedCallback
@@ -105,9 +103,6 @@ class MapActivity : AppCompatActivity() {
             val intent = Intent(this, MainProfileActivity::class.java)
             startActivity(intent)
 
-
-//            val profileDialog = ProfileMainDialogFragment()
-//            profileDialog.show(supportFragmentManager, "ProfileDialogFragment")
         }
 
 
