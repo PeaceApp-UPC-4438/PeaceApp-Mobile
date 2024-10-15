@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:id="@+id/iv_search"
+                    android:id="@+id/ivSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:src="@drawable/search_icon"
@@ -67,7 +67,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="25dp"/>
                 <EditText
-                    android:id="@+id/et_search"
+                    android:id="@+id/etSearch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -82,7 +82,7 @@
 
                     android:textSize="15sp"
                     android:textColor="@color/black"
-                    app:layout_constraintStart_toEndOf="@id/iv_search"
+                    app:layout_constraintStart_toEndOf="@id/ivSearch"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -93,23 +93,24 @@
             android:id="@+id/rv_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            android:paddingBottom="60dp"
+            android:paddingBottom="20dp"
 
             android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_search" />
+            app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_save_changes"
+        android:id="@+id/btnSaveChanges"
 
         tools:visibility="visible"
         android:visibility="invisible"

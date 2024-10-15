@@ -7,34 +7,35 @@
         app:cardElevation="8dp"
         app:cardCornerRadius="15dp"
         app:cardBackgroundColor="@color/white"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="horizontal"
             >
 
 
             <TextView
                 android:id="@+id/txtContactName"
-                android:layout_width="215dp"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
 
-                android:text="Contact name"
-                android:textSize="22sp"
-                android:paddingVertical="27dp"
-                android:paddingHorizontal="25dp"
                 android:fontFamily="@font/poppins_light"
+                android:paddingHorizontal="25dp"
+                android:text="Contact name"
                 android:textColor="@color/black"
-                />
+                android:textSize="15sp" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -45,7 +46,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="85dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="80dp">
                     <ImageView
                         android:id="@+id/contactImage"
 
@@ -73,7 +74,8 @@
 
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="5dp"
         app:buttonTint="@color/nav_item_unselected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
