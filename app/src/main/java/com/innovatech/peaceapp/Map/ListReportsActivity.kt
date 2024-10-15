@@ -115,7 +115,7 @@ class ListReportsActivity : AppCompatActivity() {
                 if(reports != null) {
                     for(report in reports) {
 
-                        if(report.image == null) report.image = "https://as1.ftcdn.net/v2/jpg/04/62/93/66/1000_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg"
+                        if(report.image == null) report.image = "https://res.cloudinary.com/dqawjz3ih/image/upload/v1728969083/image_default_eqfpgm.png"
 
                         listReports.add(
                             Report(
