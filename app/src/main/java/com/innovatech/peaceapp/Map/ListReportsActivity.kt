@@ -4,6 +4,7 @@ import Beans.Location
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -25,6 +26,8 @@ import retrofit2.Response
 
 class ListReportsActivity : AppCompatActivity() {
     lateinit var token: String
+    private var userId: Int = 0
+    private lateinit var btnNewReport: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +39,9 @@ class ListReportsActivity : AppCompatActivity() {
         val myReports: LinearLayout = findViewById(R.id.myReports)
         val txtAllReports: TextView = findViewById(R.id.txtAllReports)
         val txtMyReports: TextView = findViewById(R.id.txtMyReports)
-        val btnNewReport: Button = findViewById(R.id.btnNewReport)
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        btnNewReport = findViewById(R.id.btnNewReport)
+        userId = sharedPref.getInt("userId", 0)
 
         tabSelected(myReports, txtMyReports)
         tabUnselected(allReports, txtAllReports)
@@ -44,6 +49,8 @@ class ListReportsActivity : AppCompatActivity() {
 
         // Todos los reportes is selected
         allReports.setOnClickListener {
+            btnNewReport.visibility = View.GONE
+
             tabSelected(myReports, txtMyReports)
             tabUnselected(allReports, txtAllReports)
             obtainAllReports()
@@ -51,6 +58,8 @@ class ListReportsActivity : AppCompatActivity() {
 
         // Mis reportes is selected
         myReports.setOnClickListener {
+            btnNewReport.visibility = View.VISIBLE
+
             tabSelected(allReports, txtAllReports)
             tabUnselected(myReports, txtMyReports)
             obtainMyReports()
@@ -126,7 +135,8 @@ class ListReportsActivity : AppCompatActivity() {
                                 report.detail,
                                 report.title,
                                 report.type,
-                                report.image
+                                report.image,
+                                report.address
                             )
                         )
                     }
@@ -145,7 +155,6 @@ class ListReportsActivity : AppCompatActivity() {
 
     private fun obtainMyReports() {
         val service = RetrofitClient.getClient(token)
-        val userId = 2; // here will go the user id ANDIRUUUUUUUSHINI
 
         service.getMyReports(userId).enqueue(object: Callback<List<Report>> {
             override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
@@ -155,7 +164,7 @@ class ListReportsActivity : AppCompatActivity() {
                 if(reports != null) {
                     for(report in reports) {
 
-                        if(report.image == null) report.image = "https://as1.ftcdn.net/v2/jpg/04/62/93/66/1000_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg"
+                        if(report.image == null) report.image = "https://res.cloudinary.com/dqawjz3ih/image/upload/v1728969083/image_default_eqfpgm.png"
 
                         listReports.add(
                             Report(
@@ -166,7 +175,8 @@ class ListReportsActivity : AppCompatActivity() {
                                 report.detail,
                                 report.title,
                                 report.type,
-                                report.image
+                                report.image,
+                                report.address
                             )
                         )
                     }

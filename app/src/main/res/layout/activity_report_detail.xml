@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/view_background"
+    tools:context=".Map.ReportDetailActivity">
+
+    <TextView
+        android:id="@+id/txtTitleDetailReport"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="Reporte detallado"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scrollReportDetail"
+        android:layout_marginTop="40dp"
+        />
+    
+    <ScrollView
+        android:id="@+id/scrollReportDetail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/peaceapp_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:layout_marginTop="197dp"
+        >
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:background="@drawable/rounded_card_report_map"
+            android:orientation="vertical"
+            android:id="@+id/containerReporteDetallado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="30dp"
+            android:elevation="12dp"
+            android:paddingStart="30dp"
+        >
+
+            <TextView
+                android:id="@+id/txtTipoReporte"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tipo de reporte"
+                android:textSize="24sp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/imgReporte"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/image_report_not_found"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scaleType="fitXY"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                
+                <TextView
+                    android:id="@+id/txtUbicacionReporte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/txtFechaReporte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hora: hh:mm p.m."
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/txtDescripcionReporte"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@drawable/navigation_menu"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@drawable/nav_item_color"
+        app:itemBackground="@drawable/nav_item_background"
+        android:backgroundTint="@color/white"
+        android:backgroundTintMode="src_over"
+        app:itemRippleColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

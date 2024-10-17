@@ -65,6 +65,7 @@ class NewReportActivity : AppCompatActivity() {
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private lateinit var cloudinary: Cloudinary
     private lateinit var imgBitmap: Bitmap
+    private var userId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +86,7 @@ class NewReportActivity : AppCompatActivity() {
         val latitude = sharedPref.getString("latitude", "0.0")!!.toDouble()
         val longitude = sharedPref.getString("longitude", "0.0")!!.toDouble()
         val currentLocation = sharedPref.getString("currentLocation", "No location found")!!
+        userId = sharedPref.getInt("userId", 0)
 
         txtLocation.hint = currentLocation
         token = intent.getStringExtra("token")!!
@@ -101,7 +103,7 @@ class NewReportActivity : AppCompatActivity() {
 
             if(validateFields(title, detail)) {
                 lifecycleScope.launch {
-                    saveReport(title, detail, latitude, longitude, typeReport.toString())
+                    saveReport(title, detail, latitude, longitude, typeReport.toString(), currentLocation)
                 }
             }
         }
@@ -157,13 +159,13 @@ class NewReportActivity : AppCompatActivity() {
         bottomNavigationView.menu.findItem(R.id.nav_report).setChecked(true)
     }
 
-    private suspend fun saveReport(title: String, detail: String, latitude: Double, longitude: Double, typeReport: String) {
+    private suspend fun saveReport(title: String, detail: String, latitude: Double, longitude: Double, typeReport: String, currentLocation: String) {
         val service = RetrofitClient.getClient(token)
 
         val urlImage = uploadImage()
         Log.i("URL cloudinary", urlImage.toString())
 
-        val report = ReportSchema(title, detail, typeReport, 2, urlImage)
+        val report = ReportSchema(title, detail, typeReport, userId, urlImage, currentLocation)
         // obtain the id of the report created
 
         service.postReport(report).enqueue(object : Callback<Report> {
