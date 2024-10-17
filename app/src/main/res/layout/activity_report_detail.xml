@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollReportDetail"
         android:layout_marginTop="40dp"
         />
-    
+
     <ScrollView
         android:id="@+id/scrollReportDetail"
         android:layout_width="match_parent"
@@ -34,75 +34,95 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         android:layout_marginTop="197dp"
-        >
-        <LinearLayout
-            android:layout_margin="20dp"
-            android:background="@drawable/rounded_card_report_map"
-            android:orientation="vertical"
-            android:id="@+id/containerReporteDetallado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="30dp"
-            android:elevation="12dp"
-            android:paddingStart="30dp"
+
+        android:clipToPadding="false"
         >
 
-            <TextView
-                android:id="@+id/txtTipoReporte"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tipo de reporte"
-                android:textSize="24sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"/>
-
-            <ImageView
-                android:id="@+id/imgReporte"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/image_report_not_found"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:scaleType="fitXY"
-                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-                
-                <TextView
-                    android:id="@+id/txtUbicacionReporte"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ubicación"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/black"/>
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtFechaReporte"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hora: hh:mm p.m."
-                    android:textSize="16sp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textColor="@color/black"/>
+                    android:layout_height="35dp"/>
 
-                <TextView
-                    android:id="@+id/txtDescripcionReporte"
-                    android:layout_marginTop="10dp"
+                <LinearLayout
+                    android:layout_marginHorizontal="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Descripción"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textColor="@color/black"/>
+                    android:orientation="vertical"
+                    android:id="@+id/containerReporteDetallado"
+                    android:padding="30dp"
+                    android:background="@drawable/rounded_card_report_map"
+                    android:elevation="12dp"
+                    >
+                    <TextView
+                        android:id="@+id/txtTipoReporte"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tipo de reporte"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textColor="@color/black"/>
+
+
+                    <ImageView
+                        android:id="@+id/imgReporte"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:src="@drawable/image_report_not_found"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/txtUbicacionReporte"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicación"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/txtFechaReporte"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hora: hh:mm p.m."
+                            android:textSize="16sp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/txtDescripcionReporte"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Descripción"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
             </LinearLayout>
 
-        </LinearLayout>
+
+
     </ScrollView>
 
 
