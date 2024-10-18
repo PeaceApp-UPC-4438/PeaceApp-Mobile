@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.innovatech.peaceapp.Map.MapActivity
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
