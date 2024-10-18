@@ -13,9 +13,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -56,6 +58,8 @@ class NewReportActivity : AppCompatActivity() {
     private lateinit var imgEvidence: ImageView
     private lateinit var btnSave: Button
     private lateinit var btnCancel: Button
+    private lateinit var progressBar: ProgressBar
+    private lateinit var viewOverlay: View
     private val REQUEST_CODE_PERMISSIONS = 101
     private val REQUIRED_PERMISSIONS = arrayOf(
         android.Manifest.permission.CAMERA,
@@ -98,14 +102,26 @@ class NewReportActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
+            progressBar = findViewById(R.id.progressBar)
+            viewOverlay = findViewById(R.id.loadingOverlay)
+            progressBar.visibility = View.VISIBLE
+            viewOverlay.visibility = View.VISIBLE
+
             val title = edtTitle.text.toString()
             val detail = edtDetail.text.toString()
 
             if(validateFields(title, detail)) {
                 lifecycleScope.launch {
                     saveReport(title, detail, latitude, longitude, typeReport.toString(), currentLocation)
+                    progressBar.visibility = View.GONE
+                    viewOverlay.visibility = View.GONE
                 }
+            }else {
+                progressBar.visibility = View.GONE
+                viewOverlay.visibility = View.GONE
             }
+
+
         }
 
         configCloudinary()
@@ -263,16 +279,29 @@ class NewReportActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == REQUEST_CODE_IMAGE_PICKER && resultCode == Activity.RESULT_OK) {
+            // Caso de la galería
             val imageUri: Uri? = data?.data
             if (imageUri != null) {
-                showImgPreview(imageUri)
+                showImgPreviewFromUri(imageUri)
+            } else {
+                // Caso de la cámara
+                val imageBitmap = data?.extras?.get("data") as? Bitmap
+                if (imageBitmap != null) {
+                    showImgPreviewFromBitmap(imageBitmap)
+                }
             }
         }
     }
 
-    private fun showImgPreview(imageUri: Uri) {
+    private fun showImgPreviewFromUri(imageUri: Uri) {
         val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(imageUri))
+        imgEvidence.setImageBitmap(bitmap)
+        imgBitmap = bitmap
+    }
+
+    private fun showImgPreviewFromBitmap(bitmap: Bitmap) {
         imgEvidence.setImageBitmap(bitmap)
         imgBitmap = bitmap
     }
@@ -305,7 +334,7 @@ class NewReportActivity : AppCompatActivity() {
             return false
         }
 
-        if(imgEvidence.drawable == null) {
+        if(imgEvidence.drawable == null || !this::imgBitmap.isInitialized) {
             showIncorrectSignUpDialog("Asegúrate de subir una imagen")
             return false
         }

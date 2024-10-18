@@ -8,7 +8,6 @@
     android:background="@drawable/view_background"
     tools:context=".Map.NewReportActivity">
 
-
     <TextView
         android:id="@+id/txtTitleNewReport"
         android:layout_width="match_parent"
@@ -253,6 +252,31 @@
         app:itemRippleColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateTint="@color/white"
+        android:elevation="5dp"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:visibility="gone"
+        />
 
 
 

@@ -2,6 +2,7 @@ package com.innovatech.peaceapp.Map
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -22,6 +23,9 @@ class ReportDetailActivity : AppCompatActivity() {
     private lateinit var txtUbicacionReporte: TextView
     private lateinit var txtFechaReporte: TextView
     private lateinit var txtDescripcionReporte: TextView
+    private lateinit var btnSalirReporteDetallado: Button
+    private lateinit var txtTituloReporte: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,14 +43,22 @@ class ReportDetailActivity : AppCompatActivity() {
         txtUbicacionReporte = findViewById(R.id.txtUbicacionReporte)
         txtFechaReporte = findViewById(R.id.txtFechaReporte)
         txtDescripcionReporte = findViewById(R.id.txtDescripcionReporte)
+        btnSalirReporteDetallado = findViewById(R.id.btnSalirReporteDetallado)
+        txtTituloReporte = findViewById(R.id.txtTituloReporte)
+
+        btnSalirReporteDetallado.setOnClickListener {
+            finish()
+        }
+
         setReportData()
         navigationMenu()
     }
 
     private fun setReportData() {
+        txtTituloReporte.text = report.title
         txtTipoReporte.text = report.type
         txtUbicacionReporte.text = report.address
-        txtFechaReporte.text = report.createdAt
+        txtFechaReporte.text = report.createdAt.substring(0,10)
         txtDescripcionReporte.text = report.detail
         Picasso.get().load(report.image)
             .resize(300, 300)
