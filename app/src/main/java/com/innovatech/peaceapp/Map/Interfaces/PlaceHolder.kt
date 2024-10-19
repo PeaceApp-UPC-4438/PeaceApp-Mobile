@@ -6,6 +6,7 @@ import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Beans.ReportSchema
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -28,4 +29,7 @@ interface PlaceHolder {
 
     @POST("api/v1/reports/")
     fun postReport(@Body report: ReportSchema): Call<Report>
+
+    @DELETE("api/v1/reports/{id}")
+    fun deleteReport(@Path("id") id: Int): Call<Void>
 }
