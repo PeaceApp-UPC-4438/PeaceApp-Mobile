@@ -45,7 +45,7 @@
             android:id="@+id/tvCurrentLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avenida Los Eucaliptos 123"
+            android:text="Cargando ubicación..."
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
