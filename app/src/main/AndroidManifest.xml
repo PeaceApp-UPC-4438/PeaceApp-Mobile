@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,12 +19,58 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.PeaceApp"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31"
+        >
         <activity
-            android:name=".MainActivity"
+            android:name=".Profile.EditProfileActivity"
+            android:screenOrientation="portrait"
+
             android:exported="false" />
         <activity
-            android:name=".InitialActivity"
+            android:name=".Profile.MainProfileActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".Map.NewReportActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".Map.TypeReportsActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".Map.ListReportsActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".Map.MapActivity"
+            android:screenOrientation="portrait"
+
+            tools:targetApi="31" />
+        <activity
+            android:name=".StartingPoint.SignUpActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".StartingPoint.SignInActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+
+            android:exported="false" />
+        <activity
+            android:name=".StartingPoint.InitialActivity"
+            android:screenOrientation="portrait"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

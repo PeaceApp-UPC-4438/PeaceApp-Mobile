@@ -1,4 +1,7 @@
-package Beans
+package com.innovatech.peaceapp.StartingPoint.Beans
 
-class User {
-}
+data class User(
+    var id:Int,
+    var username:String,
+    var roles:List<String>
+)
