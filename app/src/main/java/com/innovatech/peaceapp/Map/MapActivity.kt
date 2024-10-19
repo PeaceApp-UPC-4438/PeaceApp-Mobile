@@ -19,6 +19,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -27,6 +28,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.innovatech.peaceapp.Alert.AlertActivity
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.Profile.MainProfileActivity
@@ -89,7 +91,15 @@ class MapActivity : AppCompatActivity() {
 
         var tk = GlobalToken
         Log.i("Token", tk.token.toString())
+// Find the ImageView (warning button) by its ID
+        val warningButton = findViewById<ImageView>(R.id.iconImage)
 
+        // Set an OnClickListener to handle the click
+        warningButton.setOnClickListener {
+            // Start AlertActivity
+            val intent = Intent(this, AlertActivity::class.java)
+            startActivity(intent)
+        }
         addressAutofill = AddressAutofill.create(locationProvider = null)
         searchLocation = findViewById(R.id.searchLocation)
         searchResultsView = findViewById(R.id.search_results_view)
