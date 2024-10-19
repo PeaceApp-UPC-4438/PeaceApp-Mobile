@@ -1,19 +1,26 @@
 package com.innovatech.peaceapp.Alert.Beans
 
 class Alert {
-    var id:Int = 0  // Default value for id
-    var title:String
-    var location:String
-    var time:String
-    constructor(id: Int,title: String, location: String, time: String){
-        this.id=id
-        this.title=title
-        this.location=location
-        this.time=time
+    var id: Int = 0  // Default value for id
+    var location: String
+    var type: String
+    var description: String?
+    var idUser: Long
+
+    // Constructor with id (for cases where the Alert is already created)
+    constructor(id: Int, location: String, type: String, description: String?, idUser: Long) {
+        this.id = id
+        this.location = location
+        this.type = type
+        this.description = description
+        this.idUser = idUser
     }
-    constructor(title: String, location: String, time: String){
-        this.title=title
-        this.location=location
-        this.time=time
+
+    // Constructor without id (for new alerts being created)
+    constructor(location: String, type: String, description: String?, idUser: Long) {
+        this.location = location
+        this.type = type
+        this.description = description
+        this.idUser = idUser
     }
 }
