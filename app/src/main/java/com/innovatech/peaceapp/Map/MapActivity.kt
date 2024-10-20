@@ -90,23 +90,28 @@ class MapActivity : AppCompatActivity() {
     private var userId: Int = 0
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
-        userId = sharedPref.getInt("userId", 0)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_map)
 
+        // Example function that updates the alert counter
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        userId = sharedPref.getInt("userId", 0)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_map)
         var tk = GlobalToken
         Log.i("Token", tk.token.toString())
 // In MapActivity - pass the current location to AlertActivity when the alert button is pressed
         val warningButton = findViewById<ImageView>(R.id.iconImage)
         warningButton.setOnClickListener {
-            // Start AlertActivity and pass the current location
+
+            // Start the AlertActivity as before
             val intent = Intent(this, AlertActivity::class.java)
             intent.putExtra("currentLocation", currentLocation) // Pass the current location
             startActivity(intent)
         }
+
 
         addressAutofill = AddressAutofill.create(locationProvider = null)
         searchLocation = findViewById(R.id.searchLocation)
@@ -205,7 +210,6 @@ class MapActivity : AppCompatActivity() {
         setupMap()
         navigationMenu()
     }
-
     private fun sharedGlobalCoordinates() {
         val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -533,7 +537,6 @@ class MapActivity : AppCompatActivity() {
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return earthRadius * c
     }
-
     // Function to check proximity to reports and create alerts if needed
     private fun checkProximityToReports(userLat: Double, userLon: Double) {
         val radius = 0.5 // Radius in kilometers (0.5km = 500 meters)
@@ -543,6 +546,8 @@ class MapActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
                 if (locations != null) {
+                    var nearbyAlertCount = 0 // To count how many alerts are within the radius
+
                     for (location in locations) {
                         if (location.alatitude == 0.0 && location.alongitude == 0.0) continue
 
@@ -554,12 +559,20 @@ class MapActivity : AppCompatActivity() {
                         // Calculate the distance to the user
                         val distance = calculateDistance(userLat, userLon, location.alatitude, location.alongitude)
                         if (distance <= radius) {
-                            // Create a new alert
+                            // Increment the count of alerts in proximity
+                            nearbyAlertCount++
+
+                            // Create a new alert for each location within the radius
                             createNewAlert(location)
 
                             // Mark this report as processed
                             processedReports.add(location.idReport)
                         }
+                    }
+
+                    // Only show a popup if more than one alert was detected
+                    if (nearbyAlertCount > 1) {
+                        showAlertPopupForMultipleAlerts(nearbyAlertCount)
                     }
                 }
             }
@@ -605,12 +618,6 @@ class MapActivity : AppCompatActivity() {
                             if (!exists) {
                                 // Post the alert only if it doesn't exist
                                 postAlert(alertSchema)
-
-                                // Show popup for the first-time alert
-                                if (!popupTriggeredReports.contains(location.idReport)) {
-                                    showAlertPopup(report)
-                                    popupTriggeredReports.add(location.idReport)
-                                }
                             } else {
                                 Log.i("Alert", "Duplicate alert found, skipping creation.")
                             }
@@ -654,15 +661,14 @@ class MapActivity : AppCompatActivity() {
         })
     }
 
-    // Function to show an alert popup
-    private fun showAlertPopup(report: Report) {
+    // Function to show a popup when multiple alerts are detected
+    private fun showAlertPopupForMultipleAlerts(alertCount: Int) {
         val alertDialog = android.app.AlertDialog.Builder(this)
-        alertDialog.setTitle("New Alert Created")
-        alertDialog.setMessage("An alert for '${report.title}' has been created.")
+        alertDialog.setTitle("Alerta Detectada")
+        alertDialog.setMessage("Se han detectado $alertCount alertas en la zona.")
         alertDialog.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
         alertDialog.show()
     }
-
     // Function to post an alert
     private fun postAlert(alertSchema: AlertSchema) {
         val service = RetrofitClient.getClient(token)
@@ -675,17 +681,16 @@ class MapActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Log.i("Alert", "New alert posted successfully.")
                 } else {
-                    // Debugging: Log detailed error response from the server
                     Log.e("Alert Error", "Failed to post alert: ${response.errorBody()?.string()}")
-                    Log.e("Alert Error", "Response code: ${response.code()}")
                 }
             }
 
+
             override fun onFailure(call: Call<Alert>, t: Throwable) {
-                // Debugging: Log the failure
                 Log.e("Alert Error", "Error posting alert: ${t.message}")
             }
         })
+
     }
 
 }
