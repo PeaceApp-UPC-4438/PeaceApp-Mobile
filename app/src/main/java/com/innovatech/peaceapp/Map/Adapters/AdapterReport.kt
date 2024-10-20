@@ -17,6 +17,6 @@ class AdapterReport(val reportsList: List<Report>) : RecyclerView.Adapter<Report
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
         val item = reportsList[position]
-        holder.render(item)
+        holder.bind(item)
     }
 }
