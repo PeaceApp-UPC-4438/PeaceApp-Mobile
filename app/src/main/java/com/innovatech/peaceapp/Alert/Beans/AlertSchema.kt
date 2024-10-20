@@ -4,5 +4,6 @@ data class AlertSchema(
     var location: String,
     var type: String,
     var description: String?, // Optional field
-    var idUser: Long
+    var idUser: Int,
+    var image_url: String? // New field for image URL
 )
