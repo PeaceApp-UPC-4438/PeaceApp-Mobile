@@ -25,18 +25,3 @@ object RetrofitClient {
             .create(PlaceHolder::class.java) // Crea el cliente con la interfaz de alertas
     }
 }
-object RetrofitClientMapbox {
-    const val BASE_URL = "https://api.mapbox.com/search/geocode/v6/"
-
-    fun getClient(): PlaceHolderMapbox {
-        val client = OkHttpClient.Builder()
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(PlaceHolderMapbox::class.java)
-    }
-}

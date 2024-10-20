@@ -139,7 +139,7 @@ class MapActivity : AppCompatActivity() {
 
                 // ALERTA: Buscador con el autocompletado
                 // no descomentar, costo adicional
-                //selectSuggestion(suggestion)
+                selectSuggestion(suggestion)
             }
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {}
             override fun onError(e: Exception) {}
@@ -157,8 +157,8 @@ class MapActivity : AppCompatActivity() {
                 if (query != null) {
                     lifecycleScope.launchWhenStarted {
                         // ALERTA: AddressAutoFill
-                        //Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
-                        //addressAutofillUiAdapter.search(query) // this function is used to search the address
+                        Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
+                        addressAutofillUiAdapter.search(query) // this function is used to search the address
                     }
                 }
                 searchResultsView.isVisible = query != null
@@ -191,7 +191,7 @@ class MapActivity : AppCompatActivity() {
             // cada vez que se mueve el mapa, se obtiene la dirección del centro
             // es un costo adicional
 
-            //obtainNamePlace(center.longitude(), center.latitude())
+            obtainNamePlace(center.longitude(), center.latitude())
 
             isUserInteracting = false
         }
@@ -584,7 +584,8 @@ class MapActivity : AppCompatActivity() {
                             type = report.type,
                             description = report.detail, // Optional description
                             idUser = report.idUser,
-                            image_url = report.image // Pass the image URL if available, otherwise set to null
+                            image_url = report.image, // Pass the image URL if available, otherwise set to null
+                            idReport =report.id
                         )
 
                         // Check if an identical alert exists before posting

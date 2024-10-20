@@ -44,7 +44,6 @@ class AlertActivity : AppCompatActivity() {
         // Make the API call to fetch alerts
         api.getAllAlerts().enqueue(object : Callback<List<Alert>> {
             override fun onResponse(call: Call<List<Alert>>, response: Response<List<Alert>>) {
-                if (response.isSuccessful) {
                     val alerts = response.body()
                     Log.d("AlertActivity", "Fetched alerts: $alerts") // Log to confirm data
                     if (alerts != null) {
@@ -52,9 +51,6 @@ class AlertActivity : AppCompatActivity() {
                     } else {
                         txtCurrentLocation.text = "No alerts available"
                     }
-                } else {
-                    txtCurrentLocation.text = "Failed to load alerts"
-                }
             }
 
             override fun onFailure(call: Call<List<Alert>>, t: Throwable) {
@@ -64,6 +60,7 @@ class AlertActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(alerts: List<Alert>) {
-        recyclerView.adapter = AlertAdapter(alerts)
+        recyclerView.adapter = AlertAdapter(alerts){}
     }
+
 }
