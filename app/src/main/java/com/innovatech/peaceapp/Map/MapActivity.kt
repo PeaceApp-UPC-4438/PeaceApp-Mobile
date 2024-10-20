@@ -1,19 +1,19 @@
 package com.innovatech.peaceapp.Map
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.Settings.Global
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,27 +21,20 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Alert.AlertActivity
 import com.innovatech.peaceapp.GlobalToken
-import com.innovatech.peaceapp.Map.Models.RetrofitClient
-import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
+import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.Map.Models.RetrofitClientMapbox
+import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.R
 import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
-import com.mapbox.maps.extension.style.expressions.dsl.generated.switchCase
-import com.mapbox.maps.plugin.LocationPuck
 import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.annotation.annotations
@@ -54,7 +47,6 @@ import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.maps.plugin.logo.logo
 import com.mapbox.maps.plugin.scalebar.scalebar
 import com.mapbox.search.autofill.AddressAutofill
-import com.mapbox.search.autofill.AddressAutofillOptions
 import com.mapbox.search.autofill.AddressAutofillResult
 import com.mapbox.search.autofill.AddressAutofillSuggestion
 import com.mapbox.search.autofill.Query
@@ -65,7 +57,7 @@ import com.mapbox.search.ui.view.SearchResultsView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
+
 
 class MapActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
@@ -83,6 +75,10 @@ class MapActivity : AppCompatActivity() {
     private var isUserInteracting: Boolean = false
     private lateinit var userProfile: ImageView
     private var c: Int = 0
+    private var expandArrow: ImageView? = null
+    private var isKeyboardVisible = false
+    private var isExpanded = false
+    private lateinit var searchBox: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,6 +104,9 @@ class MapActivity : AppCompatActivity() {
         token = intent.getStringExtra("token")!!
         mapView = findViewById(R.id.mapView)
         userProfile = findViewById(R.id.userPhoto)
+        searchBox = findViewById(R.id.container_search);
+        expandArrow = findViewById(R.id.expand_arrow);
+
         userProfile.setOnClickListener {
 
             val intent = Intent(this, MainProfileActivity::class.java)
@@ -188,6 +187,7 @@ class MapActivity : AppCompatActivity() {
         }
 
 
+        listenKeyboard()
         locateCurrentPosition()
         obtainAllLocations()
         setupMap()
@@ -445,5 +445,65 @@ class MapActivity : AppCompatActivity() {
         mapView.attribution.updateSettings {
             enabled = false
         }
+    }
+
+    private fun listenKeyboard() {
+        val mainLayout = findViewById<ConstraintLayout>(R.id.main)
+        mainLayout.viewTreeObserver.addOnGlobalLayoutListener {
+            val r = Rect()
+            mainLayout.getWindowVisibleDisplayFrame(r)
+            val screenHeight = mainLayout.rootView.height
+            val keypadHeight = screenHeight - r.bottom
+            if (keypadHeight > screenHeight * 0.15) {
+                // Teclado visible, expandir caja de búsqueda
+                if (!isKeyboardVisible) {
+                    expandSearchBox()
+                    isKeyboardVisible = true
+                }
+            } else {
+                // Teclado no visible, contraer caja de búsqueda
+                if (isKeyboardVisible) {
+                    collapseSearchBox()
+                    isKeyboardVisible = false
+                }
+            }
+        }
+
+        expandArrowManually()
+    }
+
+    private fun expandArrowManually() {
+        expandArrow!!.setOnClickListener { v: View? ->
+            if (isExpanded) {
+                collapseSearchBox()
+            } else {
+                expandSearchBox()
+            }
+            isExpanded = !isExpanded
+        }
+    }
+
+    private fun expandSearchBox() {
+        val animator = ValueAnimator.ofInt(searchBox.height, 800) // Expande a 400dp
+        animator.addUpdateListener { valueAnimator: ValueAnimator ->
+            val `val` = valueAnimator.animatedValue as Int
+            searchBox.layoutParams.height = `val`
+            searchBox.requestLayout()
+        }
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.setDuration(300)
+        animator.start()
+    }
+
+    private fun collapseSearchBox() {
+        val animator = ValueAnimator.ofInt(searchBox.height, 120) // Contrae a 120dp
+        animator.addUpdateListener { valueAnimator: ValueAnimator ->
+            val `val` = valueAnimator.animatedValue as Int
+            searchBox.layoutParams.height = `val`
+            searchBox.requestLayout()
+        }
+        animator.interpolator = AccelerateDecelerateInterpolator()
+        animator.setDuration(300)
+        animator.start()
     }
 }

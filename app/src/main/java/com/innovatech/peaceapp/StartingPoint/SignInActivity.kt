@@ -86,6 +86,12 @@ class SignInActivity : AppCompatActivity() {
                         val intent = Intent(this@SignInActivity, MapActivity::class.java)
                         val token = user.token
 
+                        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+                        with(sharedPref.edit()) {
+                            putInt("userId", user.id)
+                            apply()
+                        }
+
                         GlobalToken.setToken(token)
                         GlobalUserEmail.setEmail(email)
 

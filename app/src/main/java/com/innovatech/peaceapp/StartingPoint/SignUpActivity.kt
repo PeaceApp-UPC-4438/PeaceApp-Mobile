@@ -115,6 +115,13 @@ class SignUpActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user?.username != null) {
+                        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+                        with(sharedPref.edit()) {
+                            putString("userId", user.id.toString())
+                            apply()
+                        }
+
+
                         GlobalToken.setToken(user.token)
 
                         Log.i("Token", user.token.toString())

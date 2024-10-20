@@ -43,9 +43,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:background="@drawable/rounded_top_corners_map"
             app:layout_constraintBottom_toBottomOf="@+id/mapCard"
-            app:layout_constraintStart_toStartOf="@+id/mapCard"
-            android:background="@drawable/rounded_top_corners_map"/>
+            app:layout_constraintStart_toStartOf="@+id/mapCard" />
 
         <View
             android:layout_width="match_parent"
@@ -140,6 +140,14 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/expand_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/up_arrow_icon"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
