@@ -25,6 +25,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Alert.AlertActivity
+import com.innovatech.peaceapp.Alert.Beans.Alert
+import com.innovatech.peaceapp.Alert.Beans.AlertSchema
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
@@ -57,6 +59,10 @@ import com.mapbox.search.ui.view.SearchResultsView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 
 class MapActivity : AppCompatActivity() {
@@ -79,6 +85,9 @@ class MapActivity : AppCompatActivity() {
     private var isKeyboardVisible = false
     private var isExpanded = false
     private lateinit var searchBox: CardView
+    private val processedReports = mutableSetOf<Int>() // This will store the ID of the reports that have already triggered an alert.
+    private val popupTriggeredReports = mutableSetOf<Int>() // Tracks reports that have triggered a popup
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +103,7 @@ class MapActivity : AppCompatActivity() {
         warningButton.setOnClickListener {
             // Start AlertActivity
             val intent = Intent(this, AlertActivity::class.java)
+            intent.putExtra("currentLocation", currentLocation) // Pass the current location
             startActivity(intent)
         }
         addressAutofill = AddressAutofill.create(locationProvider = null)
@@ -306,6 +316,7 @@ class MapActivity : AppCompatActivity() {
         service.getLocations().enqueue(object: Callback<List<Beans.Location>> {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
+                Log.d("MapActivity", "Locations: $locations") // Log the locations
                 if (locations != null) {
                     for (location in locations) {
                         if(location.alatitude == 0.0 && location.alongitude == 0.0) continue
@@ -357,7 +368,6 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun locateCurrentPosition() {
-        // verify if the location permission is granted
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -371,7 +381,6 @@ class MapActivity : AppCompatActivity() {
             return
         }
 
-        // load the current location in the map
         val locationComponentPlugin: LocationComponentPlugin = mapView.location
         locationComponentPlugin.updateSettings {
             enabled = true
@@ -382,7 +391,7 @@ class MapActivity : AppCompatActivity() {
             )
         }
 
-        locationComponentPlugin.addOnIndicatorPositionChangedListener{ point ->
+        locationComponentPlugin.addOnIndicatorPositionChangedListener { point ->
             val latitude = point.latitude()
             val longitude = point.longitude()
 
@@ -392,8 +401,12 @@ class MapActivity : AppCompatActivity() {
                 sharedGlobalCoordinates()
                 c++
             }
+
+            // Check proximity to reports
+            checkProximityToReports(latitude, longitude)
         }
     }
+
 
     private fun obtainNamePlace(longitude: Double, latitude: Double) {
         // obtaining the name of the current location
@@ -404,12 +417,12 @@ class MapActivity : AppCompatActivity() {
                 val place = response.body()
                 Log.i("Place", place.toString())
 
-                // set the name of the current location in the text view
+                // Set the name of the current location
                 currentLocation = place?.features?.get(0)?.properties?.name_preferred.toString()
                 coordinatesCurrentLocation = Point.fromLngLat(longitude, latitude)
                 txtCurrentLocation.text = currentLocation
 
-                sharedGlobalCoordinates()
+                sharedGlobalCoordinates() // Store coordinates if needed
             }
 
             override fun onFailure(call: Call<PropertiesPlace>, t: Throwable) {
@@ -417,6 +430,7 @@ class MapActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun moveCamera(longitude: Double, latitude: Double) {
         mapView.camera.easeTo(
@@ -506,4 +520,158 @@ class MapActivity : AppCompatActivity() {
         animator.setDuration(300)
         animator.start()
     }
+    // Function to calculate the distance between two coordinates
+    private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val earthRadius = 6371.0 // Radius of the Earth in kilometers
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = sin(dLat / 2) * sin(dLat / 2) +
+                cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
+                sin(dLon / 2) * sin(dLon / 2)
+        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        return earthRadius * c
+    }
+
+    // Function to check proximity to reports and create alerts if needed
+    private fun checkProximityToReports(userLat: Double, userLon: Double) {
+        val radius = 0.5 // Radius in kilometers (0.5km = 500 meters)
+        val service = RetrofitClient.getClient(token)
+
+        service.getLocations().enqueue(object : Callback<List<Beans.Location>> {
+            override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
+                val locations = response.body()
+                if (locations != null) {
+                    for (location in locations) {
+                        if (location.alatitude == 0.0 && location.alongitude == 0.0) continue
+
+                        // Check if the report was already processed
+                        if (processedReports.contains(location.idReport)) {
+                            continue // Skip if alert was already created for this report
+                        }
+
+                        // Calculate the distance to the user
+                        val distance = calculateDistance(userLat, userLon, location.alatitude, location.alongitude)
+                        if (distance <= radius) {
+                            // Create a new alert
+                            createNewAlert(location)
+
+                            // Mark this report as processed
+                            processedReports.add(location.idReport)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Beans.Location>>, t: Throwable) {
+                Log.e("Error", "Failed to fetch locations: ${t.message}")
+            }
+        })
+    }
+
+    // Function to create a new alert if one doesn't already exist
+    private fun createNewAlert(location: Beans.Location) {
+        // Fetch the report details based on idReport
+        val service = RetrofitClient.getClient(token)
+        service.getAllReports().enqueue(object : Callback<List<Report>> {
+            override fun onResponse(call: Call<List<Report>>, response: Response<List<Report>>) {
+                val reports = response.body()
+                if (reports != null) {
+                    val report = reports.find { it.id == location.idReport }
+                    if (report != null) {
+                        // Create the AlertSchema object
+                        val alertSchema = AlertSchema(
+                            location = report.address,
+                            type = report.type,
+                            description = report.detail, // Optional description
+                            idUser = report.idUser,
+                            image_url = report.image // Pass the image URL if available, otherwise set to null
+                        )
+
+                        // Check if an identical alert exists before posting
+                        checkForDuplicateAlert(alertSchema) { exists ->
+                            if (!exists) {
+                                // Post the alert only if it doesn't exist
+                                postAlert(alertSchema)
+
+                                // Show popup for the first-time alert
+                                if (!popupTriggeredReports.contains(location.idReport)) {
+                                    showAlertPopup(report)
+                                    popupTriggeredReports.add(location.idReport)
+                                }
+                            } else {
+                                Log.i("Alert", "Duplicate alert found, skipping creation.")
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Report>>, t: Throwable) {
+                Log.e("Error", "Failed to fetch reports: ${t.message}")
+            }
+        })
+    }
+
+    // Function to check for duplicate alerts based on the id or alert schema
+    private fun checkForDuplicateAlert(alertSchema: AlertSchema, callback: (exists: Boolean) -> Unit) {
+        val service = RetrofitClient.getClient(token)
+
+        // Query to get all alerts for the user
+        service.getAllAlerts().enqueue(object : Callback<List<Alert>> {
+            override fun onResponse(call: Call<List<Alert>>, response: Response<List<Alert>>) {
+                val alerts = response.body()
+                if (alerts != null) {
+                    // Check if any alert matches the current alert schema or has the same id
+                    val duplicateAlert = alerts.find {
+                                (it.location == alertSchema.location &&
+                                        it.type == alertSchema.type &&
+                                        it.description == alertSchema.description)
+                    }
+                    callback(duplicateAlert != null) // Return true if duplicate is found, else false
+                } else {
+                    callback(false) // No alerts, so no duplicates
+                }
+            }
+
+            override fun onFailure(call: Call<List<Alert>>, t: Throwable) {
+                Log.e("Error", "Failed to fetch alerts: ${t.message}")
+                callback(false) // On failure, assume no duplicates
+            }
+        })
+    }
+
+    // Function to show an alert popup
+    private fun showAlertPopup(report: Report) {
+        val alertDialog = android.app.AlertDialog.Builder(this)
+        alertDialog.setTitle("New Alert Created")
+        alertDialog.setMessage("An alert for '${report.title}' has been created.")
+        alertDialog.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+        alertDialog.show()
+    }
+
+    // Function to post an alert
+    private fun postAlert(alertSchema: AlertSchema) {
+        val service = RetrofitClient.getClient(token)
+
+        // Debugging: Log the alertSchema before posting it
+        Log.d("AlertSchema", "Posting alert: $alertSchema")
+
+        service.postAlert(alertSchema).enqueue(object : Callback<Alert> {
+            override fun onResponse(call: Call<Alert>, response: Response<Alert>) {
+                if (response.isSuccessful) {
+                    Log.i("Alert", "New alert posted successfully.")
+                } else {
+                    // Debugging: Log detailed error response from the server
+                    Log.e("Alert Error", "Failed to post alert: ${response.errorBody()?.string()}")
+                    Log.e("Alert Error", "Response code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Alert>, t: Throwable) {
+                // Debugging: Log the failure
+                Log.e("Alert Error", "Error posting alert: ${t.message}")
+            }
+        })
+    }
+
 }

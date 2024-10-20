@@ -2,6 +2,8 @@ package com.innovatech.peaceapp.Map.Interfaces
 
 import Beans.Location
 import Beans.LocationSchema
+import com.innovatech.peaceapp.Alert.Beans.Alert
+import com.innovatech.peaceapp.Alert.Beans.AlertSchema
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Beans.ReportSchema
 import retrofit2.Call
@@ -32,4 +34,12 @@ interface PlaceHolder {
 
     @DELETE("api/v1/reports/{id}")
     fun deleteReport(@Path("id") id: Int): Call<Void>
+    @POST("api/v1/alerts/")
+    fun postAlert(@Body alertSchema: AlertSchema): Call<Alert>
+    // New method to get all alerts
+    @GET("api/v1/alerts/")
+    fun getAllAlerts(): Call<List<Alert>>
+    @DELETE("api/v1/alerts/")
+    fun deleteAllAlerts(): Call<Void>
+
 }
