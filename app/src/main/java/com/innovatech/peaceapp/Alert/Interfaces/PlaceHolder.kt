@@ -32,4 +32,8 @@ interface PlaceHolder {
 
     @GET("api/v1/locations/")
     fun getAllLocations(): Call<List<Location>>
+    // Add a new method to fetch alerts by location
+    @GET("api/v1/alerts/location")
+    fun getAlertsByLocation(@retrofit2.http.Query("location") location: String): Call<List<Alert>>
+
 }

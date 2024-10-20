@@ -87,25 +87,27 @@ class MapActivity : AppCompatActivity() {
     private lateinit var searchBox: CardView
     private val processedReports = mutableSetOf<Int>() // This will store the ID of the reports that have already triggered an alert.
     private val popupTriggeredReports = mutableSetOf<Int>() // Tracks reports that have triggered a popup
+    private var userId: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        userId = sharedPref.getInt("userId", 0)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_map)
 
         var tk = GlobalToken
         Log.i("Token", tk.token.toString())
-// Find the ImageView (warning button) by its ID
+// In MapActivity - pass the current location to AlertActivity when the alert button is pressed
         val warningButton = findViewById<ImageView>(R.id.iconImage)
-
-        // Set an OnClickListener to handle the click
         warningButton.setOnClickListener {
-            // Start AlertActivity
+            // Start AlertActivity and pass the current location
             val intent = Intent(this, AlertActivity::class.java)
             intent.putExtra("currentLocation", currentLocation) // Pass the current location
             startActivity(intent)
         }
+
         addressAutofill = AddressAutofill.create(locationProvider = null)
         searchLocation = findViewById(R.id.searchLocation)
         searchResultsView = findViewById(R.id.search_results_view)
@@ -567,9 +569,19 @@ class MapActivity : AppCompatActivity() {
             }
         })
     }
-
-    // Function to create a new alert if one doesn't already exist
     private fun createNewAlert(location: Beans.Location) {
+        // Retrieve userId from Shared Preferences
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        val userId = sharedPref.getInt("userId", 0) // Default to 0 if not found
+
+// Log the retrieved userId to check if it's correct
+        Log.i("Alert", "Retrieved User ID: $userId")
+
+        if (userId == 0) {
+            Log.e("Alert", "User ID not found in shared preferences.")
+            return // Abort if userId is not found
+        }
+
         // Fetch the report details based on idReport
         val service = RetrofitClient.getClient(token)
         service.getAllReports().enqueue(object : Callback<List<Report>> {
@@ -578,14 +590,14 @@ class MapActivity : AppCompatActivity() {
                 if (reports != null) {
                     val report = reports.find { it.id == location.idReport }
                     if (report != null) {
-                        // Create the AlertSchema object
+                        // Create the AlertSchema object with userId
                         val alertSchema = AlertSchema(
                             location = report.address,
                             type = report.type,
                             description = report.detail, // Optional description
-                            idUser = report.idUser,
+                            idUser = userId,  // Use the retrieved userId here
                             image_url = report.image, // Pass the image URL if available, otherwise set to null
-                            idReport =report.id
+                            idReport = report.id
                         )
 
                         // Check if an identical alert exists before posting
@@ -612,6 +624,7 @@ class MapActivity : AppCompatActivity() {
             }
         })
     }
+
 
     // Function to check for duplicate alerts based on the id or alert schema
     private fun checkForDuplicateAlert(alertSchema: AlertSchema, callback: (exists: Boolean) -> Unit) {
