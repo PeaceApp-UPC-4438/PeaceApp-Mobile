@@ -40,31 +40,29 @@ class AlertActivity : AppCompatActivity() {
         txtCurrentLocation.text = currentLocation
 
         // Fetch and display alerts for the current location when the user presses the alert button
-        fetchAlertsForLocation(currentLocation)
+        fetchAlertsForUser(userId)
     }
 
     // Method to fetch alerts for a specific location
-    private fun fetchAlertsForLocation(location: String) {
+// Method to fetch alerts for a specific user
+    private fun fetchAlertsForUser(userId: Int) {
         val api = RetrofitClient.getClient(token)
 
-        // Make the API call to fetch alerts for the specific location
-        api.getAllAlerts().enqueue(object : Callback<List<Alert>> {
+        // Make the API call to fetch alerts for the specific userId
+        api.getAlertsByUser(userId).enqueue(object : Callback<List<Alert>> {
             override fun onResponse(call: Call<List<Alert>>, response: Response<List<Alert>>) {
                 val alerts = response.body()
                 if (alerts != null && alerts.isNotEmpty()) {
                     setupRecyclerView(alerts)
-                } else {
-                    // Handle no alerts found for the location
-                    Log.d("AlertActivity", "No alerts found for location $location.")
-                    txtCurrentLocation.text = "No alerts for this location"
                 }
             }
 
             override fun onFailure(call: Call<List<Alert>>, t: Throwable) {
-                Log.e("AlertActivity", "Error fetching alerts for location: ${t.message}")
+                Log.e("AlertActivity", "Error fetching alerts for user: ${t.message}")
             }
         })
     }
+
 
     private fun setupRecyclerView(alerts: List<Alert>) {
         recyclerView.adapter = AlertAdapter(alerts) {}

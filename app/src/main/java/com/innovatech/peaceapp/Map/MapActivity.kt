@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -89,12 +90,24 @@ class MapActivity : AppCompatActivity() {
     private val popupTriggeredReports = mutableSetOf<Int>() // Tracks reports that have triggered a popup
     private var userId: Int = 0
 
+    private lateinit var handler: Handler
+    private val proximityCheckRunnable = object : Runnable {
+        override fun run() {
+            val currentLat = coordinatesCurrentLocation.latitude()
+            val currentLon = coordinatesCurrentLocation.longitude()
 
+            // Llama a checkProximityToReports con las coordenadas actuales
+            checkProximityToReports(currentLat, currentLon)
 
+            // Repite el chequeo después de un intervalo de tiempo (por ejemplo, 5000 ms = 5 segundos)
+            handler.postDelayed(this, 1000)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-
+        handler = Handler()
+        handler.post(proximityCheckRunnable)
         // Example function that updates the alert counter
         val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
         userId = sharedPref.getInt("userId", 0)
@@ -209,6 +222,7 @@ class MapActivity : AppCompatActivity() {
         obtainAllLocations()
         setupMap()
         navigationMenu()
+        deleteAllAlerts()
     }
     private fun sharedGlobalCoordinates() {
         val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
@@ -276,7 +290,6 @@ class MapActivity : AppCompatActivity() {
             if(item.isChecked) {
                 return@setOnNavigationItemSelectedListener false
             }
-
             when (item.itemId) {
                 R.id.nav_map -> {
                     val intent = Intent(this, MapActivity::class.java)
@@ -407,9 +420,6 @@ class MapActivity : AppCompatActivity() {
                 sharedGlobalCoordinates()
                 c++
             }
-
-            // Check proximity to reports
-            checkProximityToReports(latitude, longitude)
         }
     }
 
@@ -572,7 +582,7 @@ class MapActivity : AppCompatActivity() {
 
                     // Only show a popup if more than one alert was detected
                     if (nearbyAlertCount > 1) {
-                        showAlertPopupForMultipleAlerts(nearbyAlertCount)
+                        showAlertPopupForMultipleAlerts()
                     }
                 }
             }
@@ -662,10 +672,10 @@ class MapActivity : AppCompatActivity() {
     }
 
     // Function to show a popup when multiple alerts are detected
-    private fun showAlertPopupForMultipleAlerts(alertCount: Int) {
+    private fun showAlertPopupForMultipleAlerts() {
         val alertDialog = android.app.AlertDialog.Builder(this)
         alertDialog.setTitle("Alerta Detectada")
-        alertDialog.setMessage("Se han detectado $alertCount alertas en la zona.")
+        alertDialog.setMessage("Se ha detectado una alerta en la zona.")
         alertDialog.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
         alertDialog.show()
     }
@@ -691,6 +701,23 @@ class MapActivity : AppCompatActivity() {
             }
         })
 
+    }
+    private fun deleteAllAlerts() {
+        val service = RetrofitClient.getClient(token)
+
+        service.deleteAllAlerts().enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.i("MapActivity", "All alerts deleted successfully.")
+                } else {
+                    Log.e("MapActivity", "Failed to delete alerts: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("MapActivity", "Error deleting alerts: ${t.message}")
+            }
+        })
     }
 
 }
