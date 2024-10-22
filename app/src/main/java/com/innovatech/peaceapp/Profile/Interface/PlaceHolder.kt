@@ -1,5 +1,6 @@
 package com.innovatech.peaceapp.Profile.Interface
 
+import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Beans.UserProfileSchema
 import retrofit2.Call
@@ -14,7 +15,7 @@ interface PlaceHolder {
     //PUT
     ///api/v1/users/{id}
     @PUT("api/v1/users/{id}")
-    fun updateUser(@Path("id") id: Int, @Body userProfile: UserProfile): Call<UserProfile>
+    fun updateUser(@Path("id") id: Int, @Body userProfile: UserEditSchema): Call<UserProfile>
 
     //POST
     ///api/v1/users
