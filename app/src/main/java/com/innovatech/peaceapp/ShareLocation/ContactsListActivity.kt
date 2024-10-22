@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.telephony.SmsManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -27,47 +29,56 @@ import com.innovatech.peaceapp.ShareLocation.Beans.Contact
 
 class ContactsListActivity : AppCompatActivity() {
 
-    //private lateinit var btnSearch: ImageView
-    private lateinit var etSearch: EditText
-    private lateinit var btnSaveChanges: Button
-    private lateinit var rvContacts: RecyclerView
-    private lateinit var contactAdapter: Adapter
+        private lateinit var etSearch: EditText
+        private lateinit var btnSendLocation: Button
+        private lateinit var rvContacts: RecyclerView
+        private lateinit var contactAdapter: Adapter
+        private val selectedContacts = mutableListOf<Contact>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_contacts_list)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_contacts_list)
+
+            askForPermissions()
+            initComponents()
+
+            val contactList = loadContacts()
+            contactAdapter = Adapter(contactList) { contact, isSelected ->
+                if (isSelected) {
+                    selectedContacts.add(contact)
+                } else {
+                    selectedContacts.remove(contact)
+                }
+            }
+            rvContacts.layoutManager = LinearLayoutManager(applicationContext)
+            rvContacts.adapter = contactAdapter
+
+            btnSendLocation.setOnClickListener {
+                sendLocationToSelectedContacts()
+            }
+
+            editTextListeners(contactList)
         }
 
-        askForPermissions()
-        initComponents()
-        // Configuración inicial del RecyclerView y Adapter
-        val contactList = loadContacts()
-        contactAdapter = Adapter(contactList)
-        rvContacts.layoutManager = LinearLayoutManager(applicationContext)
-        rvContacts.adapter = contactAdapter
-
-        initListeners()
-        editTextListeners(contactList)
-
-    }
-
-    private fun askForPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
-                1001)
+        private fun askForPermissions() {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
+            }
         }
-    }
 
-    private fun initComponents() {
-        //btnSearch = findViewById(R.id.ivSearch)
-        etSearch = findViewById(R.id.etSearch)
-        btnSaveChanges = findViewById(R.id.btnSaveChanges)
-        rvContacts = findViewById(R.id.rv_contacts)
+        private fun initComponents() {
+            etSearch = findViewById(R.id.etSearch)
+            btnSendLocation = findViewById(R.id.btnSendLocation)
+            rvContacts = findViewById(R.id.rv_contacts)
+        }
+
+    private fun sendLocationToSelectedContacts() {
+        val locationMessage = "Here is my location: http://maps.google.com/?q=latitude,longitude"
+        val smsManager = SmsManager.getDefault()
+        selectedContacts.forEach { contact ->
+            smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
+        }
+        Toast.makeText(this, "Location sent to selected contacts", Toast.LENGTH_SHORT).show()
     }
     private fun initListeners(){
 //        btnSearch.setOnClickListener(){

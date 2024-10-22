@@ -85,7 +85,8 @@
                     app:layout_constraintStart_toEndOf="@id/ivSearch"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="Autofill" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -93,13 +94,13 @@
             android:id="@+id/rv_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="25dp"
-            android:paddingEnd="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            android:paddingBottom="20dp"
-
             android:background="@color/white"
+            android:paddingStart="25dp"
+            android:paddingEnd="35dp"
+
+            android:paddingBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,13 +111,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnSaveChanges"
+        android:id="@+id/btnSendLocation"
 
         tools:visibility="visible"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guardar cambios"
+        android:text="Enviar Ubicación"
         android:paddingHorizontal="30dp"
         android:paddingVertical="5dp"
         android:backgroundTint="@color/peaceapp_blue_light_disable"
@@ -125,6 +125,6 @@
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="80dp"/>
+        android:layout_marginBottom="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
