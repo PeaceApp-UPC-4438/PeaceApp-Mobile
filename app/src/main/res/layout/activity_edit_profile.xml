@@ -23,7 +23,7 @@
             android:layout_width="139dp"
             android:layout_height="139dp"
             app:strokeColor="#E9ECF1"
-            app:strokeWidth="17.5dp"
+            app:strokeWidth="14.5dp"
             app:cardCornerRadius="100dp"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,14 +43,11 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_name"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="36dp"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/rounded_background"
@@ -69,57 +66,11 @@
                 android:gravity="end"
                 android:text="Nombre"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/txt_user_name"
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/poppins_light"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_name"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Jhon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Layout_edit_lastname"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/rounded_background"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Layout_name">
-
-            <TextView
-                android:id="@+id/txt_placeholder_lastname"
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="-150dp"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="end"
-                android:text="Apellido"
-                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-<<<<<<< Updated upstream
-            <EditText
-                android:id="@+id/txt_user_lastname"
-=======
 
             <EditText
                 android:id="@+id/etName"
@@ -157,7 +108,6 @@
 
             <TextView
                 android:id="@+id/txt_placeholder_surname"
->>>>>>> Stashed changes
                 android:layout_width="wrap_content"
 
                 android:layout_height="wrap_content"
@@ -188,18 +138,12 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-<<<<<<< Updated upstream
-                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_lastname"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Doe" />
-=======
                 app:layout_constraintStart_toEndOf="@+id/txt_placeholder_surname"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingHorizontal="16dp"
                 />
 
->>>>>>> Stashed changes
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -261,16 +205,12 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
-            android:layout_height="46dp"
+            android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-<<<<<<< Updated upstream
-            app:layout_constraintTop_toBottomOf="@+id/Layout_edit_lastname">
-=======
             app:layout_constraintTop_toBottomOf="@+id/layout_phone">
->>>>>>> Stashed changes
 
             <TextView
                 android:id="@+id/txt_placeholder_email"
@@ -281,13 +221,13 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="end"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <EditText
+            <TextView
                 android:id="@+id/txt_user_email"
                 tools:text="jd123@gmail.com"
 
@@ -295,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_light"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/txt_placeholder_email"
                 app:layout_constraintTop_toTopOf="parent"
@@ -306,57 +246,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-<<<<<<< Updated upstream
-            android:id="@+id/Layout_phone"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="30dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rounded_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Layout_email">
-
-            <TextView
-                android:id="@+id/txt_placeholder_phone"
-                android:text="Teléfono"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="-150dp"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="end"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <EditText
-                android:id="@+id/txt_user_phone"
-                tools:text="999306123"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_light"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@+id/txt_placeholder_phone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-=======
->>>>>>> Stashed changes
             android:id="@+id/Layout_password"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
-            android:layout_height="46dp"
+            android:layout_height="36dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/rounded_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -379,7 +273,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 />
 
-            <EditText
+            <TextView
                 android:id="@+id/txt_user_password"
                 tools:text="********"
                 android:inputType="textPassword"
@@ -409,15 +303,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-<<<<<<< Updated upstream
-            android:id="@+id/btn_save_Profile"
-            android:textAllCaps="false"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="100dp"
-=======
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
->>>>>>> Stashed changes
             android:layout_height="wrap_content"
             android:text="Cancelar"
             android:textColor="@color/black"
