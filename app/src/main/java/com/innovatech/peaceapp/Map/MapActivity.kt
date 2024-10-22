@@ -34,6 +34,7 @@ import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Models.RetrofitClientMapbox
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.CameraOptions
@@ -265,6 +266,9 @@ class MapActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_shared_location -> {
+                    val intent = Intent(this, ContactsListActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
                     true
                 }
                 else -> false
