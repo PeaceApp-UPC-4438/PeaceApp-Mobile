@@ -65,7 +65,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-
 class MapActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var token: String
@@ -89,7 +88,6 @@ class MapActivity : AppCompatActivity() {
     private val processedReports = mutableSetOf<Int>() // This will store the ID of the reports that have already triggered an alert.
     private val popupTriggeredReports = mutableSetOf<Int>() // Tracks reports that have triggered a popup
     private var userId: Int = 0
-
     private lateinit var handler: Handler
     private val proximityCheckRunnable = object : Runnable {
         override fun run() {
@@ -102,6 +100,7 @@ class MapActivity : AppCompatActivity() {
             // Repite el chequeo después de un intervalo de tiempo (por ejemplo, 5000 ms = 5 segundos)
             handler.postDelayed(this, 1000)
         }
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,13 +117,11 @@ class MapActivity : AppCompatActivity() {
 // In MapActivity - pass the current location to AlertActivity when the alert button is pressed
         val warningButton = findViewById<ImageView>(R.id.iconImage)
         warningButton.setOnClickListener {
-
             // Start the AlertActivity as before
             val intent = Intent(this, AlertActivity::class.java)
             intent.putExtra("currentLocation", currentLocation) // Pass the current location
             startActivity(intent)
         }
-
 
         addressAutofill = AddressAutofill.create(locationProvider = null)
         searchLocation = findViewById(R.id.searchLocation)
@@ -144,19 +141,16 @@ class MapActivity : AppCompatActivity() {
 
         }
 
-
         searchResultsView.initialize(
             SearchResultsView.Configuration(
                 commonConfiguration = CommonSearchViewConfiguration(DistanceUnitType.IMPERIAL)
             )
         )
-
         addressAutofillUiAdapter = AddressAutofillUiAdapter(view = searchResultsView, addressAutofill = addressAutofill)
         addressAutofillUiAdapter.addSearchListener(object :
             AddressAutofillUiAdapter.SearchListener {
             override fun onSuggestionSelected(suggestion: AddressAutofillSuggestion) {
                 /* when is selected a suggestion, the address is shown in the search bar */
-
                 // ALERTA: Buscador con el autocompletado
                 // no descomentar, costo adicional
                 selectSuggestion(suggestion)
@@ -164,7 +158,6 @@ class MapActivity : AppCompatActivity() {
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {}
             override fun onError(e: Exception) {}
         })
-
         /* when is received a click on the search bar, the search results view is shown */
         searchLocation.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
@@ -172,7 +165,6 @@ class MapActivity : AppCompatActivity() {
                     ignoreNextQueryTextUpdate = false
                     return
                 }
-
                 val query = Query.create(text.toString())
                 if (query != null) {
                     lifecycleScope.launchWhenStarted {
@@ -191,6 +183,7 @@ class MapActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 // Nothing to do
             }
+
         })
 
         // event: when the map is moved, flag for user interaction is set to true
@@ -216,7 +209,6 @@ class MapActivity : AppCompatActivity() {
             isUserInteracting = false
         }
 
-
         listenKeyboard()
         locateCurrentPosition()
         obtainAllLocations()
@@ -232,6 +224,7 @@ class MapActivity : AppCompatActivity() {
             putString("longitude", coordinatesCurrentLocation.longitude().toString())
             apply()
         }
+
     }
 
     // function to select the suggestion
@@ -243,7 +236,6 @@ class MapActivity : AppCompatActivity() {
                 Log.i("AddressAutofill SELECTSUGGESTION", "Selected suggestion: $result")
                 // obtaining the point of the selected location
                 coordinatesCurrentLocation = result.suggestion.coordinate!!
-
                 sharedGlobalCoordinates()
                 // showing the result.address
                 showAddressAutofillResult(result)
@@ -251,12 +243,12 @@ class MapActivity : AppCompatActivity() {
                 Log.e("AddressAutofill", "Error selecting suggestion: $it")
             }
         }
+
     }
 
     // function to show the address in the map
     private fun showAddressAutofillResult(result: AddressAutofillResult) {
         val address = result.address
-
         Log.i("AddressAutofill showAddressAutofillResult", "Address: $address")
 
         // move the camera to the selected location
@@ -274,11 +266,11 @@ class MapActivity : AppCompatActivity() {
         // clear the edit text
         searchLocation.text.clear()
         searchResultsView.isVisible = false
+
     }
 
     private fun navigationMenu() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
             // check the icon for default with the actual activity
@@ -310,7 +302,6 @@ class MapActivity : AppCompatActivity() {
             }
 
         }
-
         bottomNavigationView.menu.findItem(R.id.nav_map).setChecked(true)
     }
 
@@ -331,7 +322,6 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error MAP", t.message.toString())
             }
         })
-
         service.getLocations().enqueue(object: Callback<List<Beans.Location>> {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
@@ -358,7 +348,6 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error MAP", t.message.toString())
             }
         })
-
     }
 
     private fun addMarker(latitude: Double, longitude: Double, svgResId: Int) {
@@ -373,6 +362,7 @@ class MapActivity : AppCompatActivity() {
             .withIconImage(bitmap)
             .withIconSize(0.5)
         pointAnnotationManager.create(pointAnnotationOptions)
+
     }
     private fun drawableToBitmap(drawable: Drawable): Bitmap {
         val bitmap = Bitmap.createBitmap(
@@ -384,6 +374,7 @@ class MapActivity : AppCompatActivity() {
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bitmap
+
     }
 
     private fun locateCurrentPosition() {
@@ -399,7 +390,6 @@ class MapActivity : AppCompatActivity() {
             )
             return
         }
-
         val locationComponentPlugin: LocationComponentPlugin = mapView.location
         locationComponentPlugin.updateSettings {
             enabled = true
@@ -421,6 +411,7 @@ class MapActivity : AppCompatActivity() {
                 c++
             }
         }
+
     }
 
 
@@ -445,6 +436,7 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error MAP", t.message.toString())
             }
         })
+
     }
 
 
@@ -455,13 +447,13 @@ class MapActivity : AppCompatActivity() {
                 .zoom(15.0)
                 .build()
         )
+
     }
 
     private fun setupMap() {
         mapView.logo.updateSettings {
             enabled = false
         }
-
         mapView.compass.updateSettings {
             enabled = false
         }
@@ -475,6 +467,7 @@ class MapActivity : AppCompatActivity() {
         mapView.attribution.updateSettings {
             enabled = false
         }
+
     }
 
     private fun listenKeyboard() {
@@ -497,8 +490,8 @@ class MapActivity : AppCompatActivity() {
                 }
             }
         }
-
         expandArrowManually()
+
     }
 
     private fun expandArrowManually() {
@@ -510,6 +503,7 @@ class MapActivity : AppCompatActivity() {
             }
             isExpanded = !isExpanded
         }
+
     }
 
     private fun expandSearchBox() {
@@ -522,6 +516,7 @@ class MapActivity : AppCompatActivity() {
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.setDuration(300)
         animator.start()
+
     }
 
     private fun collapseSearchBox() {
@@ -534,6 +529,7 @@ class MapActivity : AppCompatActivity() {
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.setDuration(300)
         animator.start()
+
     }
     // Function to calculate the distance between two coordinates
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
@@ -545,12 +541,12 @@ class MapActivity : AppCompatActivity() {
                 sin(dLon / 2) * sin(dLon / 2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return earthRadius * c
+
     }
     // Function to check proximity to reports and create alerts if needed
     private fun checkProximityToReports(userLat: Double, userLon: Double) {
         val radius = 0.5 // Radius in kilometers (0.5km = 500 meters)
         val service = RetrofitClient.getClient(token)
-
         service.getLocations().enqueue(object : Callback<List<Beans.Location>> {
             override fun onResponse(call: Call<List<Beans.Location>>, response: Response<List<Beans.Location>>) {
                 val locations = response.body()
@@ -590,12 +586,12 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error", "Failed to fetch locations: ${t.message}")
             }
         })
+
     }
     private fun createNewAlert(location: Beans.Location) {
         // Retrieve userId from Shared Preferences
         val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
         val userId = sharedPref.getInt("userId", 0) // Default to 0 if not found
-
 // Log the retrieved userId to check if it's correct
         Log.i("Alert", "Retrieved User ID: $userId")
 
@@ -639,13 +635,13 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Error", "Failed to fetch reports: ${t.message}")
             }
         })
+
     }
 
 
     // Function to check for duplicate alerts based on the id or alert schema
     private fun checkForDuplicateAlert(alertSchema: AlertSchema, callback: (exists: Boolean) -> Unit) {
         val service = RetrofitClient.getClient(token)
-
         // Query to get all alerts for the user
         service.getAllAlerts().enqueue(object : Callback<List<Alert>> {
             override fun onResponse(call: Call<List<Alert>>, response: Response<List<Alert>>) {
@@ -668,10 +664,12 @@ class MapActivity : AppCompatActivity() {
                 callback(false) // On failure, assume no duplicates
             }
         })
+
     }
 
     // Function to show a popup when multiple alerts are detected
     private fun showAlertPopupForMultipleAlerts() {
+
         val alertDialog = android.app.AlertDialog.Builder(this)
         alertDialog.setTitle("Alerta Detectada")
         alertDialog.setMessage("Se ha detectado una alerta en la zona.")
@@ -699,11 +697,10 @@ class MapActivity : AppCompatActivity() {
                 Log.e("Alert Error", "Error posting alert: ${t.message}")
             }
         })
-
     }
     private fun deleteAllAlerts() {
-        val service = RetrofitClient.getClient(token)
 
+        val service = RetrofitClient.getClient(token)
         service.deleteAllAlerts().enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
@@ -717,6 +714,7 @@ class MapActivity : AppCompatActivity() {
                 Log.e("MapActivity", "Error deleting alerts: ${t.message}")
             }
         })
-    }
 
+    }
+//end
 }
