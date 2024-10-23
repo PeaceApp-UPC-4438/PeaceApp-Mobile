@@ -15,4 +15,6 @@
     <color name="nav_item_unselected">#83878A</color>
     <color name="nav_item_selected">#1C597C</color>
 
+    <color name="contact_input_background">#F1F5F8</color>
+
 </resources>

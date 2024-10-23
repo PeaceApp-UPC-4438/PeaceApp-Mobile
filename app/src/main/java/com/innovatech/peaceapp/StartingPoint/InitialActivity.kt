@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 
 class InitialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class InitialActivity : AppCompatActivity() {
         val btnSignIn = findViewById<TextView>(R.id.tv_login)
 
         btnSignUp.setOnClickListener {
+            //val intent = Intent(this, ContactsListActivity::class.java)
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
