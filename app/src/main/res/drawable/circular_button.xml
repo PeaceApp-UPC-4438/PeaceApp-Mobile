@@ -1,17 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Shadow Layer -->
-    <item android:left="3dp" android:right="3dp" android:top="3dp" android:bottom="3dp">
-        <shape android:shape="oval">
-        </shape>
-    </item>
-
-    <!-- Main Shape (Your existing oval shape) -->
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="#FFFFFF"/> <!-- Fondo blanco -->
-        </shape>
-    </item>
-
-</layer-list>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="149dp"
+    android:height="149dp"
+    android:viewportWidth="149"
+    android:viewportHeight="149">
+  <path
+      android:pathData="M74.5,70.5m-70.5,0a70.5,70.5 0,1 1,141 0a70.5,70.5 0,1 1,-141 0"
+      android:fillColor="#ffffff"/>
+</vector>
