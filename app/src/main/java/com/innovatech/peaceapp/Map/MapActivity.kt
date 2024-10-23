@@ -557,7 +557,7 @@ class MapActivity : AppCompatActivity() {
     private fun expandSearchBox() {
         expandArrow!!.visibility = View.GONE
         compressedArrow!!.visibility = View.VISIBLE
-        val animator = ValueAnimator.ofInt(searchBox.height, 800) // Expande a 400dp
+        val animator = ValueAnimator.ofInt(searchBox.height, 1200)
         animator.addUpdateListener { valueAnimator: ValueAnimator ->
             val `val` = valueAnimator.animatedValue as Int
             searchBox.layoutParams.height = `val`
@@ -571,7 +571,7 @@ class MapActivity : AppCompatActivity() {
     private fun collapseSearchBox() {
         expandArrow!!.visibility = View.VISIBLE
         compressedArrow!!.visibility = View.GONE
-        val animator = ValueAnimator.ofInt(searchBox.height, 120) // Contrae a 120dp
+        val animator = ValueAnimator.ofInt(searchBox.height, 450)
         animator.addUpdateListener { valueAnimator: ValueAnimator ->
             val `val` = valueAnimator.animatedValue as Int
             searchBox.layoutParams.height = `val`
