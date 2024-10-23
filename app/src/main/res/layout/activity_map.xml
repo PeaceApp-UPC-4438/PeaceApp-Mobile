@@ -75,6 +75,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <ImageView
+                android:id="@+id/expand_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/up_arrow_icon"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:id="@+id/compressed_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down_arrow_icon"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,8 +99,7 @@
                 android:background="@drawable/card_searching_map"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 >
 
                 <ImageView
@@ -140,14 +155,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/expand_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/up_arrow_icon"
-            android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
-            />
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -164,7 +171,7 @@
         android:backgroundTintMode="src_over"
         app:itemRippleColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"/>
-    
+
     <com.mapbox.search.ui.view.SearchResultsView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -180,7 +187,6 @@
         android:padding="30dp"
         android:paddingTop="45dp"
         android:background="@drawable/card_searching_map"
-
         />
 
     <ImageView

@@ -75,6 +75,7 @@ class MapActivity : AppCompatActivity() {
     private lateinit var userProfile: ImageView
     private var c: Int = 0
     private var expandArrow: ImageView? = null
+    private var compressedArrow: ImageView? = null
     private var isKeyboardVisible = false
     private var isExpanded = false
     private lateinit var searchBox: CardView
@@ -97,6 +98,7 @@ class MapActivity : AppCompatActivity() {
         userProfile = findViewById(R.id.userPhoto)
         searchBox = findViewById(R.id.container_search);
         expandArrow = findViewById(R.id.expand_arrow);
+        compressedArrow = findViewById(R.id.compressed_arrow);
 
         userProfile.setOnClickListener {
 
@@ -120,7 +122,7 @@ class MapActivity : AppCompatActivity() {
 
                 // ALERTA: Buscador con el autocompletado
                 // no descomentar, costo adicional
-                //selectSuggestion(suggestion)
+                selectSuggestion(suggestion)
             }
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {}
             override fun onError(e: Exception) {}
@@ -139,7 +141,7 @@ class MapActivity : AppCompatActivity() {
                     lifecycleScope.launchWhenStarted {
                         // ALERTA: AddressAutoFill
                         //Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
-                        //addressAutofillUiAdapter.search(query) // this function is used to search the address
+                        addressAutofillUiAdapter.search(query) // this function is used to search the address
                     }
                 }
                 searchResultsView.isVisible = query != null
@@ -172,7 +174,7 @@ class MapActivity : AppCompatActivity() {
             // cada vez que se mueve el mapa, se obtiene la dirección del centro
             // es un costo adicional
 
-            //obtainNamePlace(center.longitude(), center.latitude())
+            obtainNamePlace(center.longitude(), center.latitude())
 
             isUserInteracting = false
         }
@@ -235,6 +237,8 @@ class MapActivity : AppCompatActivity() {
         // clear the edit text
         searchLocation.text.clear()
         searchResultsView.isVisible = false
+
+        collapseSearchBox();
     }
 
     private fun navigationMenu() {
@@ -470,12 +474,26 @@ class MapActivity : AppCompatActivity() {
             } else {
                 expandSearchBox()
             }
+            toggleArrow()
+            isExpanded = !isExpanded
+        }
+
+        compressedArrow!!.setOnClickListener { v: View? ->
+            if (isExpanded) {
+                collapseSearchBox()
+            } else {
+                expandSearchBox()
+            }
+            toggleArrow()
             isExpanded = !isExpanded
         }
     }
 
     private fun expandSearchBox() {
-        val animator = ValueAnimator.ofInt(searchBox.height, 800) // Expande a 400dp
+        expandArrow!!.visibility = View.GONE
+        compressedArrow!!.visibility = View.VISIBLE
+
+        val animator = ValueAnimator.ofInt(searchBox.height, 1200)
         animator.addUpdateListener { valueAnimator: ValueAnimator ->
             val `val` = valueAnimator.animatedValue as Int
             searchBox.layoutParams.height = `val`
@@ -487,7 +505,11 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun collapseSearchBox() {
-        val animator = ValueAnimator.ofInt(searchBox.height, 120) // Contrae a 120dp
+
+        expandArrow!!.visibility = View.VISIBLE
+        compressedArrow!!.visibility = View.GONE
+
+        val animator = ValueAnimator.ofInt(searchBox.height, 450)
         animator.addUpdateListener { valueAnimator: ValueAnimator ->
             val `val` = valueAnimator.animatedValue as Int
             searchBox.layoutParams.height = `val`
@@ -496,5 +518,15 @@ class MapActivity : AppCompatActivity() {
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.setDuration(300)
         animator.start()
+    }
+
+    private fun toggleArrow() {
+        if (isExpanded) {
+            expandArrow!!.visibility = View.VISIBLE
+            compressedArrow!!.visibility = View.GONE
+        } else {
+            expandArrow!!.visibility = View.GONE
+            compressedArrow!!.visibility = View.VISIBLE
+        }
     }
 }
