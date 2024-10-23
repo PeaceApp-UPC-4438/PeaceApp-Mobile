@@ -19,6 +19,7 @@ import com.innovatech.peaceapp.Map.Adapters.AdapterReport
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 import com.mapbox.geojson.Point
 import retrofit2.Call
 import retrofit2.Callback
@@ -102,6 +103,9 @@ class ListReportsActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_shared_location -> {
+                    val intent = Intent(this, ContactsListActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
                     true
                 }
                 else -> false

@@ -25,10 +25,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.GlobalToken
+import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.Map.Models.RetrofitClientMapbox
+import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
@@ -54,6 +56,7 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,13 +76,15 @@ class MapActivity : AppCompatActivity() {
     private var currentLocation: String = ""
     private var ignoreNextMapIdleEvent: Boolean = false
     private var isUserInteracting: Boolean = false
-    private lateinit var userProfile: ImageView
+    private lateinit var userPhoto: ImageView
     private var c: Int = 0
     private var expandArrow: ImageView? = null
     private var compressedArrow: ImageView? = null
     private var isKeyboardVisible = false
     private var isExpanded = false
     private lateinit var searchBox: CardView
+    private lateinit var email: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,13 +101,13 @@ class MapActivity : AppCompatActivity() {
         txtCurrentLocation = findViewById(R.id.currentLocation)
         token = intent.getStringExtra("token")!!
         mapView = findViewById(R.id.mapView)
-        userProfile = findViewById(R.id.userPhoto)
+        userPhoto = findViewById(R.id.userPhoto)
         searchBox = findViewById(R.id.container_search);
         expandArrow = findViewById(R.id.expand_arrow);
         compressedArrow = findViewById(R.id.compressed_arrow);
+        email = GlobalUserEmail.email
 
-        userProfile.setOnClickListener {
-
+        userPhoto.setOnClickListener {
             val intent = Intent(this, MainProfileActivity::class.java)
             startActivity(intent)
 
@@ -181,11 +186,34 @@ class MapActivity : AppCompatActivity() {
         }
 
 
+        loadUserPhoto()
         listenKeyboard()
         locateCurrentPosition()
         obtainAllLocations()
         setupMap()
         navigationMenu()
+    }
+
+    private fun loadUserPhoto() {
+        val service = com.innovatech.peaceapp.Profile.Models.RetrofitClient.getClient(token)
+
+        service.getUserByEmail(email)
+            .enqueue(
+                object: Callback<UserProfile> {
+                    override fun onResponse(call: Call<UserProfile>, response:
+                    Response<UserProfile>) {
+                        val userProfile = response.body()
+                        if (userProfile != null) {
+                            Picasso.get().load(userProfile.profile_image).into(userPhoto)
+                        }
+                    }
+
+                    override fun onFailure(p0: Call<UserProfile>, p1: Throwable) {
+                        p1.printStackTrace()
+                    }
+                })
+
+
     }
 
     private fun sharedGlobalCoordinates() {

@@ -3,6 +3,7 @@ package com.innovatech.peaceapp.ShareLocation
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -22,10 +23,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.innovatech.peaceapp.GlobalToken
+import com.innovatech.peaceapp.Map.ListReportsActivity
+import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.ShareLocation.Beans.Contact
+import kotlinx.coroutines.launch
 
 class ContactsListActivity : AppCompatActivity() {
 
@@ -34,12 +41,22 @@ class ContactsListActivity : AppCompatActivity() {
         private lateinit var rvContacts: RecyclerView
         private lateinit var contactAdapter: Adapter
         private val selectedContacts = mutableListOf<Contact>()
+        private var latitude = ""
+        private var longitude = ""
+        private lateinit var token: String
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_contacts_list)
+            val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+            latitude = sharedPref.getString("latitude", "0.0")!!.toString()
+            longitude = sharedPref.getString("longitude", "0.0")!!.toString()
+            token = GlobalToken.token
 
-            askForPermissions()
+
+            lifecycleScope.launch {
+                askForPermissions()
+            }
             initComponents()
 
             val contactList = loadContacts()
@@ -54,13 +71,24 @@ class ContactsListActivity : AppCompatActivity() {
             rvContacts.adapter = contactAdapter
 
             btnSendLocation.setOnClickListener {
+                if(selectedContacts.isEmpty()) {
+                    Toast.makeText(this, "Selecciona al menos un contacto para continuar", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 sendLocationToSelectedContacts()
             }
 
             editTextListeners(contactList)
+            navigationMenu()
         }
 
-        private fun askForPermissions() {
+        //async function to wait for permissions
+        private suspend fun askForPermissions() {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
+                    1001)
+            }
+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
             }
@@ -72,13 +100,54 @@ class ContactsListActivity : AppCompatActivity() {
             rvContacts = findViewById(R.id.rv_contacts)
         }
 
+    private fun navigationMenu() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
+            bottomNavigationView.menu.findItem(R.id.nav_map).setIcon(R.drawable.location_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_report).setIcon(R.drawable.reports_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_shared_location).setIcon(R.drawable.share_location_icon)
+
+            if(item.isChecked) {
+                return@setOnNavigationItemSelectedListener false
+            }
+
+            when (item.itemId) {
+                R.id.nav_map -> {
+                    val intent = Intent(this, MapActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_report -> {
+                    val intent = Intent(this, ListReportsActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_shared_location -> {
+                    val intent = Intent(this, ContactsListActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
+        bottomNavigationView.menu.findItem(R.id.nav_shared_location).setChecked(true)
+    }
+
     private fun sendLocationToSelectedContacts() {
-        val locationMessage = "Here is my location: http://maps.google.com/?q=latitude,longitude"
+        val locationMessage = "¡Hola! Esta es mi ubicación en PeaceApp: http://maps.google.com/?q=a,b"
         val smsManager = SmsManager.getDefault()
         selectedContacts.forEach { contact ->
             smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
         }
-        Toast.makeText(this, "Location sent to selected contacts", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Ubicación enviada a los contactos seleccionados", Toast.LENGTH_SHORT).show()
+
     }
     private fun initListeners(){
 //        btnSearch.setOnClickListener(){

@@ -43,6 +43,7 @@ import java.io.File
 import java.io.FileOutputStream
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils;
+import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -165,6 +166,9 @@ class NewReportActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_shared_location -> {
+                    val intent = Intent(this, ContactsListActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
                     true
                 }
                 else -> false

@@ -32,6 +32,7 @@ import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
+import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
@@ -95,7 +96,7 @@ class EditProfileActivity : AppCompatActivity() {
         cloudinary = Cloudinary(
             ObjectUtils.asMap(
                 "cloud_name", "dqawjz3ih",
-                "api_key", getString(R.string.cloudinary_api_secret),
+                "api_key", getString(R.string.cloudinary_api_key),
                 "api_secret", getString(R.string.cloudinary_api_secret)
             )
         )
@@ -148,6 +149,9 @@ class EditProfileActivity : AppCompatActivity() {
         btnContinue.setOnClickListener() {
             lifecycleScope.launch {
                 updateUser()
+                val intent = Intent(this@EditProfileActivity, MapActivity::class.java)
+                intent.putExtra("token", token)
+                startActivity(intent)
             }
             dialog.dismiss()
         }
