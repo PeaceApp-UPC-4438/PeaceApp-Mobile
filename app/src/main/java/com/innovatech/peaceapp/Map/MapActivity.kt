@@ -488,7 +488,6 @@ class MapActivity : AppCompatActivity() {
                     isKeyboardVisible = true
                 }
             } else {
-                // Teclado no visible, contraer caja de búsqueda
                 if (isKeyboardVisible) {
                     collapseSearchBox()
                     isKeyboardVisible = false
