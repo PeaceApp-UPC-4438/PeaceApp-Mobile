@@ -20,6 +20,7 @@ import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.StartingPoint.InitialActivity
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +31,7 @@ class MainProfileActivity : AppCompatActivity() {
     private lateinit var tvEmail: TextView
     private lateinit var tvPhone: TextView
     private lateinit var tvPassword: TextView
+    private lateinit var ivProfileImage: ImageView
 
     private lateinit var btnEditProfile: MaterialButton
     private lateinit var btnDeleteAccount: TextView
@@ -64,6 +66,7 @@ class MainProfileActivity : AppCompatActivity() {
         tvEmail = findViewById(R.id.txt_user_email)
         tvPhone = findViewById(R.id.txt_user_phone)
         tvPassword = findViewById(R.id.txt_user_password)
+        ivProfileImage = findViewById(R.id.ivProfileImage)
 
         btnEditProfile = findViewById(R.id.btnEditar)
         btnDeleteAccount = findViewById(R.id.tvEliminar)
@@ -90,6 +93,8 @@ class MainProfileActivity : AppCompatActivity() {
                             tvPhone.text = userProfile.phonenumber
                             tvPassword.text = userProfile.password
 
+                            Picasso.get().load(userProfile.profile_image).into(ivProfileImage)
+
                             user = UserProfile(
                                 userProfile.id,
                                 userProfile.name,
@@ -114,6 +119,7 @@ class MainProfileActivity : AppCompatActivity() {
     private fun initListeners() {
         btnEditProfile.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
+            intent.putExtra("user", user)
             startActivity(intent)
         }
 

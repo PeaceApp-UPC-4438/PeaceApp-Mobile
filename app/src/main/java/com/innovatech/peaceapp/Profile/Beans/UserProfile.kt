@@ -1,6 +1,9 @@
 package com.innovatech.peaceapp.Profile.Beans
 
-class UserProfile {
+import java.io.Serializable
+
+
+class UserProfile : Serializable {
     var id: Int
     var name: String
     var lastname: String

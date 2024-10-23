@@ -86,6 +86,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Alert.AlertActivity"/>
+        <activity android:name=".UserLogActivity" />
+        <activity android:name=".UserLogRegisterActivity" />
     </application>
 
 </manifest>

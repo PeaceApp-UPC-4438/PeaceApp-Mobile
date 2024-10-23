@@ -12,8 +12,6 @@
         android:id="@+id/mainTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="50sp"
         android:fontFamily="@font/poppins_light"
         android:textColor="@color/peaceapp_blue"
         app:layout_constraintBottom_toBottomOf="parent"
