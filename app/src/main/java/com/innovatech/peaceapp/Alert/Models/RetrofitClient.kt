@@ -1,6 +1,7 @@
 package com.innovatech.peaceapp.Alert.Models
 
 import com.innovatech.peaceapp.Alert.Interfaces.PlaceHolder
+import com.innovatech.peaceapp.HttpUri
 import com.innovatech.peaceapp.Map.Interfaces.PlaceHolderMapbox
 import com.innovatech.peaceapp.Map.Models.AuthInterceptor
 import okhttp3.OkHttpClient
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    const val BASE_URL = "http://10.0.2.2:8080/" // Cambia la URL si es necesario
+    const val BASE_URL = HttpUri.url
 
     // Función para obtener el cliente con autenticación para alertas
     fun getClient(token: String): PlaceHolder {
