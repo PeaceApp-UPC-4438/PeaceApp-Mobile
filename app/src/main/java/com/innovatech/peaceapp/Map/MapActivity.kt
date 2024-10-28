@@ -165,7 +165,7 @@ class MapActivity : AppCompatActivity() {
 
                 // ALERTA: Buscador con el autocompletado
                 // no descomentar, costo adicional
-                selectSuggestion(suggestion)
+                //selectSuggestion(suggestion)
             }
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {}
             override fun onError(e: Exception) {}
@@ -184,7 +184,7 @@ class MapActivity : AppCompatActivity() {
                     lifecycleScope.launchWhenStarted {
                         // ALERTA: AddressAutoFill
                         //Log.i("AddressAutofill SEARCH QUERY", "Searching for: $query")
-                        addressAutofillUiAdapter.search(query) // this function is used to search the address
+                        //addressAutofillUiAdapter.search(query) // this function is used to search the address
                     }
                 }
                 searchResultsView.isVisible = query != null
@@ -217,7 +217,7 @@ class MapActivity : AppCompatActivity() {
             // cada vez que se mueve el mapa, se obtiene la dirección del centro
             // es un costo adicional
 
-            obtainNamePlace(center.longitude(), center.latitude())
+            //obtainNamePlace(center.longitude(), center.latitude())
 
             isUserInteracting = false
         }
