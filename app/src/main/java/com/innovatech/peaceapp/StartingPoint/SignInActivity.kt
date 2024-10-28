@@ -4,6 +4,8 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Email
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -33,7 +35,9 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var edtEmail: TextView
     private lateinit var edtPassword: TextView
 
+    private lateinit var tvForgotPassword: TextView
     private lateinit var ivEye: ImageView
+    private var passwordFieldSelected = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +52,40 @@ class SignInActivity : AppCompatActivity() {
 
         initComponents()
         initListeners()
+        highlightInputOnFocus()
+
+        // para subrayar el texto
+        val texto = tvForgotPassword.text.toString()
+        val spanableText = SpannableString(texto)
+        spanableText.setSpan(UnderlineSpan(), 0, texto.length, 0)
+
+        tvForgotPassword.text = spanableText
+    }
+
+    private fun highlightInputOnFocus() {
+        edtEmail.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                edtEmail.setBackgroundResource(R.drawable.auth_input_focused)
+                edtEmail.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+            }else{
+                edtEmail.setBackgroundResource(R.drawable.auth_input)
+                edtEmail.setHintTextColor(resources.getColor(R.color.input_stroke))
+            }
+        }
+
+        edtPassword.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                passwordFieldSelected = true
+                edtPassword.setBackgroundResource(R.drawable.auth_input_focused)
+                edtPassword.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+                ivEye.drawable.setTint(resources.getColor(R.color.input_focused_stroke))
+            }else{
+                passwordFieldSelected = false
+                edtPassword.setBackgroundResource(R.drawable.auth_input)
+                edtPassword.setHintTextColor(resources.getColor(R.color.input_stroke))
+                ivEye.drawable.setTint(resources.getColor(R.color.input_stroke))
+            }
+        }
     }
 
     private fun initComponents() {
@@ -56,6 +94,7 @@ class SignInActivity : AppCompatActivity() {
         edtEmail = findViewById<TextView>(R.id.et_email)
         edtPassword = findViewById<TextView>(R.id.et_password)
         ivEye = findViewById<ImageView>(R.id.iv_eye)
+        tvForgotPassword = findViewById<TextView>(R.id.tv_forgot_password)
     }
 
     private fun initListeners() {
@@ -71,7 +110,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         ivEye.setOnClickListener {
-            changePasswordVisibility()
+            changePasswordVisibility(passwordFieldSelected)
         }
     }
     private fun signIn(email:String, password:String){
@@ -144,7 +183,7 @@ class SignInActivity : AppCompatActivity() {
         return true
     }
 
-    private fun changePasswordVisibility(){
+    private fun changePasswordVisibility(inputSelected: Boolean){
         if(edtPassword.inputType == 129){
             edtPassword.inputType = 1
             // change the icon
@@ -152,6 +191,11 @@ class SignInActivity : AppCompatActivity() {
         }else{
             edtPassword.inputType = 129
             ivEye.setImageResource(R.drawable.ic_open_eye)
+        }
+        if(inputSelected){
+            ivEye.drawable.setTint(resources.getColor(R.color.input_focused_stroke))
+        }else{
+            ivEye.drawable.setTint(resources.getColor(R.color.input_stroke))
         }
     }
 
