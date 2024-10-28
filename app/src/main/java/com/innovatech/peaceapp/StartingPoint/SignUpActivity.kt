@@ -35,10 +35,13 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var etPhone:EditText
     private lateinit var btnSignUp:Button
     private lateinit var btnSignIn:TextView
-    private lateinit var edtEmail:TextView
-    private lateinit var edtPassword:TextView
+    private lateinit var edtEmail:EditText
+    private lateinit var edtPassword:EditText
 
     private lateinit var ivEye:ImageView
+    private lateinit var tvCountryCode:TextView
+
+    private var passwordFieldSelected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         initComponents()
+        highlightInputOnFocus()
 
 
         btnSignUp.setOnClickListener {
@@ -78,6 +82,7 @@ class SignUpActivity : AppCompatActivity() {
         edtEmail = findViewById(R.id.et_email)
         edtPassword = findViewById(R.id.et_password)
         ivEye = findViewById(R.id.iv_eye)
+        tvCountryCode = findViewById(R.id.tv_country_code)
     }
 
     private fun saveUserCredentials(){
@@ -250,6 +255,62 @@ class SignUpActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
+    private fun highlightInputOnFocus() {
+        etName.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                etName.setBackgroundResource(R.drawable.auth_input_focused)
+                etName.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+            } else {
+                etName.setBackgroundResource(R.drawable.auth_input)
+                etName.setHintTextColor(resources.getColor(R.color.input_stroke))
+            }
+        }
+        etLastName.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                etLastName.setBackgroundResource(R.drawable.auth_input_focused)
+                etLastName.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+            } else {
+                etLastName.setBackgroundResource(R.drawable.auth_input)
+                etLastName.setHintTextColor(resources.getColor(R.color.input_stroke))
+            }
+        }
+        etPhone.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                etPhone.setBackgroundResource(R.drawable.auth_input_focused)
+                etPhone.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+                tvCountryCode.setTextColor(resources.getColor(R.color.input_focused_stroke))
+            } else {
+                etPhone.setBackgroundResource(R.drawable.auth_input)
+                etPhone.setHintTextColor(resources.getColor(R.color.input_stroke))
+                tvCountryCode.setTextColor(resources.getColor(R.color.input_stroke))
+            }
+        }
+        edtEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                edtEmail.setBackgroundResource(R.drawable.auth_input_focused)
+                edtEmail.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+            } else {
+                edtEmail.setBackgroundResource(R.drawable.auth_input)
+                edtEmail.setHintTextColor(resources.getColor(R.color.input_stroke))
+            }
+        }
+        edtPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                passwordFieldSelected = true
+                edtPassword.setBackgroundResource(R.drawable.auth_input_focused)
+                edtPassword.setHintTextColor(resources.getColor(R.color.input_focused_stroke))
+                ivEye.drawable.setTint(resources.getColor(R.color.input_focused_stroke))
+            } else {
+                passwordFieldSelected = false
+                edtPassword.setBackgroundResource(R.drawable.auth_input)
+                edtPassword.setHintTextColor(resources.getColor(R.color.input_stroke))
+                ivEye.drawable.setTint(resources.getColor(R.color.input_stroke))
+            }
+        }
+
+    }
+
     private fun changePasswordVisibility(){
         if(edtPassword.inputType == 129){
             edtPassword.inputType = 1
@@ -258,6 +319,11 @@ class SignUpActivity : AppCompatActivity() {
         }else{
             edtPassword.inputType = 129
             ivEye.setImageResource(R.drawable.ic_open_eye)
+        }
+        if(passwordFieldSelected){
+            ivEye.drawable.setTint(resources.getColor(R.color.input_focused_stroke))
+        }else{
+            ivEye.drawable.setTint(resources.getColor(R.color.input_stroke))
         }
     }
 
