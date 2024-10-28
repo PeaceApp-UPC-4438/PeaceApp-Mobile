@@ -4,6 +4,22 @@
     <color name="white">#FFFFFFFF</color>
     <color name="peaceapp_blue">#1C597C</color>
 
+
+    <color name="peaceapp_green">#257180</color>
+    <color name="peaceapp_pink" >#FF6673</color>
+    <color name="peaceapp_pink_medium">#FF9DA5</color>
+    <color name="peaceapp_pink_light">#FFC4C7</color>
+
+    <color name="initial_button_gray">#F4F4F4</color>
+    <color name="input_stroke">#B6B6B6</color>
+    <color name="input_focused_stroke">#91D0DC</color>
+    <color name="input_focused_solid">#FCFFFF</color>
+    <color name="signin_light_gray">#A2A2A2</color>
+    <color name="socials_google">#D44E42</color>
+    <color name="socials_facebook">#596399</color>
+    <color name="socials_linkedin">#5AA3C6</color>
+
+
     <color name="disabled">#DCDCDC</color>
     <color name="danger">#EC221F</color>
     <color name="positive">#14AE5C</color>
