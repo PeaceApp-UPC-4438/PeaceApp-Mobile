@@ -5,12 +5,14 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.button.MaterialButton
@@ -33,7 +35,7 @@ class MainProfileActivity : AppCompatActivity() {
     private lateinit var tvPassword: TextView
     private lateinit var ivProfileImage: ImageView
 
-    private lateinit var btnEditProfile: MaterialButton
+    private lateinit var btnEditProfile: Button
     private lateinit var btnDeleteAccount: TextView
     private lateinit var llLogout: LinearLayout
     private lateinit var ivEye: ImageView
@@ -119,7 +121,17 @@ class MainProfileActivity : AppCompatActivity() {
     private fun initListeners() {
         btnEditProfile.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
+
+
             intent.putExtra("user", user)
+//            findViewById<View>(R.id.main).animate()
+//                .alpha(0f)
+//                .setDuration(500)
+//                .withEndAction {
+//                    startActivity(intent)
+//                    // Fade in the new activity
+//                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+//                }
             startActivity(intent)
         }
 
