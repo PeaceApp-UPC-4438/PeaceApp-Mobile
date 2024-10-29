@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="330dp"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="50dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="10dp"
     android:layout_margin="10dp"
     app:cardBackgroundColor="@color/white"
     android:background="@android:color/transparent"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="37dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:paddingTop="30dp"
         >
 
         <ImageView
-            android:id="@+id/ivCross"
-            android:layout_width="83dp"
-            android:layout_height="83dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_cross"
-            app:tint="@color/danger"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
+            android:layout_gravity="center"
+            />
         <TextView
-            android:id="@+id/tvIncorrectSignup"
-            android:layout_marginVertical="40dp"
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Asegúrate de llenar todos los campos"
-            android:textSize="20sp"
+            android:text="¡Ups!"
+            android:layout_marginTop="12dp"
+            android:textSize="17sp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/black"
             android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivCross"
-            app:layout_constraintBottom_toTopOf="@+id/btnContinue"
+            />
+
+
+        <TextView
+            android:id="@+id/tvIncorrectSignup"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Asegúrate de llenar todos los campos"
+            android:textSize="13sp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/nav_item_unselected"
+            android:gravity="center"
             />
 
         <Button
             android:id="@+id/btnContinue"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Continuar"
             android:textColor="@color/black"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_bold"
             android:textSize="13sp"
             android:elegantTextHeight="true"
-            android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvIncorrectSignup"
-            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/disabled"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="20dp"
             />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

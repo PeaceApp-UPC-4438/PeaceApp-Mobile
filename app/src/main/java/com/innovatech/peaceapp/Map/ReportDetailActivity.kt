@@ -77,13 +77,13 @@ class ReportDetailActivity : AppCompatActivity() {
     private fun showDeleteReportDialog(){
         val dialog = Dialog(this)
 
-        dialog.setContentView(R.layout.dialog_delete_report)
+        dialog.setContentView(R.layout.dialog_delete_new_report)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
         val btnEliminar = dialog.findViewById<Button>(R.id.btnEliminar)
-        val tvMensaje = dialog.findViewById<TextView>(R.id.tvDeleteReport)
+        val tvMensaje = dialog.findViewById<TextView>(R.id.tvDeleteNewReport)
 
         tvMensaje.text = "Estás a punto de eliminar el reporte " + "\"" + report.title + "\"" + ". ¿Estás seguro?"
 
