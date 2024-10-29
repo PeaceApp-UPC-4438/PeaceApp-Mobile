@@ -8,6 +8,16 @@
     android:background="@drawable/view_background"
     tools:context=".Map.ReportDetailActivity">
 
+    <View
+        android:id="@+id/white_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/peaceapp_gray"
+        app:layout_constraintTop_toTopOf="@+id/scrollReportDetail"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/txtTitleDetailReport"
         android:layout_width="250dp"
@@ -37,7 +47,6 @@
         >
 
             <LinearLayout
-                android:paddingVertical="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -152,6 +161,7 @@
                     android:paddingEnd="50dp"
                     android:paddingStart="50dp"
                     android:layout_gravity="center"
+                    android:backgroundTint="@color/peaceapp_blue"
                     />
 
             </LinearLayout>
