@@ -59,6 +59,7 @@
             android:textSize="14sp"
             android:textColor="@color/black"
             android:textColorHint="@color/input_stroke"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintTop_toBottomOf="@+id/tv_bienvenido"
             app:layout_constraintEnd_toEndOf="@+id/frame_signup"
             app:layout_constraintStart_toStartOf="@+id/frame_signup"
@@ -72,6 +73,7 @@
             android:textColor="@color/black"
             android:textColorHint="@color/input_stroke"
             android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintTop_toBottomOf="@+id/et_name"
             app:layout_constraintEnd_toEndOf="@+id/frame_signup"
             app:layout_constraintStart_toStartOf="@+id/frame_signup"
@@ -89,6 +91,7 @@
             android:textColor="@color/black"
             android:textColorHint="@color/input_stroke"
             android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintTop_toBottomOf="@+id/et_surname"
             app:layout_constraintEnd_toEndOf="@+id/frame_signup"
             app:layout_constraintStart_toStartOf="@+id/frame_signup"
@@ -116,6 +119,7 @@
             android:layout_marginTop="16dp"
             android:textSize="14sp"
             android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textColorHint="@color/input_stroke"
             app:layout_constraintTop_toBottomOf="@+id/et_phone"
@@ -139,6 +143,7 @@
                 android:hint="Ingresa tu contraseña"
                 android:inputType="textPassword"
                 android:textColor="@color/black"
+                android:fontFamily="@font/poppins_regular"
                 android:textColorHint="@color/input_stroke"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/cl_password"
@@ -171,6 +176,7 @@
             app:layout_constraintTop_toBottomOf="@id/cl_password"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/peaceapp_pink"
+            android:textColor="@color/white"
             />
 
         <LinearLayout
