@@ -36,69 +36,80 @@ import kotlinx.coroutines.launch
 
 class ContactsListActivity : AppCompatActivity() {
 
-        private lateinit var etSearch: EditText
-        private lateinit var btnSendLocation: Button
-        private lateinit var rvContacts: RecyclerView
-        private lateinit var contactAdapter: Adapter
-        private val selectedContacts = mutableListOf<Contact>()
-        private var latitude = ""
-        private var longitude = ""
-        private lateinit var token: String
+    private lateinit var etSearch: EditText
+    private lateinit var btnSendLocation: Button
+    private lateinit var rvContacts: RecyclerView
+    private lateinit var contactAdapter: Adapter
+    private val selectedContacts = mutableListOf<Contact>()
+    private var latitude = ""
+    private var longitude = ""
+    private lateinit var token: String
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_contacts_list)
-            val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
-            latitude = sharedPref.getString("latitude", "0.0")!!.toString()
-            longitude = sharedPref.getString("longitude", "0.0")!!.toString()
-            token = GlobalToken.token
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_contacts_list)
+        val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
+        latitude = sharedPref.getString("latitude", "0.0")!!.toString()
+        longitude = sharedPref.getString("longitude", "0.0")!!.toString()
+        token = GlobalToken.token
 
 
-            lifecycleScope.launch {
-                askForPermissions()
-            }
-            initComponents()
-
-            val contactList = loadContacts()
-            contactAdapter = Adapter(contactList) { contact, isSelected ->
-                if (isSelected) {
-                    selectedContacts.add(contact)
-                } else {
-                    selectedContacts.remove(contact)
-                }
-            }
-            rvContacts.layoutManager = LinearLayoutManager(applicationContext)
-            rvContacts.adapter = contactAdapter
-
-            btnSendLocation.setOnClickListener {
-                if(selectedContacts.isEmpty()) {
-                    Toast.makeText(this, "Selecciona al menos un contacto para continuar", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                sendLocationToSelectedContacts()
-            }
-
-            editTextListeners(contactList)
-            navigationMenu()
+        lifecycleScope.launch {
+            askForPermissions()
         }
+        initComponents()
+        checkSelectedContacts()
 
-        //async function to wait for permissions
-        private suspend fun askForPermissions() {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
-                    1001)
-            }
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
+        val contactList = loadContacts()
+        contactAdapter = Adapter(contactList) { contact, isSelected ->
+            if (isSelected) {
+                selectedContacts.add(contact)
+                checkSelectedContacts()
+            } else {
+                selectedContacts.remove(contact)
+                checkSelectedContacts()
             }
         }
+        rvContacts.layoutManager = LinearLayoutManager(applicationContext)
+        rvContacts.adapter = contactAdapter
 
-        private fun initComponents() {
-            etSearch = findViewById(R.id.etSearch)
-            btnSendLocation = findViewById(R.id.btnSendLocation)
-            rvContacts = findViewById(R.id.rv_contacts)
+        btnSendLocation.setOnClickListener {
+            if(selectedContacts.isEmpty()) {
+                Toast.makeText(this, "Selecciona al menos un contacto para continuar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            sendLocationToSelectedContacts()
         }
+
+        editTextListeners(contactList)
+        navigationMenu()
+    }
+
+    private fun checkSelectedContacts() {
+        if (selectedContacts.isEmpty()) {
+            btnSendLocation.visibility = Button.GONE
+        }else {
+            btnSendLocation.visibility = Button.VISIBLE
+        }
+    }
+
+    //async function to wait for permissions
+    private suspend fun askForPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
+                1001)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
+        }
+    }
+
+    private fun initComponents() {
+        etSearch = findViewById(R.id.etSearch)
+        btnSendLocation = findViewById(R.id.btnSendLocation)
+        rvContacts = findViewById(R.id.rv_contacts)
+    }
 
     private fun navigationMenu() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -176,9 +187,12 @@ class ContactsListActivity : AppCompatActivity() {
 
                 var image = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone
                     .PHOTO_URI))
-                if(image == null) { // asignar imagen por defecto
-                    image = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+
+                if(image == null) {
+                    image = "https://picsum.photos/200/200?random=${contactList.size}"
                 }
+
+                Log.i("iterador andriush", "iterador: ${contactList.size}")
                 var position = contactList.size
 
                 var contact = Contact(name, phoneNumber, image)
@@ -227,6 +241,8 @@ class ContactsListActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_generated_url)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnCopy = dialog.findViewById<CardView>(R.id.cvCopyContainer)
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)

@@ -191,6 +191,8 @@ class SignUpActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_correct_signup)
         // to set a transparent background
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
 

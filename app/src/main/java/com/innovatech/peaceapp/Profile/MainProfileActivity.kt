@@ -153,8 +153,11 @@ class MainProfileActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_delete_profile)
 
+
         // set transparent background
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnDelete = dialog.findViewById<Button>(R.id.btnEliminar)
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)

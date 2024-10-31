@@ -77,7 +77,6 @@
                     android:background="@null"
                     android:inputType="text"
                     android:fontFamily="@font/poppins_medium"
-
                     android:textColorHint="@color/black"
 
                     android:textSize="15sp"
@@ -116,15 +115,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar Ubicación"
-        android:paddingHorizontal="30dp"
+        android:paddingHorizontal="22dp"
         android:paddingVertical="5dp"
-        android:backgroundTint="@color/peaceapp_blue_light_disable"
+        android:backgroundTint="@color/peaceapp_pink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
-        android:fontFamily="@font/poppins_medium"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_bold"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="12dp"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -80,6 +80,8 @@ class ReportDetailActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_delete_new_report)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
         val btnEliminar = dialog.findViewById<Button>(R.id.btnEliminar)

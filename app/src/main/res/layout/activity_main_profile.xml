@@ -57,26 +57,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_user_default" />
             </com.google.android.material.card.MaterialCardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:cardCornerRadius="100dp"
-                android:backgroundTint="@color/peaceapp_pink"
-                app:layout_constraintStart_toEndOf="@+id/imageBorder"
-                app:layout_constraintBottom_toBottomOf="@+id/imageBorder"
-                android:layout_marginStart="-35dp"
-                android:layout_marginBottom="-5dp"
-                android:elevation="3dp"
-                >
-                <ImageView
-                    android:id="@+id/ivEditProfileImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_camera"
-                    app:tint="@color/white" />
-            </androidx.cardview.widget.CardView>
 
 
 

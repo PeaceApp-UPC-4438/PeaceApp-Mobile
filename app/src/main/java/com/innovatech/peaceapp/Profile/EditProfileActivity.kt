@@ -40,6 +40,7 @@ import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.StartingPoint.InitialActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +60,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var btnCancel: Button
     private lateinit var btnSave: Button
+    private lateinit var llLogout: LinearLayout
 
     private lateinit var token: String
     private lateinit var email: String
@@ -119,6 +121,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         btnCancel = findViewById(R.id.btnCancel)
         btnSave = findViewById(R.id.btnSave)
+        llLogout = findViewById(R.id.ll_logout)
     }
 
     private fun loadUserData() {
@@ -141,6 +144,9 @@ class EditProfileActivity : AppCompatActivity() {
         }
         cvCamera.setOnClickListener() {
             requestPermissions()
+        }
+        llLogout.setOnClickListener {
+            showDeleteUserDialog()
         }
     }
     private fun showConfirmationDialog() {
@@ -364,6 +370,37 @@ class EditProfileActivity : AppCompatActivity() {
         outputStream.flush()
         outputStream.close()
         Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDeleteUserDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_delete_profile)
+
+        // set transparent background
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val btnDelete = dialog.findViewById<Button>(R.id.btnEliminar)
+        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
+
+        dialog.show()
+
+        btnDelete.setOnClickListener {
+            // DE MOMENTO HAREMOS UN LOG OUT
+            logout()
+            //deleteUser()
+        }
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
+    private fun logout() {
+        val intent = Intent(this, InitialActivity::class.java)
+        startActivity(intent)
     }
 
 }
