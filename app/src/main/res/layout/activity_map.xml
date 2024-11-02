@@ -20,7 +20,7 @@
         android:id="@+id/imageBorder"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:strokeColor="#000"
+        app:strokeColor="@color/peaceapp_gray"
         app:strokeWidth="2.5dp"
         app:cardCornerRadius="100dp"
         android:layout_marginHorizontal="20dp"
@@ -131,8 +131,10 @@
                     android:padding="5dp"
                     android:id="@+id/searchLocation"
                     android:layout_gravity="center"
-                    android:textColorHint="@android:color/secondary_text_dark"
+                    android:textColorHint="@color/input_stroke"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/poppins_medium"
+                    android:elegantTextHeight="true"
                     />
 
 
@@ -150,14 +152,17 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/location_icon"
                     android:layout_gravity="center"
+                    app:tint="@color/nav_item_unselected"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current Location"
+                    android:elegantTextHeight="true"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/nav_item_unselected"
+                    android:fontFamily="@font/poppins_regular"
                     android:id="@+id/currentLocation"/>
 
 
@@ -204,9 +209,9 @@
     <ImageView
         android:id="@+id/map_pin"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="40dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/baseline_location_on_24"
+        android:src="@drawable/ic_location_with_base"
         app:layout_constraintBottom_toTopOf="@+id/map_center"
         app:layout_constraintEnd_toEndOf="@id/mapView"
         app:layout_constraintStart_toStartOf="@id/mapView"
@@ -223,32 +228,36 @@
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:id="@+id/iconButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="-50dp"
         android:background="@drawable/circular_button"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/container_search"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
+        android:backgroundTint="#FFAC00"
         android:foregroundGravity="center"
-        >
+        app:layout_constraintBottom_toTopOf="@+id/container_search"
+        app:layout_constraintStart_toStartOf="parent">
 
 
-        <ImageView
+        <TextView
             android:id="@+id/iconImage"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:textSize="41sp"
 
-            android:src="@drawable/baseline_warning_24"
-            app:layout_constraintTop_toTopOf="@id/iconButton"
-            app:layout_constraintBottom_toBottomOf="@id/iconButton"
-            app:layout_constraintStart_toStartOf="@id/iconButton"
-            app:layout_constraintEnd_toEndOf="@id/iconButton"
             android:foregroundGravity="center"
-            android:layout_marginBottom="7dp"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/iconButton"
+            app:layout_constraintEnd_toEndOf="@id/iconButton"
+            app:layout_constraintStart_toStartOf="@id/iconButton"
+            app:layout_constraintTop_toTopOf="@id/iconButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
