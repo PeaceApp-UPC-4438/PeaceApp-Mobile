@@ -25,17 +25,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Beans.ReportSchema
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
 import com.innovatech.peaceapp.R
-import com.mapbox.geojson.Point
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,6 +38,8 @@ import java.io.File
 import java.io.FileOutputStream
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils;
+import com.innovatech.peaceapp.DB.AppDatabase
+import com.innovatech.peaceapp.DB.Entities.LocationModel
 import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -218,6 +215,26 @@ class NewReportActivity : AppCompatActivity() {
                         Log.d("Location", location.toString())
                     }
 
+                    val locationsRecents = recoverRecentLocations()
+                    if(locationsRecents.size < 5) {
+                        saveRecentLocations(location!!)
+                    } else {
+                        val db = AppDatabase.getDatabase(this@NewReportActivity)
+                        GlobalScope.launch(Dispatchers.IO) {
+                            db.reportDAO().delete(locationsRecents[0])
+                            db.reportDAO().insert(
+                                LocationModel(
+                                    location!!.id,
+                                    location.createdAt,
+                                    location.updatedAt,
+                                    location.alatitude,
+                                    location.alongitude,
+                                    location.idReport
+                                )
+                            )
+                        }
+                    }
+
                     showCorrectReportSaved()
                 }
             }
@@ -226,6 +243,35 @@ class NewReportActivity : AppCompatActivity() {
                 Log.e("Error", t.message.toString())
             }
         })
+    }
+
+    private fun saveRecentLocations(location: Location) {
+        val db = AppDatabase.getDatabase(this)
+        GlobalScope.launch(Dispatchers.IO) {
+            db.reportDAO().insert(
+                LocationModel(
+                    location.id,
+                    location.createdAt,
+                    location.updatedAt,
+                    location.alatitude,
+                    location.alongitude,
+                    location.idReport
+                )
+            )
+        }
+    }
+
+    private fun recoverRecentLocations(): List<LocationModel> {
+        val db = AppDatabase.getDatabase(this)
+        var locations = emptyList<LocationModel>()
+        GlobalScope.launch {
+            locations = db.reportDAO().listLocations()
+        }
+
+        // sort the locations by the most recent
+        locations = locations.sortedByDescending { it.id }
+
+        return locations
     }
 
     private fun saveImageEvidence() {

@@ -24,12 +24,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.innovatech.peaceapp.Alert.AlertActivity
 import com.innovatech.peaceapp.Alert.Beans.Alert
 import com.innovatech.peaceapp.Alert.Beans.AlertSchema
+import com.innovatech.peaceapp.DB.AppDatabase
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
+import com.innovatech.peaceapp.Map.Adapters.AdapterLocationRecent
 import com.innovatech.peaceapp.Map.Beans.PropertiesPlace
 import com.innovatech.peaceapp.Map.Beans.Report
 import com.innovatech.peaceapp.Map.Models.RetrofitClient
@@ -61,6 +65,10 @@ import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -229,7 +237,24 @@ class MapActivity : AppCompatActivity() {
         setupMap()
         navigationMenu()
         deleteAllAlerts()
+        recoverRecentLocations()
     }
+
+    private fun recoverRecentLocations() {
+        val db = AppDatabase.getDatabase(this)
+        val recycler = findViewById<RecyclerView>(R.id.locationsRecyclerView)
+        GlobalScope.launch {
+            val locations = db.reportDAO().listLocations()
+            Log.i("andriush", locations.toString())
+
+            withContext(Dispatchers.Main) {
+                recycler.layoutManager = LinearLayoutManager(applicationContext)
+                recycler.adapter = AdapterLocationRecent(locations)
+            }
+
+        }
+    }
+
     private fun loadUserPhoto() {
         val service = com.innovatech.peaceapp.Profile.Models.RetrofitClient.getClient(token)
 
