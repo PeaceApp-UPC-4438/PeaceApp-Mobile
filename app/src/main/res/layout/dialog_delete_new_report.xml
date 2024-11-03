@@ -41,7 +41,7 @@
 
 
         <Button
-            android:id="@+id/btnEliminar"
+            android:id="@+id/btnEliminarPost"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Sí, eliminar reporte"

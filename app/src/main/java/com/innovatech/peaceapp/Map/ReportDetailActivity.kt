@@ -84,7 +84,7 @@ class ReportDetailActivity : AppCompatActivity() {
         dialog.setCanceledOnTouchOutside(false)
 
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
-        val btnEliminar = dialog.findViewById<Button>(R.id.btnEliminar)
+        val btnEliminar = dialog.findViewById<Button>(R.id.btnEliminarPost)
         val tvMensaje = dialog.findViewById<TextView>(R.id.tvDeleteNewReport)
 
         tvMensaje.text = "Estás a punto de eliminar el reporte " + "\"" + report.title + "\"" + ". ¿Estás seguro?"
