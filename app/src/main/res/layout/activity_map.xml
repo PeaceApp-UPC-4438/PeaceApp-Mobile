@@ -12,7 +12,9 @@
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/mapCard"
+        android:layout_marginBottom="-50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,6 +54,7 @@
         >
 
         <View
+            android:id="@+id/mapCardBackground"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:background="@drawable/rounded_top_corners_map"
@@ -63,7 +66,8 @@
             android:layout_height="50dp"
             app:layout_constraintTop_toTopOf="@+id/mapCard"
             app:layout_constraintStart_toStartOf="@+id/mapCard"
-            android:background="@drawable/rounded_top_corners_gradient_map"/>
+            android:background="@drawable/rounded_top_corners_gradient_map"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -74,10 +78,10 @@
         android:layout_height="120dp"
         app:layout_constraintBottom_toTopOf="@+id/mapCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardElevation="30dp"
+        app:cardElevation="10dp"
         app:cardCornerRadius="30dp"
         app:cardBackgroundColor="@color/white"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:translationY="60dp"
         >
 
@@ -89,17 +93,24 @@
 
             <ImageView
                 android:id="@+id/expand_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:src="@drawable/up_arrow_icon"
+
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                app:tint="@color/asset_grey"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center"
                 />
             <ImageView
                 android:id="@+id/compressed_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/down_arrow_icon"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                app:tint="@color/asset_grey"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center"
+                android:src="@drawable/down_arrow_icon"
                 android:visibility="gone"
                 />
 
@@ -131,7 +142,7 @@
                     android:padding="5dp"
                     android:id="@+id/searchLocation"
                     android:layout_gravity="center"
-                    android:textColorHint="@color/input_stroke"
+                    android:textColorHint="@color/black"
                     android:textColor="@color/black"
                     android:fontFamily="@font/poppins_medium"
                     android:elegantTextHeight="true"
@@ -237,7 +248,7 @@
         android:background="@drawable/circular_button"
         android:clickable="true"
         android:focusable="true"
-        android:backgroundTint="#FFAC00"
+        android:backgroundTint="#FFCC00"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toTopOf="@+id/container_search"
         app:layout_constraintStart_toStartOf="parent">

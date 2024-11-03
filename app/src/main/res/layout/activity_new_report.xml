@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="30dp"
-            android:background="#FFF"
+            android:background="@color/peaceapp_gray"
             android:paddingStart="30dp">
 
             <LinearLayout
@@ -67,8 +67,11 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/new_report_input"
-                    android:backgroundTint="@color/disabled"
+                    android:backgroundTint="@color/peaceapp_bg_new_report"
                     android:hint="Reporte"
+                    android:textColor="@color/nav_item_unselected"
+                    android:textColorHint="@color/nav_item_unselected"
+                    android:fontFamily="@font/poppins_regular"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -93,8 +96,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/new_report_input"
-                    android:backgroundTint="@color/disabled"
+                    android:backgroundTint="@color/peaceapp_bg_new_report"
                     android:hint="Ubicación específica"
+                    android:textColor="@color/nav_item_unselected"
+                    android:textColorHint="@color/nav_item_unselected"
+                    android:fontFamily="@font/poppins_regular"
+
                     android:textSize="13sp"
                     />
 
@@ -123,6 +130,9 @@
                     android:textSize="13sp"
                     android:background="@drawable/new_report_input"
                     android:textColor="@color/black"
+                    android:textColorHint="@color/nav_item_unselected"
+                    android:fontFamily="@font/poppins_regular"
+
                     />
 
             </LinearLayout>
@@ -176,24 +186,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/evidence_default"
-                        android:layout_marginEnd="20dp"
-                        android:id="@+id/imgEvidence"
-                        android:scaleType="centerCrop"
-                        />
-
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/more_evidence"
                         android:clickable="true"
                         android:focusable="true"
+                        android:layout_marginEnd="8dp"
                         android:id="@+id/imgMoreEvidence"
+                        app:tint="@color/input_stroke"
                         />
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/evidence_default"
+                        android:id="@+id/imgEvidence"
+                        android:scaleType="centerCrop"
+                        />
+
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -208,7 +219,7 @@
                     android:id="@+id/btnCancel"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#D6D6D6"
+                    android:backgroundTint="@color/signin_light_gray"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:paddingStart="35dp"
@@ -217,12 +228,13 @@
                     android:text="Cancelar"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:textColor="#83878A" />
+                    android:textColor="@color/white"
+                    />
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/peaceapp_blue"
+                    android:backgroundTint="@color/peaceapp_pink"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:paddingStart="35dp"
@@ -233,6 +245,9 @@
                     android:textColor="@color/white"
                     />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
 
         </LinearLayout>
 

@@ -37,13 +37,14 @@
         >
 
             <LinearLayout
-                android:paddingVertical="20dp"
+                android:paddingVertical="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -98,7 +99,7 @@
                     <ImageView
                         android:id="@+id/imgReporte"
                         android:layout_width="match_parent"
-                        android:layout_height="280dp"
+                        android:layout_height="250dp"
                         android:src="@drawable/image_report_not_found"
                         android:scaleType="fitXY"
                         />
@@ -152,7 +153,13 @@
                     android:paddingEnd="50dp"
                     android:paddingStart="50dp"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:backgroundTint="@color/peaceapp_pink"
                     />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
 
             </LinearLayout>
 

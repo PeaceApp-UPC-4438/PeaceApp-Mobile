@@ -34,6 +34,7 @@
     <color name="peaceapp_bg_new_report">#E9ECF1</color>
     <color name="nav_item_unselected">#83878A</color>
     <color name="nav_item_selected">#1C597C</color>
+    <color name="asset_grey">#E6E6E6</color>
 
     <color name="contact_input_background">#F1F5F8</color>
 
