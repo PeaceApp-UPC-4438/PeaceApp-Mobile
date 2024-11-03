@@ -122,7 +122,7 @@ class MapActivity : AppCompatActivity() {
         var tk = GlobalToken
         Log.i("Token", tk.token.toString())
 // In MapActivity - pass the current location to AlertActivity when the alert button is pressed
-        val warningButton = findViewById<ImageView>(R.id.iconImage)
+        val warningButton = findViewById<ConstraintLayout>(R.id.iconButton)
         warningButton.setOnClickListener {
 
             // Start the AlertActivity as before

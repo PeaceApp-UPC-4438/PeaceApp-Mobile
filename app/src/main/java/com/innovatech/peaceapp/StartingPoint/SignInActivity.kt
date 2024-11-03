@@ -162,6 +162,8 @@ class SignInActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_incorrect_signup)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
         val tvMensaje = dialog.findViewById<TextView>(R.id.tvIncorrectSignup)

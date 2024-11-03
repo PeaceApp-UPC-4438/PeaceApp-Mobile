@@ -47,6 +47,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="16sp"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_marginTop="15dp"
                 android:id="@+id/txtAllReports"
                 android:textColor="@color/black"/>
@@ -70,6 +71,7 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="16sp"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_marginTop="15dp"
                 android:id="@+id/txtMyReports"
                 android:textColor="@color/black"/>
@@ -79,7 +81,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerReports"
-        android:background="@color/white"
+        android:background="@color/peaceapp_gray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="200dp"
@@ -94,8 +96,9 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:id="@+id/btnNewReport"
-        android:backgroundTint="@color/peaceapp_blue"
+        android:backgroundTint="@color/peaceapp_pink"
         android:textColor="@color/white"
+        android:fontFamily="@font/poppins_bold"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

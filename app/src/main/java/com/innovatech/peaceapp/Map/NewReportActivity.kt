@@ -352,6 +352,8 @@ class NewReportActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_incorrect_signup)
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
         val tvMensaje = dialog.findViewById<TextView>(R.id.tvIncorrectSignup)
@@ -370,6 +372,8 @@ class NewReportActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_correct_report)
         // to set a transparent background
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
 
         val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
 

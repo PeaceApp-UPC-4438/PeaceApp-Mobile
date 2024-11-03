@@ -6,7 +6,7 @@
         android:topRightRadius="50dp"
         />
     <gradient
-        android:startColor="#80333333"
+        android:startColor="#00333333"
         android:endColor="@color/peaceapp_gray"
         android:angle="-90"
         />

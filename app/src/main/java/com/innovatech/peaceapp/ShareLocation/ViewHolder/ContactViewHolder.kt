@@ -19,8 +19,9 @@ class ContactViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         if (contactModel.image == null){
             contactImage.setImageResource(R.drawable.image_user_default)
-        } else
-        Picasso.get().load(contactModel.image).into(contactImage)
-        contactCheckBox.isChecked = contactModel.isSelected
+        } else{
+            Picasso.get().load(contactModel.image).into(contactImage)
+            contactCheckBox.isChecked = contactModel.isSelected
+        }
     }
 }

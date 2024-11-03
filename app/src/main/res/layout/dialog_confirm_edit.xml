@@ -1,80 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="330dp"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="50dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="10dp"
     android:layout_margin="10dp"
     app:cardBackgroundColor="@color/white"
     android:background="@android:color/transparent"
     >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="37dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         >
 
-        <ImageView
-            android:id="@+id/ivQuestion"
-            android:layout_width="83dp"
-            android:layout_height="83dp"
-            android:src="@drawable/ic_question"
-            app:tint="@color/nav_item_unselected"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tvConfirmEdit"
-            android:layout_marginVertical="40dp"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="¿Quieres confirmar los cambios?"
-            android:textSize="20sp"
+            android:text="¿Confirmar cambios?"
+            android:textSize="17sp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/black"
             android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivQuestion"
-            app:layout_constraintBottom_toTopOf="@+id/btnCancel"
             />
 
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvConfirmEditDescription"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins_medium"
+            android:text="Todos los cambios realizados se guardarán"
             android:textSize="13sp"
-            android:elegantTextHeight="true"
-            android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnContinue"
-            app:layout_constraintTop_toBottomOf="@+id/tvConfirmEdit"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/disabled"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/nav_item_unselected"
+            android:gravity="center"
             />
 
         <Button
             android:id="@+id/btnContinue"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
+            android:text="Sí, guardar cambios"
             android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium"
+            android:fontFamily="@font/poppins_bold"
             android:elegantTextHeight="true"
             android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnCancel"
-            app:layout_constraintTop_toTopOf="@+id/btnCancel"
-            android:backgroundTint="@color/peaceapp_blue_dark_disable"
+            android:backgroundTint="@color/peaceapp_pink"
+            app:cornerRadius="8dp"
+            android:layout_marginTop="14dp"
+            />
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="13sp"
+            android:elegantTextHeight="true"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/disabled"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="20dp"
             />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

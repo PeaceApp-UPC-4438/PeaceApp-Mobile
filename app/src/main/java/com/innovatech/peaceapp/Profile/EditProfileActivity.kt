@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.transition.Transition
 import android.util.Log
 import android.view.Window
 import android.widget.Button
@@ -23,6 +24,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -30,6 +32,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
+import com.google.android.material.transition.MaterialContainerTransform
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.MapActivity
@@ -37,6 +40,7 @@ import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.StartingPoint.InitialActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,9 +56,11 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var tvEmail: TextView
     private lateinit var tvPassword: TextView
     private lateinit var ivProfileImage: ImageView
+    private lateinit var cvCamera: CardView
 
     private lateinit var btnCancel: Button
     private lateinit var btnSave: Button
+    private lateinit var llLogout: LinearLayout
 
     private lateinit var token: String
     private lateinit var email: String
@@ -80,6 +86,8 @@ class EditProfileActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         user = intent.getSerializableExtra("user") as UserProfile
 
         token = GlobalToken.token
@@ -109,9 +117,11 @@ class EditProfileActivity : AppCompatActivity() {
         tvEmail = findViewById(R.id.txt_user_email)
         tvPassword = findViewById(R.id.txt_user_password)
         ivProfileImage = findViewById(R.id.ivProfile)
+        cvCamera = findViewById(R.id.cv_camera)
 
         btnCancel = findViewById(R.id.btnCancel)
         btnSave = findViewById(R.id.btnSave)
+        llLogout = findViewById(R.id.ll_logout)
     }
 
     private fun loadUserData() {
@@ -132,8 +142,11 @@ class EditProfileActivity : AppCompatActivity() {
                 showConfirmationDialog()
             }
         }
-        ivProfileImage.setOnClickListener() {
+        cvCamera.setOnClickListener() {
             requestPermissions()
+        }
+        llLogout.setOnClickListener {
+            showDeleteUserDialog()
         }
     }
     private fun showConfirmationDialog() {
@@ -357,6 +370,37 @@ class EditProfileActivity : AppCompatActivity() {
         outputStream.flush()
         outputStream.close()
         Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDeleteUserDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_delete_profile)
+
+        // set transparent background
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val btnDelete = dialog.findViewById<Button>(R.id.btnEliminar)
+        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
+
+        dialog.show()
+
+        btnDelete.setOnClickListener {
+            // DE MOMENTO HAREMOS UN LOG OUT
+            logout()
+            //deleteUser()
+        }
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
+    private fun logout() {
+        val intent = Intent(this, InitialActivity::class.java)
+        startActivity(intent)
     }
 
 }

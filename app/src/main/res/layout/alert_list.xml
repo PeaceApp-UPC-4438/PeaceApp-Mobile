@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:background="@drawable/view_background"
     tools:context=".Alert.AlertActivity">
 
     <!-- Header Section -->
@@ -13,46 +14,51 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/view_background"
         android:orientation="vertical"
         android:padding="16dp"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tvAlertTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alertas"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvAlertTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alertas"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
 
-    <!-- Current Location -->
-    <TextView
-        android:id="@+id/tvCurrentLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cargando ubicación..."
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center"
-        android:drawableStart="@drawable/ic_location"
-        android:drawablePadding="8dp" />
-</LinearLayout>
+        <!-- Current Location -->
+        <TextView
+            android:id="@+id/tvCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cargando ubicación..."
+            android:elegantTextHeight="true"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="8dp" />
+    </LinearLayout>
 
     <!-- RecyclerView for the alert list -->
-<androidx.recyclerview.widget.RecyclerView
-android:id="@+id/recyclerAlert"
-android:layout_width="match_parent"
-android:layout_height="0dp"
-    android:layout_marginTop="16dp"
-    app:layout_constraintTop_toBottomOf="@id/headerLayout"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerAlert"
+        android:background="@color/peaceapp_gray"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:paddingTop="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
