@@ -245,25 +245,6 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun recoverRecentLocations() {
-        val db = AppDatabase.getDatabase(this)
-        val recycler = findViewById<RecyclerView>(R.id.locationsRecyclerView)
-        GlobalScope.launch {
-            val locations = db.reportDAO().listLocations()
-
-            // sort descending
-            locations.sortedByDescending { it.id }
-
-            Log.i("andriush", locations.toString())
-
-            withContext(Dispatchers.Main) {
-                recycler.layoutManager = LinearLayoutManager(applicationContext)
-                recycler.adapter = AdapterLocationRecent(locations)
-            }
-
-        }
-    }
-
     private fun loadUserPhoto() {
         val service = com.innovatech.peaceapp.Profile.Models.RetrofitClient.getClient(token)
 
@@ -304,13 +285,23 @@ class MapActivity : AppCompatActivity() {
                 Log.i("AddressAutofill SELECTSUGGESTION", "Selected suggestion: $result")
                 // obtaining the point of the selected location
                 coordinatesCurrentLocation = result.suggestion.coordinate!!
+                val firstAddress = result.suggestion.name
+                val secondAddress = result.suggestion.formattedAddress
+
+                val recentLocation = LocationModel(
+                    null,
+                    coordinatesCurrentLocation.latitude(),
+                    coordinatesCurrentLocation.longitude(),
+                    firstAddress,
+                    secondAddress
+                )
 
                 sharedGlobalCoordinates()
                 // showing the result.address
                 showAddressAutofillResult(result)
 
-                GlobalScope.launch {
-                    obtainRecentLocations(coordinatesCurrentLocation.latitude(), coordinatesCurrentLocation.longitude())
+                GlobalScope.launch(Dispatchers.IO) {
+                    obtainRecentLocations(recentLocation)
                 }
 
 
@@ -341,50 +332,70 @@ class MapActivity : AppCompatActivity() {
         // clear the edit text
         searchLocation.text.clear()
         searchResultsView.isVisible = false
-        collapseSearchBox();
+        collapseSearchBox()
     }
 
-    private suspend fun saveRecentLocation(latitude: Double, longitude: Double) {
+    private fun recoverRecentLocations() {
         val db = AppDatabase.getDatabase(this)
-        GlobalScope.launch(Dispatchers.IO) {
-            db.reportDAO().insert(
-                LocationModel(
-                    null,
-                    latitude,
-                    longitude
-                )
-            )
+        val recycler = findViewById<RecyclerView>(R.id.locationsRecyclerView)
+        GlobalScope.launch {
+            var locations = db.reportDAO().listLocations()
+
+            // sort descending
+            locations = locations.sortedByDescending { it.id }
+
+            Log.i("andriush", locations.toString())
+
+            withContext(Dispatchers.Main) {
+                recycler.layoutManager = LinearLayoutManager(applicationContext)
+                recycler.adapter = AdapterLocationRecent(locations)
+            }
+
         }
     }
 
-    private suspend fun recoverLocations(): List<LocationModel> {
+    private fun saveRecentLocation(location: LocationModel) {
+        val db = AppDatabase.getDatabase(this)
+        GlobalScope.launch(Dispatchers.IO) {
+            db.reportDAO().insert(location)
+        }
+    }
+
+    private fun recoverLocations(): List<LocationModel> {
         val db = AppDatabase.getDatabase(this)
         var locations = emptyList<LocationModel>()
         GlobalScope.launch {
             locations = db.reportDAO().listLocations()
+            locations = locations.sortedByDescending { it.id }
         }
-
-        // sort the locations by the most recent
-        locations = locations.sortedByDescending { it.id }
-
         return locations
     }
 
-    private suspend fun obtainRecentLocations(latitude: Double, longitude: Double) {
-        var locationsRecents = emptyList<LocationModel>()
-        GlobalScope.launch {
+    private suspend fun obtainRecentLocations(location: LocationModel) {
+        var locationsRecents: List<LocationModel>
+
+        // Use withContext to suspend until recoverLocations() is complete
+        withContext(Dispatchers.IO) {
             locationsRecents = recoverLocations()
+            Log.i("andriush2", locationsRecents.toString())
         }
-        if (locationsRecents.size < 5) {
-            GlobalScope.launch {
-                saveRecentLocation(latitude, longitude)
+
+        // Now locationsRecents will be populated
+        Log.i("andriush3", locationsRecents.size.toString())
+
+        if (locationsRecents.size < 2) {
+            // Save the recent location in a background coroutine
+            withContext(Dispatchers.IO) {
+                saveRecentLocation(location)
                 recoverRecentLocations()
+
             }
         } else {
             val db = AppDatabase.getDatabase(this)
-            GlobalScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 db.reportDAO().delete(locationsRecents[0])
-                saveRecentLocation(latitude, longitude)
+                saveRecentLocation(location)
+                recoverRecentLocations()
             }
         }
     }

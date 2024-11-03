@@ -15,4 +15,10 @@ data class LocationModel (
     @ColumnInfo(name = "longitude")
     val longitude:Double?,
 
+    @ColumnInfo(name = "first_address")
+    val firstAddress:String?,
+
+    @ColumnInfo(name = "second_address")
+    val secondAddress:String?,
+
 )

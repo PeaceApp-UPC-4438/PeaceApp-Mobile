@@ -1,5 +1,5 @@
 package com.innovatech.peaceapp
 
 object HttpUri {
-    const val url: String = "http://192.168.1.54:8080/"
+    const val url: String = "http://192.168.18.36:8080/"
 }
