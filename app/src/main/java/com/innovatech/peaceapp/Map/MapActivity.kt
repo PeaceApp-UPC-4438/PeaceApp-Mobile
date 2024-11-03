@@ -1,5 +1,6 @@
 package com.innovatech.peaceapp.Map
 
+import Beans.Location
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.Bitmap
@@ -31,6 +32,7 @@ import com.innovatech.peaceapp.Alert.AlertActivity
 import com.innovatech.peaceapp.Alert.Beans.Alert
 import com.innovatech.peaceapp.Alert.Beans.AlertSchema
 import com.innovatech.peaceapp.DB.AppDatabase
+import com.innovatech.peaceapp.DB.Entities.LocationModel
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.Adapters.AdapterLocationRecent
@@ -237,14 +239,21 @@ class MapActivity : AppCompatActivity() {
         setupMap()
         navigationMenu()
         deleteAllAlerts()
-        recoverRecentLocations()
+
+        GlobalScope.launch {
+            recoverRecentLocations()
+        }
     }
 
-    private fun recoverRecentLocations() {
+    private suspend fun recoverRecentLocations() {
         val db = AppDatabase.getDatabase(this)
         val recycler = findViewById<RecyclerView>(R.id.locationsRecyclerView)
         GlobalScope.launch {
             val locations = db.reportDAO().listLocations()
+
+            // sort descending
+            locations.sortedByDescending { it.id }
+
             Log.i("andriush", locations.toString())
 
             withContext(Dispatchers.Main) {
@@ -299,6 +308,12 @@ class MapActivity : AppCompatActivity() {
                 sharedGlobalCoordinates()
                 // showing the result.address
                 showAddressAutofillResult(result)
+
+                GlobalScope.launch {
+                    obtainRecentLocations(coordinatesCurrentLocation.latitude(), coordinatesCurrentLocation.longitude())
+                }
+
+
             }.onError {
                 Log.e("AddressAutofill", "Error selecting suggestion: $it")
             }
@@ -327,6 +342,51 @@ class MapActivity : AppCompatActivity() {
         searchLocation.text.clear()
         searchResultsView.isVisible = false
         collapseSearchBox();
+    }
+
+    private suspend fun saveRecentLocation(latitude: Double, longitude: Double) {
+        val db = AppDatabase.getDatabase(this)
+        GlobalScope.launch(Dispatchers.IO) {
+            db.reportDAO().insert(
+                LocationModel(
+                    null,
+                    latitude,
+                    longitude
+                )
+            )
+        }
+    }
+
+    private suspend fun recoverLocations(): List<LocationModel> {
+        val db = AppDatabase.getDatabase(this)
+        var locations = emptyList<LocationModel>()
+        GlobalScope.launch {
+            locations = db.reportDAO().listLocations()
+        }
+
+        // sort the locations by the most recent
+        locations = locations.sortedByDescending { it.id }
+
+        return locations
+    }
+
+    private suspend fun obtainRecentLocations(latitude: Double, longitude: Double) {
+        var locationsRecents = emptyList<LocationModel>()
+        GlobalScope.launch {
+            locationsRecents = recoverLocations()
+        }
+        if (locationsRecents.size < 5) {
+            GlobalScope.launch {
+                saveRecentLocation(latitude, longitude)
+                recoverRecentLocations()
+            }
+        } else {
+            val db = AppDatabase.getDatabase(this)
+            GlobalScope.launch(Dispatchers.IO) {
+                db.reportDAO().delete(locationsRecents[0])
+                saveRecentLocation(latitude, longitude)
+            }
+        }
     }
 
     private fun navigationMenu() {

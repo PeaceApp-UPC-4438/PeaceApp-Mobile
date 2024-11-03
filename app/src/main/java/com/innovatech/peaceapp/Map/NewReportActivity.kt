@@ -215,26 +215,6 @@ class NewReportActivity : AppCompatActivity() {
                         Log.d("Location", location.toString())
                     }
 
-                    val locationsRecents = recoverRecentLocations()
-                    if(locationsRecents.size < 5) {
-                        saveRecentLocations(location!!)
-                    } else {
-                        val db = AppDatabase.getDatabase(this@NewReportActivity)
-                        GlobalScope.launch(Dispatchers.IO) {
-                            db.reportDAO().delete(locationsRecents[0])
-                            db.reportDAO().insert(
-                                LocationModel(
-                                    location!!.id,
-                                    location.createdAt,
-                                    location.updatedAt,
-                                    location.alatitude,
-                                    location.alongitude,
-                                    location.idReport
-                                )
-                            )
-                        }
-                    }
-
                     showCorrectReportSaved()
                 }
             }
@@ -243,22 +223,6 @@ class NewReportActivity : AppCompatActivity() {
                 Log.e("Error", t.message.toString())
             }
         })
-    }
-
-    private fun saveRecentLocations(location: Location) {
-        val db = AppDatabase.getDatabase(this)
-        GlobalScope.launch(Dispatchers.IO) {
-            db.reportDAO().insert(
-                LocationModel(
-                    location.id,
-                    location.createdAt,
-                    location.updatedAt,
-                    location.alatitude,
-                    location.alongitude,
-                    location.idReport
-                )
-            )
-        }
     }
 
     private fun recoverRecentLocations(): List<LocationModel> {

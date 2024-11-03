@@ -9,18 +9,10 @@ data class LocationModel (
     @PrimaryKey(autoGenerate = true)
     val id:Int?,
 
-    @ColumnInfo(name = "created_at")
-    val createdAt:String?,
-
-    @ColumnInfo(name = "updated_at")
-    val updatedAt:String?,
-
     @ColumnInfo(name = "latitude")
     val latitude:Double?,
 
     @ColumnInfo(name = "longitude")
     val longitude:Double?,
 
-    @ColumnInfo(name = "id_report")
-    val idReport:Int?
 )
