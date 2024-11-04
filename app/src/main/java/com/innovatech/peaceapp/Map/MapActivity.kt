@@ -17,6 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -560,12 +561,22 @@ class MapActivity : AppCompatActivity() {
                 val place = response.body()
                 Log.i("Place", place.toString())
 
-                // Set the name of the current location
-                currentLocation = place?.features?.get(0)?.properties?.name_preferred.toString()
-                coordinatesCurrentLocation = Point.fromLngLat(longitude, latitude)
-                txtCurrentLocation.text = currentLocation
+                // Set the name of the current location}
+                var features = place?.features
+                if (features != null) {
+                    if (features.isEmpty()){
+                        Toast.makeText(this@MapActivity, "Activar ubicación", Toast.LENGTH_SHORT)
+                            .show()
 
-                sharedGlobalCoordinates() // Store coordinates if needed
+                    }else{
+                        currentLocation = place?.features?.get(0)?.properties?.name_preferred.toString()
+                        coordinatesCurrentLocation = Point.fromLngLat(longitude, latitude)
+                        txtCurrentLocation.text = currentLocation
+
+                        sharedGlobalCoordinates() // Store coordinates if needed
+
+                    }
+                }
             }
 
             override fun onFailure(call: Call<PropertiesPlace>, t: Throwable) {

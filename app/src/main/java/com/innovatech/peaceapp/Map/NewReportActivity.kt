@@ -263,6 +263,13 @@ class NewReportActivity : AppCompatActivity() {
             if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 openImageOptions()
             } else {
+
+                if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), REQUEST_CODE_PERMISSIONS)
+                }
+
+
+
                 Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show()
             }
         }
