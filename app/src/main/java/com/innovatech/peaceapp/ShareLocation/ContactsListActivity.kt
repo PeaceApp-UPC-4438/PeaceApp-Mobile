@@ -152,13 +152,12 @@ class ContactsListActivity : AppCompatActivity() {
     }
 
     private fun sendLocationToSelectedContacts() {
-        val locationMessage = "¡Hola! Esta es mi ubicación en PeaceApp: http://maps.google.com/?q=a,b"
+        val locationMessage = "¡Hola! Esta es mi ubicación en PeaceApp: http://maps.google.com/?q=$latitude,$longitude"
         val smsManager = SmsManager.getDefault()
         selectedContacts.forEach { contact ->
             smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
         }
         Toast.makeText(this, "Ubicación enviada a los contactos seleccionados", Toast.LENGTH_SHORT).show()
-
     }
     private fun initListeners(){
 //        btnSearch.setOnClickListener(){
