@@ -16,6 +16,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -45,6 +46,7 @@ import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
+import com.innovatech.peaceapp.StartingPoint.GlobalRecentLocation
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
@@ -106,6 +108,9 @@ class MapActivity : AppCompatActivity() {
     private val popupTriggeredReports = mutableSetOf<Int>() // Tracks reports that have triggered a popup
     private var userId: Int = 0
     private lateinit var email: String
+    private lateinit var btnNewReport: LinearLayout
+    private var lastRecentLongitude: Double = 0.0
+    private var lastRecentLatitude: Double = 0.0
 
     private lateinit var handler: Handler
     private val proximityCheckRunnable = object : Runnable {
@@ -154,6 +159,7 @@ class MapActivity : AppCompatActivity() {
         searchBox = findViewById(R.id.container_search);
         expandArrow = findViewById(R.id.expand_arrow);
         compressedArrow = findViewById(R.id.compressed_arrow);
+        btnNewReport = findViewById(R.id.ll_create_new_report);
         email = GlobalUserEmail.email
         userPhoto.setOnClickListener {
             val intent = Intent(this, MainProfileActivity::class.java)
@@ -216,6 +222,7 @@ class MapActivity : AppCompatActivity() {
         }
         // event: when the map is idle, the center of the map is obtained
         mapView.mapboxMap.addOnMapIdleListener {
+            moveToRecentLocation()
             if (!isUserInteracting) { // if the map is being moved by the user, the center is not obtained
                 return@addOnMapIdleListener
             }
@@ -233,6 +240,12 @@ class MapActivity : AppCompatActivity() {
             isUserInteracting = false
         }
 
+        btnNewReport.setOnClickListener {
+            val intent = Intent(this, TypeReportsActivity::class.java)
+            intent.putExtra("token", token)
+            startActivity(intent)
+        }
+
         loadUserPhoto()
         listenKeyboard()
         locateCurrentPosition()
@@ -240,9 +253,18 @@ class MapActivity : AppCompatActivity() {
         setupMap()
         navigationMenu()
         deleteAllAlerts()
-
+        moveToRecentLocation()
         GlobalScope.launch {
             recoverRecentLocations()
+        }
+    }
+
+    private fun moveToRecentLocation() {
+        if((GlobalRecentLocation.latitude != 0.0 || GlobalRecentLocation.longitude != 0.0) && lastRecentLongitude != GlobalRecentLocation.longitude && lastRecentLatitude != GlobalRecentLocation.latitude) {
+            moveCamera(GlobalRecentLocation.longitude, GlobalRecentLocation.latitude)
+            lastRecentLongitude = GlobalRecentLocation.longitude
+            lastRecentLatitude = GlobalRecentLocation.latitude
+            Log.i("andriushinis", "komovamos")
         }
     }
 
@@ -336,7 +358,7 @@ class MapActivity : AppCompatActivity() {
         collapseSearchBox()
     }
 
-    private fun recoverRecentLocations() {
+    private suspend fun recoverRecentLocations() {
         val db = AppDatabase.getDatabase(this)
         val recycler = findViewById<RecyclerView>(R.id.locationsRecyclerView)
         GlobalScope.launch {
@@ -355,14 +377,14 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveRecentLocation(location: LocationModel) {
+    private suspend fun saveRecentLocation(location: LocationModel) {
         val db = AppDatabase.getDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
             db.reportDAO().insert(location)
         }
     }
 
-    private fun recoverLocations(): List<LocationModel> {
+    private suspend fun recoverLocations(): List<LocationModel> {
         val db = AppDatabase.getDatabase(this)
         var locations = emptyList<LocationModel>()
         GlobalScope.launch {
@@ -374,31 +396,28 @@ class MapActivity : AppCompatActivity() {
 
     private suspend fun obtainRecentLocations(location: LocationModel) {
         var locationsRecents: List<LocationModel>
-
+        val db = AppDatabase.getDatabase(this)
         // Use withContext to suspend until recoverLocations() is complete
         withContext(Dispatchers.IO) {
             locationsRecents = recoverLocations()
             Log.i("andriush2", locationsRecents.toString())
-        }
+            if (locationsRecents.size < 2) {
+                // Save the recent location in a background coroutine
+                withContext(Dispatchers.IO) {
+                    saveRecentLocation(location)
+                    recoverRecentLocations()
 
-        // Now locationsRecents will be populated
-        Log.i("andriush3", locationsRecents.size.toString())
-
-        if (locationsRecents.size < 2) {
-            // Save the recent location in a background coroutine
-            withContext(Dispatchers.IO) {
-                saveRecentLocation(location)
-                recoverRecentLocations()
-
-            }
-        } else {
-            val db = AppDatabase.getDatabase(this)
-            withContext(Dispatchers.IO) {
-                db.reportDAO().delete(locationsRecents[0])
-                saveRecentLocation(location)
-                recoverRecentLocations()
+                }
+            } else {
+                withContext(Dispatchers.IO) {
+                    db.reportDAO().delete(locationsRecents[0])
+                    saveRecentLocation(location)
+                    recoverRecentLocations()
+                }
             }
         }
+
+
     }
 
     private fun navigationMenu() {

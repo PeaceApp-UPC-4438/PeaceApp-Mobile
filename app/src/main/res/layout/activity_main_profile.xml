@@ -266,7 +266,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="8dp">
         <ImageView
@@ -289,6 +289,22 @@
             android:layout_gravity="center"
             />
     </LinearLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@drawable/navigation_menu"
+        app:itemIconTint="@drawable/nav_item_color"
+        app:itemTextColor="@drawable/nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemBackground="@drawable/nav_item_background"
+        android:backgroundTint="@color/white"
+        android:backgroundTintMode="src_over"
+        app:itemRippleColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

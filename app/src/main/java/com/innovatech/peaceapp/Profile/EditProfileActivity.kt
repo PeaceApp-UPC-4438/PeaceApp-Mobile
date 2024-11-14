@@ -32,14 +32,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialContainerTransform
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
+import com.innovatech.peaceapp.Map.ListReportsActivity
 import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 import com.innovatech.peaceapp.StartingPoint.InitialActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +101,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         configCloudinary()
         initListeners()
+        //navigationMenu()
     }
 
     private fun configCloudinary() {
@@ -122,6 +126,47 @@ class EditProfileActivity : AppCompatActivity() {
         btnCancel = findViewById(R.id.btnCancel)
         btnSave = findViewById(R.id.btnSave)
         llLogout = findViewById(R.id.ll_logout)
+    }
+
+    private fun navigationMenu() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
+            // check the icon for default with the actual activity
+
+            bottomNavigationView.menu.findItem(R.id.nav_map).setIcon(R.drawable.location_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_report).setIcon(R.drawable.reports_icon)
+            bottomNavigationView.menu.findItem(R.id.nav_shared_location).setIcon(R.drawable.share_location_icon)
+
+            if(item.isChecked) {
+                return@setOnNavigationItemSelectedListener false
+            }
+            when (item.itemId) {
+                R.id.nav_map -> {
+                    val intent = Intent(this, MapActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_report -> {
+                    val intent = Intent(this, ListReportsActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_shared_location -> {
+                    val intent = Intent(this, ContactsListActivity::class.java)
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
+        //bottomNavigationView.menu.findItem(R.id.nav_map).setChecked(true)
     }
 
     private fun loadUserData() {

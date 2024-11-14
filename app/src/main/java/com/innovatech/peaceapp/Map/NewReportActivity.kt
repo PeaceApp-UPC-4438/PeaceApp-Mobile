@@ -91,6 +91,7 @@ class NewReportActivity : AppCompatActivity() {
         userId = sharedPref.getInt("userId", 0)
 
         txtLocation.hint = currentLocation
+        txtTypeReport.text = typeReport
         token = intent.getStringExtra("token")!!
 
         btnCancel.setOnClickListener {
