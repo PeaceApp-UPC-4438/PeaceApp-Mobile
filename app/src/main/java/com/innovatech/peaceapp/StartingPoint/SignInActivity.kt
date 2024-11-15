@@ -112,6 +112,10 @@ class SignInActivity : AppCompatActivity() {
         ivEye.setOnClickListener {
             changePasswordVisibility(passwordFieldSelected)
         }
+        tvForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun signIn(email:String, password:String){
         val service = RetrofitClient.placeHolder
