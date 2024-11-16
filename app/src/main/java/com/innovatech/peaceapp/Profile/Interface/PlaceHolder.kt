@@ -31,4 +31,5 @@ interface PlaceHolder {
     ///api/v1/users/{id}
     @DELETE("api/v1/users/{id}")
     fun deleteUser(@Path("id") id: Long): Call<Void>
+
 }

@@ -99,7 +99,6 @@ class SignInActivity : AppCompatActivity() {
 
     private fun initListeners() {
         btnSignIn.setOnClickListener {
-
             if(validateSignUpFields())
                 signIn(edtEmail.text.toString(), edtPassword.text.toString())
         }
