@@ -53,7 +53,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         if(response.isSuccessful){
                             val user = response.body()
                             if(user?.username != null){
-                                val intent = Intent(this@ForgotPasswordActivity, MapActivity::class.java)
                                 val token = user.token
 
                                 val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
@@ -105,7 +104,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         if(response.isSuccessful){
                             val user = response.body()
                             if(user?.username != null){
-                                val intent = Intent(this@ForgotPasswordActivity, MapActivity::class.java)
+
                                 val token = user.token
 
                                 val sharedPref = getSharedPreferences("GlobalPrefs", MODE_PRIVATE)
@@ -151,7 +150,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     }
 
     private fun navigateToChangePasswordActivity(token: String) {
-        val intent = Intent(this, MapActivity::class.java)
+        val intent = Intent(this, ChangePasswordActivity::class.java)
         intent.putExtra("token", token)
         startActivity(intent)
     }

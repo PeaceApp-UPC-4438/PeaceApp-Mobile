@@ -1,11 +1,32 @@
 package com.innovatech.peaceapp.StartingPoint
 
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.innovatech.peaceapp.GlobalToken
+import com.innovatech.peaceapp.GlobalUserEmail
+import com.innovatech.peaceapp.Map.MapActivity
+import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
+import com.innovatech.peaceapp.Profile.Beans.UserProfile
+import com.innovatech.peaceapp.Profile.MainProfileActivity
+import com.innovatech.peaceapp.Profile.Models.RetrofitClient
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.StartingPoint.Beans.UserSchema
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var edtPassword_1: EditText
@@ -19,12 +40,18 @@ class ChangePasswordActivity : AppCompatActivity() {
     private var passwordFieldSelected_1 = false
     private var passwordFieldSelected_2 = false
 
+    private lateinit var token: String
+
+    private lateinit var user: UserProfile
+    private lateinit var email: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
 
         initComponents()
         highlightInputOnFocus()
+        loadUserData()
 
         ivEye_1.setOnClickListener{
             changePasswordVisibility_1()
@@ -34,7 +61,8 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
 
         btnRecovery.setOnClickListener {
-
+            if(validateSignUpFields())
+                showConfirmationDialog()
         }
 
     }
@@ -47,7 +75,89 @@ class ChangePasswordActivity : AppCompatActivity() {
         ivEye_2 = findViewById(R.id.iv_eye_2)
 
         btnRecovery = findViewById(R.id.btn_recovery)
+
+        token = GlobalToken.token
+        email = GlobalUserEmail.email
     }
+
+    private fun showConfirmationDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_confirm_edit)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+        val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
+
+        btnContinue.setOnClickListener() {
+            lifecycleScope.launch {
+                updateUser()
+                val intent = Intent(this@ChangePasswordActivity, InitialActivity::class.java)
+                intent.putExtra("token", token)
+                startActivity(intent)
+            }
+            dialog.dismiss()
+        }
+        btnCancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun loadUserData() {
+        val service = RetrofitClient.getClient(token)
+
+        service.getUserByEmail(email)
+            .enqueue(
+                object: Callback<UserProfile> {
+                    override fun onResponse(call: Call<UserProfile>, response:
+                    Response<UserProfile>
+                    ) {
+                        val userProfile = response.body()
+                        if (userProfile != null) {
+
+                            user = UserProfile(
+                                userProfile.id,
+                                userProfile.name,
+                                userProfile.lastname,
+                                userProfile.phonenumber,
+                                userProfile.email,
+                                userProfile.password,
+                                userProfile.user_id,
+                                userProfile.profile_image
+                            )
+                        }
+                    }
+
+                    override fun onFailure(p0: Call<UserProfile>, p1: Throwable) {
+                        p1.printStackTrace()
+                    }
+                })
+
+
+    }
+
+    private fun updateUser(){
+
+        val editedUser = UserEditSchema(user.name, user.lastname, user.phonenumber, user.profile_image)
+
+        val service = RetrofitClient.getClient(token)
+        service.updateUser(user.id, editedUser)
+            .enqueue(object : retrofit2.Callback<UserProfile> {
+                override fun onResponse(call: retrofit2.Call<UserProfile>, response: retrofit2.Response<UserProfile>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@ChangePasswordActivity, "Usuario actualizado", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<UserProfile>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+
+    }
+
 
     private fun highlightInputOnFocus() {
         edtPassword_1.setOnFocusChangeListener { _, hasFocus ->
@@ -79,6 +189,8 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
 
     }
+
+
 
     private fun changePasswordVisibility_1(){
         if(edtPassword_1.inputType == 129){
@@ -112,5 +224,47 @@ class ChangePasswordActivity : AppCompatActivity() {
             ivEye_2.drawable.setTint(resources.getColor(R.color.input_stroke))
         }
     }
+
+    private fun validateSignUpFields(): Boolean{
+
+        // validate password 1
+        if(edtPassword_1.text.length < 6){
+            // show toast message
+            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+            return false
+        }
+
+        // validate password 2
+        if(edtPassword_2.text.length < 6){
+            // show toast message
+            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+            return false
+        }
+
+        return true
+    }
+
+    private fun showIncorrectSignUpDialog(texto: String){
+        val dialog = Dialog(this)
+
+        dialog.setContentView(R.layout.dialog_incorrect_signup)
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
+
+        val btnContinue = dialog.findViewById<Button>(R.id.btnContinue)
+        val tvMensaje = dialog.findViewById<TextView>(R.id.tvIncorrectSignup)
+
+        tvMensaje.text = texto
+
+        btnContinue.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
 }
