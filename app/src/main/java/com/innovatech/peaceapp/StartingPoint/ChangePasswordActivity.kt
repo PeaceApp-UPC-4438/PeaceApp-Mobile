@@ -17,10 +17,16 @@ import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.GlobalUserEmail
 import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
+import com.innovatech.peaceapp.Profile.Beans.UserPasswordSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
+import com.innovatech.peaceapp.Profile.Beans.UserProfileSchema
 import com.innovatech.peaceapp.Profile.MainProfileActivity
 import com.innovatech.peaceapp.Profile.Models.RetrofitClient
+import com.innovatech.peaceapp.StartingPoint.Models.RetrofitClient as RetrofitClient_SP
+
 import com.innovatech.peaceapp.R
+import com.innovatech.peaceapp.StartingPoint.Beans.UserAuth
+import com.innovatech.peaceapp.StartingPoint.Beans.UserAuthenticated
 import com.innovatech.peaceapp.StartingPoint.Beans.UserSchema
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -140,22 +146,41 @@ class ChangePasswordActivity : AppCompatActivity() {
 
     private fun updateUser(){
 
-        val editedUser = UserEditSchema(user.name, user.lastname, user.phonenumber, user.profile_image)
-
-        val service = RetrofitClient.getClient(token)
-        service.updateUser(user.id, editedUser)
-            .enqueue(object : retrofit2.Callback<UserProfile> {
-                override fun onResponse(call: retrofit2.Call<UserProfile>, response: retrofit2.Response<UserProfile>) {
+        val service = RetrofitClient_SP.placeHolder
+        service.changePassword(UserAuth(email,edtPassword_1.text.toString())).enqueue(object : Callback<UserAuthenticated> {
+            override fun onResponse(p0: Call<UserAuthenticated>, response: Response<UserAuthenticated>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@ChangePasswordActivity, "Usuario actualizado", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@ChangePasswordActivity, "Guardando cambios", Toast.LENGTH_LONG).show()
+                        saveUser(user.id, token)
                     }
                 }
 
-                override fun onFailure(call: retrofit2.Call<UserProfile>, t: Throwable) {
-                    t.printStackTrace()
-                }
+            override fun onFailure(p0: Call<UserAuthenticated>, p1: Throwable) {
+                Toast.makeText(this@ChangePasswordActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
+                Log.i("CHANGE_PASSWORD_ERROR", p1.message.toString())
+            }
             })
 
+    }
+
+    private fun saveUser(user_id: Int, token: String){
+        val serviceUserProfile = RetrofitClient.getClient(token)
+
+
+        serviceUserProfile.changeUserPassword(user_id,
+            UserPasswordSchema(edtPassword_1.text.toString())
+        ).enqueue(object : Callback<UserProfile> {
+            override fun onResponse(p0: Call<UserProfile>, response: Response<UserProfile>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@ChangePasswordActivity, "Contraseña guardada correctamente", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(p0: Call<UserProfile>, p1: Throwable) {
+                Toast.makeText(this@ChangePasswordActivity, "Error: ${p1.message}", Toast.LENGTH_LONG).show()
+                Log.i("ErrorSavingPasswordIntoUser", p1.message.toString())
+            }
+        })
     }
 
 
