@@ -19,6 +19,7 @@ import com.innovatech.peaceapp.ShareLocation.ContactsListActivity
 class InitialActivity : AppCompatActivity() {
 
     private lateinit var animationText: TextView
+    private var disableBackButton = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +79,15 @@ class InitialActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
+    }
+    override fun onBackPressed() {
+        if(disableBackButton){
+
+        }else{
+            super.onBackPressed()
+        }
     }
     private fun textAnimation() {
 

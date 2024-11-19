@@ -14,6 +14,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -27,23 +28,38 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.innovatech.peaceapp.DB.AppDatabase
 import com.innovatech.peaceapp.GlobalToken
 import com.innovatech.peaceapp.Map.ListReportsActivity
 import com.innovatech.peaceapp.Map.MapActivity
 import com.innovatech.peaceapp.R
 import com.innovatech.peaceapp.ShareLocation.Beans.Contact
+import com.innovatech.peaceapp.ShareLocation.Entity.ContactEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ContactsListActivity : AppCompatActivity() {
 
     private lateinit var etSearch: EditText
     private lateinit var btnSendLocation: Button
+    private lateinit var btnSendLocationFavorites: Button
+    private lateinit var btnAddToFavorites: Button
+    private lateinit var btnShowFavorites: CardView
+    private lateinit var ivHeart: ImageView
     private lateinit var rvContacts: RecyclerView
     private lateinit var contactAdapter: Adapter
-    private val selectedContacts = mutableListOf<Contact>()
+    private lateinit var contactAdapterFavorites: AdapterFavorites
+    private lateinit var tvSubtitle: TextView
+    private lateinit var llButtons: LinearLayout
+    private lateinit var btnBack: ImageView
+    private var selectedContacts = mutableListOf<Contact>()
+    private var listFavorites = mutableListOf<ContactEntity>()
     private var latitude = ""
     private var longitude = ""
     private lateinit var token: String
+    private lateinit var appDatabase: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +69,11 @@ class ContactsListActivity : AppCompatActivity() {
         longitude = sharedPref.getString("longitude", "0.0")!!.toString()
         token = GlobalToken.token
 
-
-        lifecycleScope.launch {
-            askForPermissions()
-        }
         initComponents()
+        askForPermissions()
         checkSelectedContacts()
+
+        appDatabase = AppDatabase.getDatabase(this)
 
         val contactList = loadContacts()
         contactAdapter = Adapter(contactList) { contact, isSelected ->
@@ -73,6 +88,18 @@ class ContactsListActivity : AppCompatActivity() {
         rvContacts.layoutManager = LinearLayoutManager(applicationContext)
         rvContacts.adapter = contactAdapter
 
+        btnBack.setOnClickListener {
+            allContactsSelected()
+        }
+
+        btnShowFavorites.setOnClickListener {
+            favoritesSelected()
+        }
+        btnSendLocationFavorites.setOnClickListener{
+            sendLocationToSelectedContacts(true)
+        }
+
+
         btnSendLocation.setOnClickListener {
             if(selectedContacts.isEmpty()) {
                 Toast.makeText(this, "Selecciona al menos un contacto para continuar", Toast.LENGTH_SHORT).show()
@@ -81,20 +108,111 @@ class ContactsListActivity : AppCompatActivity() {
             sendLocationToSelectedContacts()
         }
 
+        btnAddToFavorites.setOnClickListener {
+            Toast.makeText(this, "Contactos agregados a favoritos", Toast.LENGTH_SHORT).show()
+            favoritesSelected()
+        }
+
         editTextListeners(contactList)
         navigationMenu()
     }
 
+    private fun favoritesSelected() {
+
+        selectedContacts.forEach { contact ->
+            var contactEntity = ContactEntity(null, contact.name, contact.phone, contact.image)
+            GlobalScope.launch(Dispatchers.IO){
+                appDatabase.contactDAO().insert(contactEntity)
+
+                val updatedFavorites = appDatabase.contactDAO().getAll()
+                withContext(Dispatchers.Main){
+                    listFavorites.clear()
+                    listFavorites.addAll(updatedFavorites)
+                    contactAdapterFavorites.updateFavorites(listFavorites)
+                }
+            }
+        }
+
+
+
+        contactAdapterFavorites = AdapterFavorites(listFavorites) { contact ->
+            GlobalScope.launch(Dispatchers.IO){
+                appDatabase.contactDAO().delete(contact)
+
+                val updatedFavorites = appDatabase.contactDAO().getAll()
+                withContext(Dispatchers.Main){
+                    listFavorites.clear()
+                    listFavorites.addAll(updatedFavorites)
+                    contactAdapterFavorites.updateFavorites(listFavorites)
+                }
+            }
+        }
+
+
+        rvContacts.layoutManager = LinearLayoutManager(applicationContext)
+        rvContacts.adapter = contactAdapterFavorites
+
+        GlobalScope.launch(Dispatchers.IO){
+            listFavorites.addAll(appDatabase.contactDAO().getAll())
+        }
+
+        ivHeart.setImageResource(R.drawable.ic_heart_filled)
+        tvSubtitle.text = "Administra tus contactos favoritos para compartir tu ubicación"
+        if(listFavorites.isEmpty()){
+            btnSendLocationFavorites.visibility = Button.GONE
+        }else{
+            btnSendLocationFavorites.visibility = Button.VISIBLE
+        }
+        btnBack.visibility = Button.VISIBLE
+
+
+        llButtons.visibility = LinearLayout.GONE
+
+
+    }
+
+    private fun allContactsSelected() {
+
+        val contactList = loadContacts()
+        contactAdapter = Adapter(contactList) { contact, isSelected ->
+            if (isSelected) {
+                selectedContacts.add(contact)
+                checkSelectedContacts()
+            } else {
+                selectedContacts.remove(contact)
+                checkSelectedContacts()
+            }
+        }
+
+        rvContacts.layoutManager = LinearLayoutManager(applicationContext)
+        rvContacts.adapter = contactAdapter
+
+        checkSelectedContacts()
+
+
+        ivHeart.setImageResource(R.drawable.ic_heart_outline)
+        tvSubtitle.text = "Elige los contactos con los que compartirás tu ubicación"
+
+        btnSendLocationFavorites.visibility = Button.GONE
+        btnBack.visibility = Button.GONE
+
+
+    }
+
     private fun checkSelectedContacts() {
         if (selectedContacts.isEmpty()) {
-            btnSendLocation.visibility = Button.GONE
+            llButtons.visibility = LinearLayout.GONE
         }else {
-            btnSendLocation.visibility = Button.VISIBLE
+            llButtons.visibility = LinearLayout.VISIBLE
         }
     }
 
     //async function to wait for permissions
-    private suspend fun askForPermissions() {
+    private fun askForPermissions() {
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 1001)
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
                 1001)
@@ -108,7 +226,14 @@ class ContactsListActivity : AppCompatActivity() {
     private fun initComponents() {
         etSearch = findViewById(R.id.etSearch)
         btnSendLocation = findViewById(R.id.btnSendLocation)
+        btnAddToFavorites = findViewById(R.id.btnAddToFavorites)
         rvContacts = findViewById(R.id.rv_contacts)
+        llButtons = findViewById(R.id.ll_buttons)
+        btnShowFavorites = findViewById(R.id.cvFavorites)
+        ivHeart = findViewById(R.id.ivHeart)
+        tvSubtitle = findViewById(R.id.tv_subtitle)
+        btnSendLocationFavorites = findViewById(R.id.btnSendLocationFavorites)
+        btnBack = findViewById(R.id.btnBack)
     }
 
     private fun navigationMenu() {
@@ -151,23 +276,27 @@ class ContactsListActivity : AppCompatActivity() {
         bottomNavigationView.menu.findItem(R.id.nav_shared_location).setChecked(true)
     }
 
-    private fun sendLocationToSelectedContacts() {
+    private fun sendLocationToSelectedContacts(isFavorites: Boolean = false) {
         val locationMessage = "¡Hola! Esta es mi ubicación en PeaceApp: http://maps.google.com/?q=$latitude,$longitude"
         val smsManager = SmsManager.getDefault()
+        if(isFavorites){
+            listFavorites.forEach { contact ->
+                smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
+            }
+            return
+        }
         selectedContacts.forEach { contact ->
             smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
         }
         Toast.makeText(this, "Ubicación enviada a los contactos seleccionados", Toast.LENGTH_SHORT).show()
     }
-    private fun initListeners(){
-//        btnSearch.setOnClickListener(){
-//            showGeneratedUrlDialog(generateRandomString())
-//        }
-    }
+
 
     @SuppressLint("Range")
     private fun loadContacts(): List<Contact> {
         val contactList = mutableListOf<Contact>()
+        val seenContacts = mutableSetOf<String>()  // Set para rastrear nombres/números únicos
+
         val cursor = contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
@@ -178,23 +307,19 @@ class ContactsListActivity : AppCompatActivity() {
 
         cursor?.use {
             while (it.moveToNext()) {
-                var name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone
-                    .DISPLAY_NAME))
-                var phoneNumber = it.getString(it.getColumnIndex(ContactsContract
-                    .CommonDataKinds.Phone.NUMBER))
-                Log.i("Contact", "Name: $name - Phone: $phoneNumber - ${it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))}")
+                val name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                val phoneNumber = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                var image = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone
-                    .PHOTO_URI))
+                // Verifica si ya hemos visto este contacto antes (por nombre o número)
+                val uniqueIdentifier = "$name-$phoneNumber"
+                if (uniqueIdentifier in seenContacts) continue  // Salta los duplicados
 
-                if(image == null) {
-                    image = "https://picsum.photos/200/200?random=${contactList.size}"
-                }
+                seenContacts.add(uniqueIdentifier)
 
-                Log.i("iterador andriush", "iterador: ${contactList.size}")
-                var position = contactList.size
+                val image = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                    ?: "https://picsum.photos/200/200?random=${contactList.size}"
 
-                var contact = Contact(name, phoneNumber, image)
+                val contact = Contact(name, phoneNumber, image)
                 contactList.add(contact)
             }
         }
@@ -203,12 +328,18 @@ class ContactsListActivity : AppCompatActivity() {
     }
 
 
-    private fun editTextListeners(contactList: List<Contact>) {
+
+
+    private fun editTextListeners(contactList: List<Contact>, isFavorites: Boolean = false) {
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (isFavorites) {
+                    filterContacts(contactList, s.toString())
+                }else{
                 filterContacts(contactList, s.toString())
+                }
             }
 
             override fun afterTextChanged(s: Editable?) { }
@@ -216,7 +347,16 @@ class ContactsListActivity : AppCompatActivity() {
         })
     }
 
-    private fun filterContacts(contactList: List<Contact>, search: String) {
+    private fun filterContacts(contactList: List<Contact> = emptyList()  , search: String, isFavorites:
+    Boolean = false) {
+        if (isFavorites) {
+            val filteredList = listFavorites.filter {
+                it.name.contains(search, ignoreCase = true) || it.phone?.contains(search) ?: false
+            }
+
+            contactAdapterFavorites.updateFavorites(filteredList)
+            return
+        }
         val filteredList = contactList.filter {
             it.name.contains(search, ignoreCase = true) || it.phone.contains(search)
         }
