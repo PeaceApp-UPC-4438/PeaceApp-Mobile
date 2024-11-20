@@ -8,6 +8,7 @@ import retrofit2.Call
 
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 interface PlaceHolder {
 
@@ -16,5 +17,8 @@ interface PlaceHolder {
 
     @POST("api/v1/authentication/sign-in")
     fun signIn(@Body userAuth: UserAuth): Call<UserAuthenticated>
+
+    @PUT("api/v1/authentication/change-password")
+    fun changePassword(@Body userAuth: UserAuth): Call<UserAuthenticated>
 
 }

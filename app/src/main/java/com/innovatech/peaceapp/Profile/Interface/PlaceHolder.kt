@@ -1,6 +1,7 @@
 package com.innovatech.peaceapp.Profile.Interface
 
 import com.innovatech.peaceapp.Profile.Beans.UserEditSchema
+import com.innovatech.peaceapp.Profile.Beans.UserPasswordSchema
 import com.innovatech.peaceapp.Profile.Beans.UserProfile
 import com.innovatech.peaceapp.Profile.Beans.UserProfileSchema
 import retrofit2.Call
@@ -17,6 +18,9 @@ interface PlaceHolder {
     @PUT("api/v1/users/{id}")
     fun updateUser(@Path("id") id: Int, @Body userProfile: UserEditSchema): Call<UserProfile>
 
+    @PUT("api/v1/users/change-password/{id}")
+    fun changeUserPassword(@Path("id") id: Int, @Body userPassword: UserPasswordSchema): Call<UserProfile>
+
     //POST
     ///api/v1/users
     @POST("api/v1/users")
@@ -31,4 +35,5 @@ interface PlaceHolder {
     ///api/v1/users/{id}
     @DELETE("api/v1/users/{id}")
     fun deleteUser(@Path("id") id: Long): Call<Void>
+
 }

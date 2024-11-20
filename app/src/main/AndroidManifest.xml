@@ -88,6 +88,8 @@
         <activity android:name=".Alert.AlertActivity"/>
         <activity android:name=".UserLogActivity" />
         <activity android:name=".UserLogRegisterActivity" />
+        <activity android:name=".StartingPoint.ForgotPasswordActivity" />
+        <activity android:name=".StartingPoint.ChangePasswordActivity" />
     </application>
 
 </manifest>

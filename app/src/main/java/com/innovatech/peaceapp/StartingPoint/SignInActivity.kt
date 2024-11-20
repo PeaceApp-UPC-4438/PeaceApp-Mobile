@@ -99,7 +99,6 @@ class SignInActivity : AppCompatActivity() {
 
     private fun initListeners() {
         btnSignIn.setOnClickListener {
-
             if(validateSignUpFields())
                 signIn(edtEmail.text.toString(), edtPassword.text.toString())
         }
@@ -111,6 +110,10 @@ class SignInActivity : AppCompatActivity() {
 
         ivEye.setOnClickListener {
             changePasswordVisibility(passwordFieldSelected)
+        }
+        tvForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
         }
     }
     private fun signIn(email:String, password:String){
