@@ -246,16 +246,16 @@ class NewReportActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestPermissions() {
-        if (REQUIRED_PERMISSIONS.all {
-                ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
-            }) {
-            openImageOptions()
-        } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-        }
-    }
 
+    private fun requestPermissions() {
+        /* if (REQUIRED_PERMISSIONS.all {
+                ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+            }) {*/
+            openImageOptions()
+        /*} else {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }*/
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
