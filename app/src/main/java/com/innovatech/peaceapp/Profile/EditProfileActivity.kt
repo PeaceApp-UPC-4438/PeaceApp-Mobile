@@ -249,22 +249,32 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun validateFields(): Boolean {
-        if (etName.text.isEmpty() || etSurname.text.isEmpty() || etPhone.text.isEmpty()) {
+        val phone = etPhone.text.toString()
+        val password = tvPassword.text.toString()
+
+        if (etName.text.isEmpty() || etSurname.text.isEmpty() || phone.isEmpty()) {
             showIncorrectEditDialog("Asegúrate de llenar todos los campos")
             return false
         }
-        if (!android.util.Patterns.PHONE.matcher(etPhone.text).matches()) {
+
+        if (!android.util.Patterns.PHONE.matcher(phone).matches()) {
             showIncorrectEditDialog("Teléfono no válido")
             return false
         }
-        if(etPhone.text.length != 9) {
+
+        if (phone.length != 9) {
             showIncorrectEditDialog("El teléfono debe tener 9 dígitos")
             return false
         }
 
-        else {
-            return true
+        // Solo validamos la contraseña si el usuario la está editando (no oculta)
+        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")
+        if (!passwordRegex.matches(password)) {
+            showIncorrectEditDialog("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial")
+            return false
         }
+
+        return true
     }
 
     private fun showIncorrectEditDialog(texto: String){

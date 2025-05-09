@@ -250,24 +250,31 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateSignUpFields(): Boolean{
+    private fun validateSignUpFields(): Boolean {
+        val password1 = edtPassword_1.text.toString()
+        val password2 = edtPassword_2.text.toString()
 
-        // validate password 1
-        if(edtPassword_1.text.length < 6){
-            // show toast message
-            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+        // Validación de fuerza de contraseña
+        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")
+        if (!passwordRegex.matches(password1)) {
+            showIncorrectSignUpDialog("La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.")
             return false
         }
 
-        // validate password 2
-        if(edtPassword_2.text.length < 6){
-            // show toast message
-            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+        if (!passwordRegex.matches(password2)) {
+            showIncorrectSignUpDialog("La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.")
+            return false
+        }
+
+        // Coincidencia
+        if (password1 != password2) {
+            showIncorrectSignUpDialog("Las contraseñas no coinciden.")
             return false
         }
 
         return true
     }
+
 
     private fun showIncorrectSignUpDialog(texto: String){
         val dialog = Dialog(this)

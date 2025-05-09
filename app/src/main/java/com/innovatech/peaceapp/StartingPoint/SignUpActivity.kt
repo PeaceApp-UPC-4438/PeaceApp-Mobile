@@ -204,35 +204,37 @@ class SignUpActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun validateSignUpFields(): Boolean{
-        if(etName.text.isEmpty() || etLastName.text.isEmpty() || etPhone.text.isEmpty() || edtEmail.text.isEmpty() || edtPassword.text.isEmpty()){
-            showIncorrectSignUpDialog("Asegúrate de llenar todos los campos")
+    private fun validateSignUpFields(): Boolean {
+        val password = edtPassword.text.toString()
+        val phone = etPhone.text.toString()
+        val email = edtEmail.text.toString()
+
+        if (etName.text.isEmpty() || etLastName.text.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            showIncorrectSignUpDialog("Please fill out all fields.")
             return false
         }
-        // validate email
-        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(edtEmail.text).matches()){
-            // show toast message
-            showIncorrectSignUpDialog("Email no válido")
+
+        // Email validation
+        val emailRegex = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+\$")
+        if (!emailRegex.matches(email)) {
+            showIncorrectSignUpDialog("Invalid email format.")
             return false
         }
-        // validate only numbers in phone
-        if(!android.util.Patterns.PHONE.matcher(etPhone.text).matches()){
-            // show toast message
-            showIncorrectSignUpDialog("Teléfono no válido")
+
+        // Phone number must be exactly 9 digits
+        val phoneRegex = Regex("^\\d{9}\$")
+        if (!phoneRegex.matches(phone)) {
+            showIncorrectSignUpDialog("Phone number must contain exactly 9 digits.")
             return false
         }
-        // validate password
-        if(edtPassword.text.length < 6){
-            // show toast message
-            showIncorrectSignUpDialog("La contraseña debe tener al menos 6 caracteres")
+
+        // Password strength validation
+        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}\$")
+        if (!passwordRegex.matches(password)) {
+            showIncorrectSignUpDialog("Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.")
             return false
         }
-        // validate phone
-        if(etPhone.text.length != 9){
-            // show toast message
-            showIncorrectSignUpDialog("El teléfono debe tener 9 dígitos")
-            return false
-        }
+
         return true
     }
 
