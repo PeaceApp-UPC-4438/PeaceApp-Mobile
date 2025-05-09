@@ -58,7 +58,7 @@
             android:textSize="13sp"
             android:elegantTextHeight="true"
             android:layout_marginTop="12dp"
-            android:backgroundTint="@color/peaceapp_pink"
+            android:backgroundTint="@color/peaceapp_green"
             app:cornerRadius="8dp"
             android:layout_marginBottom="20dp"
             />

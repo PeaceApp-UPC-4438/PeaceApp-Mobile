@@ -61,7 +61,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:cardCornerRadius="100dp"
-                android:backgroundTint="@color/peaceapp_pink"
+                android:backgroundTint="@color/peaceapp_green"
                 app:layout_constraintStart_toEndOf="@+id/imageBorder"
                 app:layout_constraintBottom_toBottomOf="@+id/imageBorder"
                 android:layout_marginStart="-35dp"

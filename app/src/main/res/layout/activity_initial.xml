@@ -58,7 +58,7 @@
             android:fontFamily="@font/poppins_medium"
             android:layout_marginTop="70dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/peaceapp_pink"
+            android:backgroundTint="@color/peaceapp_green"
             android:textColor="@color/white"
             android:layout_marginHorizontal="50dp"
             />

@@ -50,7 +50,7 @@
             android:fontFamily="@font/poppins_bold"
             android:elegantTextHeight="true"
             android:textSize="13sp"
-            android:backgroundTint="@color/peaceapp_pink"
+            android:backgroundTint="@color/peaceapp_green"
             app:cornerRadius="8dp"
             android:layout_marginTop="14dp"
             />

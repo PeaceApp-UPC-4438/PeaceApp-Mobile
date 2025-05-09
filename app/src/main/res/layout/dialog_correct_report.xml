@@ -51,7 +51,7 @@
             android:id="@+id/btnContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/peaceapp_pink"
+            android:backgroundTint="@color/peaceapp_green"
             android:elegantTextHeight="true"
             android:fontFamily="@font/poppins_bold"
             android:text="Continuar"

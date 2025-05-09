@@ -1,5 +1,5 @@
 package com.innovatech.peaceapp
 
 object HttpUri {
-    const val url: String = "http://10.0.2.2:8080/"
+    const val url: String = "https://bc8g4kw0swk88o44o8kk0cko.coolify.ryzeon.me/"
 }

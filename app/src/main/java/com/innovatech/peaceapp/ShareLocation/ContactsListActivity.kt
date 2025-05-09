@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.telephony.SmsManager
@@ -170,6 +171,20 @@ class ContactsListActivity : AppCompatActivity() {
 
 
     }
+    private fun sendWhatsAppMessage(phone: String, message: String) {
+        val formattedPhone = phone.replace("[^\\d+]".toRegex(), "") // limpia el número (sin espacios, guiones, +, etc.)
+        val uri = Uri.parse("https://wa.me/$formattedPhone?text=${Uri.encode(message)}")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage("com.whatsapp")
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "WhatsApp no está instalado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     private fun allContactsSelected() {
 
@@ -209,19 +224,21 @@ class ContactsListActivity : AppCompatActivity() {
 
     //async function to wait for permissions
     private fun askForPermissions() {
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 1001)
-        }
+        val permissionsNeeded = mutableListOf<String>()
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS),
-                1001)
+            permissionsNeeded.add(Manifest.permission.READ_CONTACTS)
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
         }
+
+        if (permissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsNeeded.toTypedArray(), 1001)
+        }
     }
+
 
     private fun initComponents() {
         etSearch = findViewById(R.id.etSearch)
@@ -235,6 +252,18 @@ class ContactsListActivity : AppCompatActivity() {
         btnSendLocationFavorites = findViewById(R.id.btnSendLocationFavorites)
         btnBack = findViewById(R.id.btnBack)
     }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1002) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // El usuario aceptó el permiso → intenta nuevamente enviar SMS
+                sendLocationToSelectedContacts()
+            } else {
+                Toast.makeText(this, "No se otorgó permiso para enviar SMS", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun navigationMenu() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -278,18 +307,51 @@ class ContactsListActivity : AppCompatActivity() {
 
     private fun sendLocationToSelectedContacts(isFavorites: Boolean = false) {
         val locationMessage = "¡Hola! Esta es mi ubicación en PeaceApp: http://maps.google.com/?q=$latitude,$longitude"
-        val smsManager = SmsManager.getDefault()
-        if(isFavorites){
-            listFavorites.forEach { contact ->
-                smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
-            }
+
+        if (selectedContacts.isEmpty() && !isFavorites) {
+            Toast.makeText(this, "Selecciona al menos un contacto para continuar", Toast.LENGTH_SHORT).show()
             return
         }
-        selectedContacts.forEach { contact ->
-            smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
+
+        val options = arrayOf("Enviar por WhatsApp", "Enviar por SMS")
+
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("¿Cómo deseas compartir la ubicación?")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> { // WhatsApp
+                    val contacts = if (isFavorites) listFavorites.map { Contact(it.name, it.phone ?: "", it.image ?: "") } else selectedContacts
+                    contacts.forEach { contact ->
+                        sendWhatsAppMessage(contact.phone, locationMessage)
+                    }
+                }
+                1 -> { // SMS
+                    // Verifica permiso antes de enviar
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1002)
+                    } else {
+                        val smsManager = SmsManager.getDefault()
+
+                        if (isFavorites) {
+                            listFavorites.forEach { contact ->
+                                contact.phone?.let { phone ->
+                                    smsManager.sendTextMessage(phone, null, locationMessage, null, null)
+                                }
+                            }
+                        } else {
+                            selectedContacts.forEach { contact ->
+                                smsManager.sendTextMessage(contact.phone, null, locationMessage, null, null)
+                            }
+                        }
+
+                        Toast.makeText(this, "Ubicación enviada por SMS", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
-        Toast.makeText(this, "Ubicación enviada a los contactos seleccionados", Toast.LENGTH_SHORT).show()
+        builder.show()
     }
+
 
 
     @SuppressLint("Range")
